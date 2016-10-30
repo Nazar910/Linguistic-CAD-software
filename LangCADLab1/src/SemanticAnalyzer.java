@@ -8,10 +8,15 @@ public class SemanticAnalyzer {
     private static int counter;
     private static boolean flagLoop;
     private static boolean flagReference;
+    private static boolean flagLogical;
 
     private static int i(){return counter;}
     private static void inc(){
         if(lexList.size()>counter) counter++;
+    }
+    private static boolean isDefined(int id){
+        int i = lexList.get(id).getKodIdCon()-1;
+        return LexicalAnalyzer.getTableManager().getIdRecords().get(i).getType()!=""?true:false;
     }
     private static void resetStatic(){
         counter=0;
@@ -29,7 +34,9 @@ public class SemanticAnalyzer {
                     if(lexList.get(i()).getKod() == 2){// var
                         inc();
                         if(spOg()){
+                            while(lexList.get(i()).getKod() == 11) inc();// ⁋
                             if(lexList.get(i()).getKod() == 9){ // {
+                                while(lexList.get(i()).getKod() == 11) inc();// ⁋
                                 inc();
                                 if(spOp()){
                                     if(lexList.get(i()).getKod() == 10){ // }
@@ -75,6 +82,8 @@ public class SemanticAnalyzer {
     }
 
     private static boolean op() throws SemanticError{
+        while(lexList.get(i()).getKod() == 11) inc();
+        if(lexList.get(i()).getKod() == 35) throw  new SemanticError("Заборонено використання ; не в циклі",lexList.get(i()).getLine());
         if(lexList.get(i()).getKod() == 5){// cout
             inc();
             if(cout()){
@@ -89,7 +98,7 @@ public class SemanticAnalyzer {
             }
             else throw new SemanticError("Невірна операція введення",lexList.get(i()).getLine());
         }
-        else if(lexList.get(i()).getKod() == 28){// idn
+        else if(lexList.get(i()).getKod() == 28 && isDefined(i())){// idn
             inc();
             if(lexList.get(i()).getKod() == 19){// =
                 inc();
@@ -122,12 +131,9 @@ public class SemanticAnalyzer {
     private static boolean ternOp() throws SemanticError{
         if(lexList.get(i()).getKod() == 17){// (
             inc();
-            if (lexList.get(i()).getKod() == 28) {// idn
-                inc();
-                if (lexList.get(i()).getKod() == 19){// =
-                    inc();
                     if(logicalExpression()){
                         if(lexList.get(i()).getKod() == 33){// ?
+                            inc();
                             if(expression()){
                                 if(lexList.get(i()).getKod() == 34){// :
                                     inc();
@@ -147,10 +153,6 @@ public class SemanticAnalyzer {
                         else throw new SemanticError("Очікується знак питання",lexList.get(i()).getLine());
                     }
                     else throw new SemanticError("Невірний логічний вираз",lexList.get(i()).getLine());
-                }
-                else throw new SemanticError("Очікується присвоювання",lexList.get(i()).getLine());
-            }
-            else throw new SemanticError("Очікується ідентифікатор",lexList.get(i()).getLine());
         }
         else throw new SemanticError("Очікується відкриваюча дужка",lexList.get(i()).getLine());
     }
@@ -160,6 +162,8 @@ public class SemanticAnalyzer {
             //inc();
             if(flagLoop && (lexList.get(i()).getKod() == 35 || lexList.get(i()).getKod() == 18)) return true;
             if(flagReference) return true;
+            if(flagLogical && lexList.get(i()).getKod()>=22 &&  lexList.get(i()).getKod() <= 27) return true;
+            flagLogical=false;
             while(lexList.get(i()).getKod() != 11 && (flagLoop && lexList.get(i()).getKod() != 18)){// ⁋
                 if(lexList.get(i()).getKod() == 13){// +
                     inc();
@@ -183,8 +187,9 @@ public class SemanticAnalyzer {
             //inc();
             if(flagLoop && (lexList.get(i()).getKod() == 35 || lexList.get(i()).getKod() == 13 || lexList.get(i()).getKod() == 14 || lexList.get(i()).getKod() == 18)) return true;
             if(flagReference) return true;
+            if(flagLogical && lexList.get(i()).getKod()>=22 &&  lexList.get(i()).getKod() <= 27) return true;
 
-            while(lexList.get(i()).getKod() != 11/* || (flagLoop && lexList.get(i()).getKod() == 35)*/){// ⁋
+            while(lexList.get(i()).getKod() != 11 && lexList.get(i()).getKod() != 34 && lexList.get(i()).getKod() !=18){// ⁋
                 //inc();
 
                 if(lexList.get(i()).getKod() == 15){// *
@@ -207,7 +212,7 @@ public class SemanticAnalyzer {
     }
 
     private static boolean c() throws SemanticError{
-        if(lexList.get(i()).getKod() == 28 || lexList.get(i()).getKod() == 29){
+        if(lexList.get(i()).getKod() == 28 && isDefined(i()) || lexList.get(i()).getKod() == 29){// idn or con
             inc();
             return true;
         }
@@ -239,7 +244,7 @@ public class SemanticAnalyzer {
                     if(reference()){
                         if(lexList.get(i()).getKod() == 35){// ;
                             inc();
-                            if(lexList.get(i()).getKod() == 28){// idn
+                            if(lexList.get(i()).getKod() == 28 && isDefined(i())){// idn
                                 inc();
                                 if(lexList.get(i()).getKod() == 19){// =
                                     inc();
@@ -273,7 +278,7 @@ public class SemanticAnalyzer {
 
     private static boolean logicalExpression() throws SemanticError{
         if(logicalTherm()){
-            inc();
+            //inc();
             while(lexList.get(i()).getKod() == 31){// or
                 inc();
                 if(logicalTherm()){}
@@ -298,6 +303,7 @@ public class SemanticAnalyzer {
     }
 
     private static boolean logicalMul() throws SemanticError{
+        flagLogical=true;
         if(expression()){
             inc();
             return true;
@@ -352,7 +358,7 @@ public class SemanticAnalyzer {
     private static boolean cin() throws SemanticError{
         if(lexList.get(i()).getKod() == 21){// >>
             inc();
-            if(lexList.get(i()).getKod() == 28){// idn or con
+            if(lexList.get(i()).getKod() == 28 && isDefined(i())){// idn
                 inc();
                 while(lexList.get(i()).getKod() != 11){// ⁋
                     if(lexList.get(i()).getKod() == 21){// >>
@@ -372,7 +378,7 @@ public class SemanticAnalyzer {
     private static boolean cout() throws SemanticError{
         if(lexList.get(i()).getKod() == 20){// <<
             inc();
-            if(lexList.get(i()).getKod() == 28 || lexList.get(i()).getKod() == 29){// idn or con
+            if(lexList.get(i()).getKod() == 28 && isDefined(i()) || lexList.get(i()).getKod() == 29){// idn or con
                 inc();
                 while(lexList.get(i()).getKod() != 11){// ⁋
                     if(lexList.get(i()).getKod() == 20){// <<
@@ -409,11 +415,11 @@ public class SemanticAnalyzer {
     }
 
     private static boolean spId() throws SemanticError{
-        if(lexList.get(i()).getKod() == 28){ // IDN
+        if(lexList.get(i()).getKod() == 28 && isDefined(i())){ // IDN
             inc();
             while(lexList.get(i()).getKod() == 12){// ,
                 inc();
-                if(lexList.get(i()).getKod() == 28){/* IDN*/}
+                if(lexList.get(i()).getKod() == 28 && isDefined(i())){/* IDN*/}
                 else throw new SemanticError("В списку ідентифікаторів очікується ідентифікатор",lexList.get(i()).getLine());
             }
             inc();
