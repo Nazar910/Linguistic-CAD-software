@@ -164,9 +164,9 @@ public class LexicalAnalyzer{
                 }
                 else {
                     String idType=tableManager.getIdRecords().get(tableManager.idOfExistingCon(lex)).getType();
-                    //if(type=="")//!idType.equals(type))
+                    if(type=="")//!idType.equals(type))
                         kodIdCon = tableManager.idOfExistingId(lex);
-                    //else error("0");
+                    else error("0");
                 }
             }
             else if(clas.equals("con")){

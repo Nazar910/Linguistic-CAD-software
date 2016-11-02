@@ -19,7 +19,7 @@ public class App extends Application {
     Stage window;
     FileManager file= LexicalAnalyzer.getFile();
     TextArea textArea=new TextArea(file.read());
-    TextField textField=new TextField();
+    TextField textField=new TextField(), textFieldSem = new TextField();
     static LexicalError lexicalError;
     public static void main(String[] args) {
         launch(args);
@@ -28,17 +28,20 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
-        window.setTitle("Лексичний аналізатор. Пивовар Назарій Вар 10 група ТР-41");
+        window.setTitle("Лексичний+Семантичний аналізатор. Пивовар Назарій Вар 10 група ТР-41");
         Button buttonStart=new Button("Почати");
         buttonStart.setOnAction(e ->initLexicalAnalyzer());
 
         textArea.setMaxSize(400,450);
         HBox hBox = new HBox();
         hBox.getChildren().addAll(textArea, buttonStart);
-
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.BOTTOM_CENTER);
+        vBox.getChildren().addAll(textFieldSem,textField);
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(hBox, textField);
-        StackPane.setAlignment(textField, Pos.BOTTOM_CENTER);
+        stackPane.getChildren().addAll(vBox, hBox);
+
+
         Scene scene = new Scene(stackPane);
         window.setMinWidth(550);
         window.setMinHeight(550);
@@ -64,20 +67,22 @@ public class App extends Application {
     }
     private void initLexicalAnalyzer(){
         textField.setText("");
+        textFieldSem.setText("");
         file.write(textArea.getText());
         try {
             lexicalError=null;
             LexicalAnalyzer.start();
             errors();
-            setTableLex();
-            setTableId();
-            setTableCon();
-            SemanticAnalyzer.start();
+//            setTableLex();
+//            setTableId();
+//            setTableCon();
+            SyntaxAnalyzer.start();
 
         } catch (LexicalError lexicalError) {
             textField.setText(lexicalError.getMessage()+lexicalError.getState());
-        } catch (SemanticError semanticError) {
+        } catch (SyntaxError semanticError) {
             System.out.println(semanticError.getMessage());
+            textFieldSem.setText(semanticError.getMessage());
         }
 
     }

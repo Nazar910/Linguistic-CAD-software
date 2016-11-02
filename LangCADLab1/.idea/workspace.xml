@@ -28,8 +28,8 @@
       <file leaf-file-name="App.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/App.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2152">
-              <caret line="174" column="15" selection-start-line="174" selection-start-column="15" selection-end-line="174" selection-end-column="15" />
+            <state relative-caret-position="1088">
+              <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -38,32 +38,44 @@
       <file leaf-file-name="Event.java" pinned="false" current-in-tab="false">
         <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/event/Event.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
+            <state relative-caret-position="2737">
               <caret line="198" column="0" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SemanticAnalyzer.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/SemanticAnalyzer.java">
+      <file leaf-file-name="SyntaxAnalyzer.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="85" column="106" selection-start-line="85" selection-start-column="106" selection-end-line="85" selection-end-column="106" />
+            <state relative-caret-position="221">
+              <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
               <folding>
-                <element signature="e#368#369#0" expanded="true" />
-                <element signature="e#420#421#0" expanded="true" />
-                <element signature="e#10871#10872#0" expanded="true" />
-                <element signature="e#10899#10900#0" expanded="true" />
-                <element signature="e#20275#20276#0" expanded="true" />
-                <element signature="e#20305#20306#0" expanded="true" />
+                <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#ternOp#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#cin#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SemanticError.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/SemanticError.java">
+      <file leaf-file-name="SyntaxError.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/SyntaxError.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
               <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
@@ -85,8 +97,8 @@
       <file leaf-file-name="LexicalAnalyzer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="62" column="26" selection-start-line="62" selection-start-column="26" selection-end-line="62" selection-end-column="26" />
+            <state relative-caret-position="578">
+              <caret line="37" column="25" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
               <folding>
                 <element signature="method#checkLex#0;class#LexicalAnalyzer#0" expanded="false" />
                 <element signature="method#def#0;class#LexicalAnalyzer#0" expanded="false" />
@@ -111,7 +123,7 @@
       <file leaf-file-name="IdRecord.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/IdRecord.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
+            <state relative-caret-position="493">
               <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
               <folding>
                 <element signature="e#688#689#0" expanded="true" />
@@ -137,7 +149,7 @@
       <file leaf-file-name="LexRecord.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LexRecord.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
+            <state relative-caret-position="442">
               <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
               <folding>
                 <element signature="e#445#446#0" expanded="true" />
@@ -182,9 +194,10 @@
         <option value="$PROJECT_DIR$/src/LexRecord.java" />
         <option value="$PROJECT_DIR$/src/TableManager.java" />
         <option value="$PROJECT_DIR$/src/SemanticError.java" />
-        <option value="$PROJECT_DIR$/src/LexicalAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/App.java" />
+        <option value="$PROJECT_DIR$/src/LexicalAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/SemanticAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/SyntaxAnalyzer.java" />
       </list>
     </option>
   </component>
@@ -225,7 +238,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -260,6 +272,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
@@ -304,9 +317,9 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="SemanticAnalyzer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="SyntaxAnalyzer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="SemanticAnalyzer" />
+      <option name="MAIN_CLASS_NAME" value="SyntaxAnalyzer" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -736,12 +749,12 @@
     <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Application.LexicalAnalyzer" />
       <item index="1" class="java.lang.String" itemvalue="Application.App" />
-      <item index="2" class="java.lang.String" itemvalue="Application.SemanticAnalyzer" />
+      <item index="2" class="java.lang.String" itemvalue="Application.SyntaxAnalyzer" />
     </list>
     <recent_temporary>
       <list size="3">
         <item index="0" class="java.lang.String" itemvalue="Application.App" />
-        <item index="1" class="java.lang.String" itemvalue="Application.SemanticAnalyzer" />
+        <item index="1" class="java.lang.String" itemvalue="Application.SyntaxAnalyzer" />
         <item index="2" class="java.lang.String" itemvalue="Application.LexicalAnalyzer" />
       </list>
     </recent_temporary>
@@ -772,12 +785,18 @@
       <workItem from="1476209148530" duration="1042000" />
       <workItem from="1476303523786" duration="68000" />
       <workItem from="1477078822897" duration="657000" />
-      <workItem from="1477812160656" duration="34867000" />
+      <workItem from="1477812160656" duration="37302000" />
+      <workItem from="1477891718121" duration="1417000" />
+      <workItem from="1477895312694" duration="5207000" />
+      <workItem from="1477952831813" duration="46000" />
+      <workItem from="1478002742345" duration="183000" />
+      <workItem from="1478028887471" duration="402000" />
+      <workItem from="1478093509754" duration="44000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109022000" />
+    <option name="totallyTimeSpent" value="118756000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -794,29 +813,29 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.574136" sideWeight="0.50319827" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.61709404" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.6198439" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.123667374" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10341151" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5726496" sideWeight="0.4968017" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.574136" sideWeight="0.4968017" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -833,15 +852,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/SemanticAnalyzer.java</url>
-          <line>39</line>
-          <properties />
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="71" />
+      <option name="time" value="74" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -854,7 +865,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42398">
           <caret line="2494" column="0" selection-start-line="2494" selection-start-column="0" selection-end-line="2494" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -862,7 +872,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="142987">
           <caret line="8411" column="0" selection-start-line="8411" selection-start-column="0" selection-end-line="8411" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -870,7 +879,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3162">
           <caret line="186" column="0" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -946,7 +954,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42398">
           <caret line="2494" column="0" selection-start-line="2494" selection-start-column="0" selection-end-line="2494" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -954,7 +961,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="142987">
           <caret line="8411" column="0" selection-start-line="8411" selection-start-column="0" selection-end-line="8411" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -962,7 +968,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3162">
           <caret line="186" column="0" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1182,7 +1187,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="8411" column="0" selection-start-line="8411" selection-start-column="0" selection-end-line="8411" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1190,7 +1194,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="186" column="0" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1198,7 +1201,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="2494" column="0" selection-start-line="2494" selection-start-column="0" selection-end-line="2494" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1215,7 +1217,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/LexRecord.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
+        <state relative-caret-position="442">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
             <element signature="e#445#446#0" expanded="true" />
@@ -1234,7 +1236,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/SemanticError.java">
+    <entry file="file://$PROJECT_DIR$/src/SyntaxError.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
@@ -1244,7 +1246,7 @@
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/event/Event.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
+        <state relative-caret-position="2737">
           <caret line="198" column="0" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
           <folding />
         </state>
@@ -1252,7 +1254,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/IdRecord.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
+        <state relative-caret-position="493">
           <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
           <folding>
             <element signature="e#688#689#0" expanded="true" />
@@ -1269,18 +1271,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2152">
-          <caret line="174" column="15" selection-start-line="174" selection-start-column="15" selection-end-line="174" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="62" column="26" selection-start-line="62" selection-start-column="26" selection-end-line="62" selection-end-column="26" />
+        <state relative-caret-position="578">
+          <caret line="37" column="25" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
           <folding>
             <element signature="method#checkLex#0;class#LexicalAnalyzer#0" expanded="false" />
             <element signature="method#def#0;class#LexicalAnalyzer#0" expanded="false" />
@@ -1289,17 +1283,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/SemanticAnalyzer.java">
+    <entry file="file://$PROJECT_DIR$/src/App.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="85" column="106" selection-start-line="85" selection-start-column="106" selection-end-line="85" selection-end-column="106" />
+        <state relative-caret-position="1088">
+          <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
           <folding>
-            <element signature="e#368#369#0" expanded="true" />
-            <element signature="e#420#421#0" expanded="true" />
-            <element signature="e#10871#10872#0" expanded="true" />
-            <element signature="e#10899#10900#0" expanded="true" />
-            <element signature="e#20275#20276#0" expanded="true" />
-            <element signature="e#20305#20306#0" expanded="true" />
+            <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#ternOp#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cin#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
           </folding>
         </state>
       </provider>
