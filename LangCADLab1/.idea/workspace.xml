@@ -25,45 +25,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="App.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/App.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1088">
-              <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Event.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/event/Event.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2737">
-              <caret line="198" column="0" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#5920#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#1925#1926#0" expanded="false" />
-                <element signature="e#1968#1969#0" expanded="false" />
-                <element signature="e#2975#2976#0" expanded="false" />
-                <element signature="e#3004#3005#0" expanded="false" />
-                <element signature="e#3304#3305#0" expanded="false" />
-                <element signature="e#3336#3337#0" expanded="false" />
-                <element signature="e#4362#4363#0" expanded="false" />
-                <element signature="e#4393#4394#0" expanded="false" />
-                <element signature="e#4519#4520#0" expanded="false" />
-                <element signature="e#4550#4551#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SyntaxAnalyzer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3978">
-              <caret line="470" column="0" selection-start-line="470" selection-start-column="0" selection-end-line="470" selection-end-column="0" />
+            <state relative-caret-position="316">
+              <caret line="356" column="0" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
               <folding>
+                <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="e#497#498#0" expanded="true" />
+                <element signature="e#581#582#0" expanded="true" />
                 <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
@@ -71,6 +41,12 @@
                 <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#prog#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#spOp#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#op#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
@@ -87,90 +63,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SyntaxError.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/SyntaxError.java">
+      <file leaf-file-name="App.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/App.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-              <folding>
-                <element signature="e#127#128#0" expanded="true" />
-                <element signature="e#157#158#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TableManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/TableManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="38" column="39" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
+            <state relative-caret-position="374">
+              <caret line="83" column="33" selection-start-line="83" selection-start-column="33" selection-end-line="83" selection-end-column="33" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LexicalAnalyzer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-170">
-              <caret line="38" column="19" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="20" />
-              <folding>
-                <element signature="method#checkLex#0;class#LexicalAnalyzer#0" expanded="false" />
-                <element signature="method#def#0;class#LexicalAnalyzer#0" expanded="false" />
-                <element signature="method#error#0;class#LexicalAnalyzer#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LexicalError.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LexicalError.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
-              <folding>
-                <element signature="e#403#404#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IdRecord.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/IdRecord.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
-              <folding>
-                <element signature="e#688#689#0" expanded="true" />
-                <element signature="e#713#714#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConRecord.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ConRecord.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="47" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
-              <folding>
-                <element signature="e#376#377#0" expanded="true" />
-                <element signature="e#402#403#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LexRecord.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LexRecord.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-              <folding>
-                <element signature="e#445#446#0" expanded="true" />
-                <element signature="e#470#471#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -210,10 +108,10 @@
         <option value="$PROJECT_DIR$/src/LexRecord.java" />
         <option value="$PROJECT_DIR$/src/TableManager.java" />
         <option value="$PROJECT_DIR$/src/SemanticError.java" />
-        <option value="$PROJECT_DIR$/src/App.java" />
         <option value="$PROJECT_DIR$/src/LexicalAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/SemanticAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/SyntaxError.java" />
+        <option value="$PROJECT_DIR$/src/App.java" />
         <option value="$PROJECT_DIR$/src/SyntaxAnalyzer.java" />
       </list>
     </option>
@@ -226,8 +124,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="1936" />
-    <option name="height" value="1047" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -254,6 +153,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -289,14 +189,13 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/lab2" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15234375" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -808,12 +707,15 @@
       <workItem from="1478002742345" duration="183000" />
       <workItem from="1478028887471" duration="402000" />
       <workItem from="1478093509754" duration="44000" />
-      <workItem from="1478093734117" duration="20049000" />
+      <workItem from="1478093734117" duration="21108000" />
+      <workItem from="1478194755745" duration="882000" />
+      <workItem from="1478204780159" duration="609000" />
+      <workItem from="1478265082352" duration="3393000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="138805000" />
+    <option name="totallyTimeSpent" value="144748000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -825,7 +727,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1936" height="1047" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -835,8 +737,8 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.574136" sideWeight="0.50319827" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.61538464" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.615991" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -845,7 +747,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5777027" sideWeight="0.4968017" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5774805" sideWeight="0.4968017" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -869,7 +771,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="84" />
+      <option name="time" value="86" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -878,304 +780,38 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/scene/Scene.java">
+    <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42398">
-          <caret line="2494" column="0" selection-start-line="2494" selection-start-column="0" selection-end-line="2494" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/scene/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142987">
-          <caret line="8411" column="0" selection-start-line="8411" selection-start-column="0" selection-end-line="8411" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/scene/control/Button.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3162">
-          <caret line="186" column="0" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TableManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="1785">
+          <caret line="105" column="30" selection-start-line="105" selection-start-column="30" selection-end-line="105" selection-end-column="30" />
           <folding>
-            <element signature="method#checkLex#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#def#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#error#0;class#LexicalAnalyzer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
-          <folding>
-            <element signature="e#403#404#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IdRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding>
-            <element signature="e#688#689#0" expanded="true" />
-            <element signature="e#713#714#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ConRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
-          <folding>
-            <element signature="e#376#377#0" expanded="true" />
-            <element signature="e#402#403#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/event/Event.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3366">
-          <caret line="198" column="0" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#5920#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1925#1926#0" expanded="false" />
-            <element signature="e#1968#1969#0" expanded="false" />
-            <element signature="e#2975#2976#0" expanded="false" />
-            <element signature="e#3004#3005#0" expanded="false" />
-            <element signature="e#3304#3305#0" expanded="false" />
-            <element signature="e#3336#3337#0" expanded="false" />
-            <element signature="e#4362#4363#0" expanded="false" />
-            <element signature="e#4393#4394#0" expanded="false" />
-            <element signature="e#4519#4520#0" expanded="false" />
-            <element signature="e#4550#4551#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/scene/Scene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42398">
-          <caret line="2494" column="0" selection-start-line="2494" selection-start-column="0" selection-end-line="2494" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/scene/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142987">
-          <caret line="8411" column="0" selection-start-line="8411" selection-start-column="0" selection-end-line="8411" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/scene/control/Button.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3162">
-          <caret line="186" column="0" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TableManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#checkLex#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#def#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#error#0;class#LexicalAnalyzer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
-          <folding>
-            <element signature="e#403#404#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IdRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding>
-            <element signature="e#688#689#0" expanded="true" />
-            <element signature="e#713#714#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ConRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
-          <folding>
-            <element signature="e#376#377#0" expanded="true" />
-            <element signature="e#402#403#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="36" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TableManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#checkLex#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#def#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#error#0;class#LexicalAnalyzer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
-          <folding>
-            <element signature="e#403#404#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IdRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding>
-            <element signature="e#688#689#0" expanded="true" />
-            <element signature="e#713#714#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ConRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
-          <folding>
-            <element signature="e#376#377#0" expanded="true" />
-            <element signature="e#402#403#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1105">
-          <caret line="79" column="5" selection-start-line="79" selection-start-column="5" selection-end-line="79" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TableManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#checkLex#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#def#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#error#0;class#LexicalAnalyzer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/src.zip!/java/util/ArrayList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11084">
-          <caret line="652" column="0" selection-start-line="652" selection-start-column="0" selection-end-line="652" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
-          <folding>
-            <element signature="e#403#404#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IdRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding>
-            <element signature="e#688#689#0" expanded="true" />
-            <element signature="e#713#714#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ConRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
-          <folding>
-            <element signature="e#376#377#0" expanded="true" />
-            <element signature="e#402#403#0" expanded="true" />
+            <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="e#497#498#0" expanded="true" />
+            <element signature="e#581#582#0" expanded="true" />
+            <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#prog#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spOp#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#op#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cin#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1188,70 +824,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Application.java" />
-    <entry file="file://$PROJECT_DIR$/src/FileManager.java">
+    <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Record.java" />
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/src.zip!/java/util/HashMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="473" column="11" selection-start-line="473" selection-start-column="11" selection-end-line="473" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexClass.java" />
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/src.zip!/java/util/ArrayList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="428" column="0" selection-start-line="428" selection-start-column="0" selection-end-line="428" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/scene/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="8411" column="0" selection-start-line="8411" selection-start-column="0" selection-end-line="8411" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/scene/control/Button.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="186" column="0" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/scene/Scene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="2494" column="0" selection-start-line="2494" selection-start-column="0" selection-end-line="2494" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ConRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="47" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
+        <state relative-caret-position="1785">
+          <caret line="105" column="30" selection-start-line="105" selection-start-column="30" selection-end-line="105" selection-end-column="30" />
           <folding>
-            <element signature="e#376#377#0" expanded="true" />
-            <element signature="e#402#403#0" expanded="true" />
+            <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="e#497#498#0" expanded="true" />
+            <element signature="e#581#582#0" expanded="true" />
+            <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#prog#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spOp#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#op#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cin#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexRecord.java">
+    <entry file="file://$PROJECT_DIR$/src/App.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding>
-            <element signature="e#445#446#0" expanded="true" />
-            <element signature="e#470#471#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1259,31 +872,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2737">
           <caret line="198" column="0" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#5920#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1925#1926#0" expanded="false" />
-            <element signature="e#1968#1969#0" expanded="false" />
-            <element signature="e#2975#2976#0" expanded="false" />
-            <element signature="e#3004#3005#0" expanded="false" />
-            <element signature="e#3304#3305#0" expanded="false" />
-            <element signature="e#3336#3337#0" expanded="false" />
-            <element signature="e#4362#4363#0" expanded="false" />
-            <element signature="e#4393#4394#0" expanded="false" />
-            <element signature="e#4519#4520#0" expanded="false" />
-            <element signature="e#4550#4551#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IdRecord.java">
+    <entry file="file://$PROJECT_DIR$/src/SyntaxError.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="38" column="18" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
-          <folding>
-            <element signature="e#688#689#0" expanded="true" />
-            <element signature="e#713#714#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="68">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1297,50 +892,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1088">
-          <caret line="78" column="35" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
+        <state relative-caret-position="374">
+          <caret line="83" column="33" selection-start-line="83" selection-start-column="33" selection-end-line="83" selection-end-column="33" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SyntaxError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-          <folding>
-            <element signature="e#127#128#0" expanded="true" />
-            <element signature="e#157#158#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
-          <folding>
-            <element signature="e#403#404#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-170">
-          <caret line="38" column="19" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="20" />
-          <folding>
-            <element signature="method#checkLex#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#def#0;class#LexicalAnalyzer#0" expanded="false" />
-            <element signature="method#error#0;class#LexicalAnalyzer#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3978">
-          <caret line="470" column="0" selection-start-line="470" selection-start-column="0" selection-end-line="470" selection-end-column="0" />
+        <state relative-caret-position="316">
+          <caret line="356" column="0" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
           <folding>
+            <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="e#497#498#0" expanded="true" />
+            <element signature="e#581#582#0" expanded="true" />
             <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
@@ -1348,6 +913,12 @@
             <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#prog#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spOp#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#op#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />

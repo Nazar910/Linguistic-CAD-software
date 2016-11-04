@@ -10,14 +10,13 @@ public class SyntaxAnalyzer {
     private static boolean flagReference;
     private static boolean flagLogical;
     private static StringBuffer errorBuffer;
-    private static boolean flAssign;
 
     private static boolean setCounter(int counter) {
         SyntaxAnalyzer.counter = counter; return true;
     }
 
     private static void errorLog(String str){
-        errorBuffer.append('\n'+str+" : Line = "+lexList.get(i()).getLine());
+        errorBuffer.append(str+" : Line = "+lexList.get(i()).getLine()+'\n');
     }
 
     private static String getErrorLog(){
@@ -403,7 +402,7 @@ public class SyntaxAnalyzer {
                 while(lexList.get(i()).getKod() != 11){// ⁋
                     if(lexList.get(i()).getKod() == 21){// >>
                         inc();
-                        if(lexList.get(i()).getKod() == 28){/*idn or con*/inc();}
+                        if(lexList.get(i()).getKod() == 28 && isDefined(i())){/*idn*/inc();}
                         else{ errorLog("Невірний операнд вводу"); return false; }
                     }
                     else{ errorLog("Операнди введення мають розділятися >>"); return false; }
@@ -459,10 +458,9 @@ public class SyntaxAnalyzer {
             inc();
             while(lexList.get(i()).getKod() == 12){// ,
                 inc();
-                if(lexList.get(i()).getKod() == 28){/* IDN*/}
+                if(lexList.get(i()).getKod() == 28){/* IDN*/inc(); }
                 else{ errorLog("В списку ідентифікаторів очікується ідентифікатор"); return false; }
             }
-            inc();
             return true;
         }
         else{ errorLog("В оголошенні очікується ідентифікатор"); return false; }

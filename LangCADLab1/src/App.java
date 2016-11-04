@@ -1,9 +1,11 @@
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -19,7 +21,7 @@ public class App extends Application {
     Stage window;
     FileManager file= LexicalAnalyzer.getFile();
     TextArea textArea=new TextArea(file.read());
-    TextField textField=new TextField(), textFieldSem = new TextField();
+    TextArea errors = new TextArea();
     static LexicalError lexicalError;
     public static void main(String[] args) {
         launch(args);
@@ -32,19 +34,22 @@ public class App extends Application {
         Button buttonStart=new Button("Почати");
         buttonStart.setOnAction(e ->initLexicalAnalyzer());
 
-        textArea.setMaxSize(400,450);
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(textArea, buttonStart);
+        textArea.setMinSize(400,450);
+        errors.setMaxHeight(85);
         VBox vBox = new VBox();
-        vBox.setAlignment(Pos.BOTTOM_CENTER);
-        vBox.getChildren().addAll(textFieldSem,textField);
+       // vBox.setAlignment(Pos.BOTTOM_CENTER);
+        vBox.getChildren().addAll(textArea,errors);
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(vBox, buttonStart);
+
+
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(vBox, hBox);
+        stackPane.getChildren().addAll(hBox);
 
 
         Scene scene = new Scene(stackPane);
         window.setMinWidth(550);
-        window.setMinHeight(550);
+        window.setMinHeight(580);
         window.setScene(scene);
         window.show();
     }
@@ -66,8 +71,7 @@ public class App extends Application {
         return conRecords;
     }
     private void initLexicalAnalyzer(){
-        textField.setText("");
-        textFieldSem.setText("");
+        errors.setText("");
         file.write(textArea.getText());
         try {
             lexicalError=null;
@@ -77,12 +81,12 @@ public class App extends Application {
 //            setTableId();
 //            setTableCon();
             SyntaxAnalyzer.start();
-
+            errors.setText("Yeeees!");
         } catch (LexicalError lexicalError) {
-            textField.setText(lexicalError.getMessage()+lexicalError.getState());
+            errors.setText(lexicalError.getMessage()+lexicalError.getState());
         } catch (SyntaxError semanticError) {
             System.out.println(semanticError.getMessage());
-            textFieldSem.setText(semanticError.getMessage());
+            errors.setText(semanticError.getMessage());
         }
 
     }
@@ -176,7 +180,7 @@ public class App extends Application {
     public void errors(){
         if(lexicalError!=null)
             try {
-                    textField.setText(lexicalError.getMessage());
+                    //textField.setText(lexicalError.getMessage());
                     throw lexicalError;
             } catch (LexicalError lexicalError1) {
                 lexicalError1.printStackTrace();
