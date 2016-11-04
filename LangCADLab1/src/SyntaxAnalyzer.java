@@ -202,7 +202,8 @@ public class SyntaxAnalyzer {
         if(therm()){
             //inc();
             if(!flagLoop && lexList.get(i()).getKod() == 35){ errorLog("Заборонено використання \";\" не в циклі"); return false; }
-            if(flagLoop && (lexList.get(i()).getKod() == 35 || lexList.get(i()).getKod() == 18)) return true;
+            if(lexList.get(i()).getKod() == 34){ return true; }
+            if(flagLoop && (lexList.get(i()).getKod() == 35 || lexList.get(i()).getKod() == 18) || lexList.get(i()).getKod() == 33) return true;
             if(flagReference) return true;
             if(flagLogical && lexList.get(i()).getKod()>=22 &&  lexList.get(i()).getKod() <= 27) return true;
             flagLogical=false;
@@ -352,7 +353,7 @@ public class SyntaxAnalyzer {
 
     private static boolean logicalTherm(){
         if(logicalMul()){
-            inc();
+            //inc();
             while(lexList.get(i()).getKod() == 30) {// and
                 inc();
                 if(logicalMul()){}
@@ -365,7 +366,7 @@ public class SyntaxAnalyzer {
 
     private static boolean logicalMul(){
         flagLogical=true;
-        if(expression()){ inc(); return true; }
+        if(/*expression()*/reference()){ /*inc();*/ return true; }
         else if(lexList.get(i()).getKod() == 32){// not
             inc();
             if(logicalTherm()){ inc(); return true; }
