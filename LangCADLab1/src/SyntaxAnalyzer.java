@@ -206,7 +206,11 @@ public class SyntaxAnalyzer {
             if(flagReference) return true;
             if(flagLogical && lexList.get(i()).getKod()>=22 &&  lexList.get(i()).getKod() <= 27) return true;
             flagLogical=false;
-            while(lexList.get(i()).getKod() != 11 && (flagLoop && lexList.get(i()).getKod() != 18  && lexList.get(i()).getKod() !=10)){// ⁋
+            boolean first = lexList.get(i()).getKod() != 18 && lexList.get(i()).getKod() != 35,
+                    second = lexList.get(i()).getKod() != 11 && lexList.get(i()).getKod() !=10 && lexList.get(i()).getKod() != 18;
+            boolean fl = flagLoop?first:second;
+            while(fl
+                    /*lexList.get(i()).getKod() != 11 && (flagLoop && lexList.get(i()).getKod() != 18  && lexList.get(i()).getKod() !=10)*/){// ⁋
                 if(lexList.get(i()).getKod() == 13){// +
                     inc();
                     if(therm()){}
@@ -218,6 +222,9 @@ public class SyntaxAnalyzer {
                     else{ errorLog("Відсутній операнд для віднімання"); return false; }
                 }
                 else{ errorLog("Невірний знак (+ або -)"); return false; }
+                first = lexList.get(i()).getKod() != 18 && lexList.get(i()).getKod() != 35;
+                second = lexList.get(i()).getKod() != 11 && lexList.get(i()).getKod() !=10 && lexList.get(i()).getKod() != 18;
+                fl = flagLoop?first:second;
             }
             return true;
         }
@@ -231,7 +238,8 @@ public class SyntaxAnalyzer {
             if(flagReference) return true;
             if(flagLogical && lexList.get(i()).getKod()>=22 &&  lexList.get(i()).getKod() <= 27 ) return true;
 
-            while(lexList.get(i()).getKod() != 11 && lexList.get(i()).getKod() != 34 && lexList.get(i()).getKod() !=18 && lexList.get(i()).getKod() !=10){// ⁋
+            while(lexList.get(i()).getKod() != 11 && lexList.get(i()).getKod() != 34 && lexList.get(i()).getKod() !=18 && lexList.get(i()).getKod() !=10
+                    && lexList.get(i()).getKod() != 13 && lexList.get(i()).getKod() != 14){// ⁋
                 if(lexList.get(i()).getKod() == 15){// *
                     inc();
                     if(c()){}

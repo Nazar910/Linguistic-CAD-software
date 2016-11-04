@@ -207,6 +207,7 @@ public class LexicalAnalyzer{
             fState2();
         }
         else if(ch == '+' || ch == '-'){
+            if(lex.equals(" )")) hasToRead=false;
             lex= " "+ch;
             if(operands!=0)
                 hasToRead=false;

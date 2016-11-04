@@ -14,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/LangCADLab1$App.coverage" NAME="App Coverage Results" MODIFIED="1477854360659" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/LangCADLab1$App.coverage" NAME="App Coverage Results" MODIFIED="1478289991656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -28,8 +28,8 @@
       <file leaf-file-name="SyntaxAnalyzer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="356" column="0" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
+            <state relative-caret-position="3321">
+              <caret line="266" column="0" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="0" />
               <folding>
                 <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="e#497#498#0" expanded="true" />
@@ -38,19 +38,8 @@
                 <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#prog#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#spOp#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#op#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#cin#0;class#SyntaxAnalyzer#0" expanded="false" />
@@ -63,11 +52,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="LexicalAnalyzer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="209" column="29" selection-start-line="209" selection-start-column="29" selection-end-line="209" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="App.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/App.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="83" column="33" selection-start-line="83" selection-start-column="33" selection-end-line="83" selection-end-column="33" />
+            <state relative-caret-position="323">
+              <caret line="89" column="9" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -108,11 +107,11 @@
         <option value="$PROJECT_DIR$/src/LexRecord.java" />
         <option value="$PROJECT_DIR$/src/TableManager.java" />
         <option value="$PROJECT_DIR$/src/SemanticError.java" />
-        <option value="$PROJECT_DIR$/src/LexicalAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/SemanticAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/SyntaxError.java" />
-        <option value="$PROJECT_DIR$/src/App.java" />
         <option value="$PROJECT_DIR$/src/SyntaxAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/LexicalAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/App.java" />
       </list>
     </option>
   </component>
@@ -710,12 +709,12 @@
       <workItem from="1478093734117" duration="21108000" />
       <workItem from="1478194755745" duration="882000" />
       <workItem from="1478204780159" duration="609000" />
-      <workItem from="1478265082352" duration="3393000" />
+      <workItem from="1478265082352" duration="11928000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144748000" />
+    <option name="totallyTimeSpent" value="153283000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -739,6 +738,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.61538464" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -754,7 +754,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -771,7 +770,21 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="86" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/LexicalAnalyzer.java</url>
+          <line>241</line>
+          <properties />
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/LexicalAnalyzer.java</url>
+          <line>210</line>
+          <properties />
+          <option name="timeStamp" value="95" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="96" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -792,19 +805,8 @@
             <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#prog#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#spOp#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#op#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#cin#0;class#SyntaxAnalyzer#0" expanded="false" />
@@ -836,19 +838,8 @@
             <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#prog#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#spOp#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#op#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#cin#0;class#SyntaxAnalyzer#0" expanded="false" />
@@ -890,18 +881,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="209" column="29" selection-start-line="209" selection-start-column="29" selection-end-line="209" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/App.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="83" column="33" selection-start-line="83" selection-start-column="33" selection-end-line="83" selection-end-column="33" />
+        <state relative-caret-position="323">
+          <caret line="89" column="9" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="356" column="0" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
+        <state relative-caret-position="3321">
+          <caret line="266" column="0" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="0" />
           <folding>
             <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="e#497#498#0" expanded="true" />
@@ -910,19 +909,8 @@
             <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#prog#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#spOp#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#op#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#cin#0;class#SyntaxAnalyzer#0" expanded="false" />
