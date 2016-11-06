@@ -163,7 +163,7 @@ public class LexicalAnalyzer{
 //                    }
                 }
                 else {
-                    String idType=tableManager.getIdRecords().get(tableManager.idOfExistingCon(lex)).getType();
+                   // String idType=tableManager.getIdRecords().get(tableManager.idOfExistingCon(lex)).getType();
                     if(type=="")//!idType.equals(type))
                         kodIdCon = tableManager.idOfExistingId(lex);
                     else error("0");
@@ -206,16 +206,20 @@ public class LexicalAnalyzer{
             lex = " "+ch;
             fState2();
         }
-        else if(ch == '+' || ch == '-'){
-            if(lex.equals(" )")) hasToRead=false;
-            lex= " "+ch;
-            if(operands!=0)
-                hasToRead=false;
-            fState3();
-        }
+//        else if(ch == '+' || ch == '-'){
+//            if(lex.equals(" )")) hasToRead=false;
+//            lex= " "+ch;
+//            if(operands!=0)
+//                hasToRead=false;
+//            fState3();
+//        }
         else if(ch >= '1' && ch <= '9'){
             lex=" "+ch;
             fState4();
+        }
+        else if(ch == '0'){
+            lex=" "+ch;
+            fState4_0();
         }
         else if(ch == '.'){
             lex=" "+ch;
@@ -238,7 +242,9 @@ public class LexicalAnalyzer{
             lex = " "+ch;
             fState13();
         }
-        else if(ch == '\n' || ch == '\t' || ch == ',' || ch == '{' || ch == '}' || ch == '(' || ch == ')' || ch == '*' || ch =='/' || ch == '?' || ch == ':' || ch == ';'){
+        else if(ch == '\n' || ch == '\t' || ch == ',' || ch == '{' || ch == '}' || ch == '(' ||
+                ch == ')' || ch == '*' || ch =='/' || ch == '?' || ch == ':' || ch == ';' ||
+                ch == '+' || ch == '-'){
             if(ch == '\n'){
                 line++;
                 column=1;
@@ -351,6 +357,29 @@ public class LexicalAnalyzer{
             addLex(lex,"con");//lexClass = CON
         }
     }
+    private static void fState4_0() {
+        if(hasToRead){
+            ch = getChar();
+        }
+        else hasToRead=true;
+        if(ch == '.'){
+            lex+=ch;
+            fState5();
+        }
+        else if(ch >= '0' && ch <= '9'){
+            error("4_0");
+        }
+        else if(ch >= 'A' && ch <= 'z'){
+            error("4_0");
+        }
+        else if(ch==0)
+            hasToRead=false;
+        else{
+            hasToRead=false;
+            addLex(lex,"con");//lexClass = CON
+        }
+    }
+
 
     private static void fState5()  {
         if(hasToRead){
