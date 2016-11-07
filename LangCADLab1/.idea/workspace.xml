@@ -28,26 +28,22 @@
       <file leaf-file-name="SyntaxAnalyzer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="174" column="47" selection-start-line="174" selection-start-column="47" selection-end-line="174" selection-end-column="47" />
+            <state relative-caret-position="473">
+              <caret line="184" column="31" selection-start-line="184" selection-start-column="31" selection-end-line="184" selection-end-column="31" />
               <folding>
                 <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="e#1092#1093#0" expanded="true" />
+                <element signature="e#1126#1127#0" expanded="true" />
+                <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
-                <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+                <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
                 <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
               </folding>
@@ -58,8 +54,8 @@
       <file leaf-file-name="LexicalAnalyzer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2206">
-              <caret line="165" column="21" selection-start-line="165" selection-start-column="21" selection-end-line="165" selection-end-column="21" />
+            <state relative-caret-position="65">
+              <caret line="337" column="0" selection-start-line="337" selection-start-column="0" selection-end-line="337" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -68,8 +64,8 @@
       <file leaf-file-name="App.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/App.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+            <state relative-caret-position="102">
+              <caret line="101" column="5" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -714,12 +710,13 @@
       <workItem from="1478204780159" duration="609000" />
       <workItem from="1478265082352" duration="14587000" />
       <workItem from="1478329600710" duration="3220000" />
-      <workItem from="1478419586760" duration="6292000" />
+      <workItem from="1478419586760" duration="21117000" />
+      <workItem from="1478498433636" duration="4224000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="165454000" />
+    <option name="totallyTimeSpent" value="184503000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -731,7 +728,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -741,9 +738,8 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.574136" sideWeight="0.50319827" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38350055" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.382906" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17590618" sideWeight="0.5063291" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -752,13 +748,14 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17590618" sideWeight="0.49367088" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.57525086" sideWeight="0.4968017" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.574359" sideWeight="0.4968017" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17590618" sideWeight="0.5063291" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -775,7 +772,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="107" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/SyntaxAnalyzer.java</url>
+          <line>383</line>
+          <properties />
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="124" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -790,26 +795,62 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5440">
-          <caret line="320" column="0" selection-start-line="320" selection-start-column="0" selection-end-line="320" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="e#1092#1093#0" expanded="true" />
+            <element signature="e#1126#1127#0" expanded="true" />
+            <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6732">
+          <caret line="396" column="20" selection-start-line="396" selection-start-column="20" selection-end-line="396" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1445">
+          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5440">
+          <caret line="320" column="0" selection-start-line="320" selection-start-column="0" selection-end-line="320" selection-end-column="0" />
+          <folding>
+            <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="e#1092#1093#0" expanded="true" />
+            <element signature="e#1126#1127#0" expanded="true" />
+            <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
           </folding>
@@ -838,22 +879,18 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="e#1092#1093#0" expanded="true" />
+            <element signature="e#1126#1127#0" expanded="true" />
+            <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
           </folding>
@@ -882,22 +919,18 @@
           <caret line="105" column="30" selection-start-line="105" selection-start-column="30" selection-end-line="105" selection-end-column="30" />
           <folding>
             <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="e#1092#1093#0" expanded="true" />
+            <element signature="e#1126#1127#0" expanded="true" />
+            <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
           </folding>
@@ -918,22 +951,18 @@
           <caret line="105" column="30" selection-start-line="105" selection-start-column="30" selection-end-line="105" selection-end-column="30" />
           <folding>
             <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="e#1092#1093#0" expanded="true" />
+            <element signature="e#1126#1127#0" expanded="true" />
+            <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
           </folding>
@@ -974,48 +1003,43 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="166">
           <caret line="652" column="0" selection-start-line="652" selection-start-column="0" selection-end-line="652" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65">
+          <caret line="337" column="0" selection-start-line="337" selection-start-column="0" selection-end-line="337" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LexicalAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2206">
-          <caret line="165" column="21" selection-start-line="165" selection-start-column="21" selection-end-line="165" selection-end-column="21" />
+        <state relative-caret-position="102">
+          <caret line="101" column="5" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SyntaxAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="174" column="47" selection-start-line="174" selection-start-column="47" selection-end-line="174" selection-end-column="47" />
+        <state relative-caret-position="473">
+          <caret line="184" column="31" selection-start-line="184" selection-start-column="31" selection-end-line="184" selection-end-column="31" />
           <folding>
             <element signature="method#setCounter#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#isNotDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="e#1092#1093#0" expanded="true" />
+            <element signature="e#1126#1127#0" expanded="true" />
+            <element signature="method#isDefined#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#resetStatic#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#endOfLine#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#openBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#closeBraces#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#expression#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#therm#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#c#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#conditionalBrunch#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#loop#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalTherm#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#logicalMul#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#reference#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#referenceSign#0;class#SyntaxAnalyzer#0" expanded="false" />
-            <element signature="method#spOg#0;class#SyntaxAnalyzer#0" expanded="false" />
+            <element signature="method#cout#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#spId#0;class#SyntaxAnalyzer#0" expanded="false" />
             <element signature="method#type#0;class#SyntaxAnalyzer#0" expanded="false" />
           </folding>

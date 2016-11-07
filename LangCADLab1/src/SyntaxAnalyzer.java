@@ -6,9 +6,6 @@ import java.util.List;
 public class SyntaxAnalyzer {
     private static List<LexRecord> lexList;
     private static int counter;
-    private static boolean flagLoop;
-    private static boolean flagReference;
-    private static boolean flagLogical;
     private static StringBuffer errorBuffer;
 
     private static boolean setCounter(int counter) {
@@ -18,6 +15,10 @@ public class SyntaxAnalyzer {
 
     private static void errorLog(String str) {
         errorBuffer.append(str + " : Line = " + lexList.get(i()).getLine() + '\n');
+    }
+
+    private static void clearErrorLog() {
+        errorBuffer.delete(0, errorBuffer.length());
     }
 
     private static String getErrorLog() {
@@ -64,28 +65,10 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean isNotDefined(int id) {
-        int i = lexList.get(id).getKodIdCon() - 1;
-        if (LexicalAnalyzer.getTableManager().getIdRecords().get(i).getType() == "") {
-            return true;
-        } else {
-            errorLog("Зазначення вже зазнченої змінної");
-            return false;
-        }
-    }
-
     private static void resetStatic() {
         counter = 0;
-        flagLoop = false;
-        flagReference = false;
         bracesToBeClosed = 0;
         errorBuffer = new StringBuffer("");
-    }
-
-    private static void endOfLine() {
-        while (lexList.get(i()).getKod() == 11) {// ⁋
-            inc();
-        }
     }
 
     private static boolean openBraces() {
@@ -104,11 +87,19 @@ public class SyntaxAnalyzer {
     }
 
     private static boolean closeBraces() {
-        while (lexList.get(i()).getKod() == 10) {// }
+        while (lexList.get(i()).getKod() == 10/* || lexList.get(i()).getKod() == 10 && lexList.get(i()+1).getKod() == 11*/) {// }
             inc();
             decBraces();
         }
         if (getBracesToBeClosed() == 0) {
+            int i = i();
+            while (i<lexList.size()) {
+                if(lexList.get(i).getKod() != 11){
+                    errorLog("За межами тіла програми не має нічого бути");
+                    return false;
+                }
+                i++;
+            }
             return true;
         } else if (getBracesToBeClosed() > 0) {
             errorLog("Не вистачає закриваючої фігурної дужки");
@@ -127,17 +118,14 @@ public class SyntaxAnalyzer {
                 inc();
                 if (lexList.get(i()).getKod() == 11) {// ⁋
                     inc();
-                    endOfLine();
                     if (lexList.get(i()).getKod() == 2) {// var
                         inc();
                         if (spOg()) {
-                            endOfLine();
                             if (openBraces()) { // {
-                                endOfLine();
                                 if (spOp()) {
-                                    if (closeBraces()) {
+                                    if (closeBraces()) {// }
                                         return true;
-                                    }// }
+                                    }
                                     else {
                                         return false;
                                     }
@@ -173,14 +161,11 @@ public class SyntaxAnalyzer {
     private static boolean spOp() {
         if (op()) {
             if (lexList.get(i()).getKod() == 11) {// ⁋
+                inc();
                 while (lexList.get(i()).getKod() != 10) {// }
                     if (isEnd()) {
                         errorLog("Неочікуваний кінець програми. Відсутня закриваюча фігурна дужка");
                         return false;
-                    }
-                    endOfLine();
-                    if (lexList.get(i()).getKod() == 10) {
-                        continue;
                     }
                     if (op()) {
                         if (lexList.get(i()).getKod() == 11) {
@@ -207,10 +192,10 @@ public class SyntaxAnalyzer {
     }
 
     private static boolean op() {
-        if (lexList.get(i()).getKod() == 35) {
+        /*if (lexList.get(i()).getKod() == 35) {
             errorLog("Заборонено використання ; не в циклі");
             return false;
-        }
+        }*/
         if (lexList.get(i()).getKod() == 5) {// cout
             inc();
             if (cout()) {
@@ -257,6 +242,7 @@ public class SyntaxAnalyzer {
                         return false;
                     }
                 } else if (setCounter(temp) && expression()) {
+                    clearErrorLog();
                     return true;
                 } else {
                     errorLog("Невірний другий операнд присвоювання");
@@ -358,9 +344,7 @@ public class SyntaxAnalyzer {
                     inc();
                     if (lexList.get(i()).getKod() == 9) {// {
                         inc();
-                        endOfLine();
                         if (spOp()) {
-                            endOfLine();
                             if (lexList.get(i()).getKod() == 10) {
                                 inc();
                                 return true;
@@ -392,13 +376,12 @@ public class SyntaxAnalyzer {
     }
 
     private static boolean loop() {
-        flagLoop = true;
         if (lexList.get(i()).getKod() == 17) {// (
             inc();
             if (op()) {
                 if (lexList.get(i()).getKod() == 35) {// ;
                     inc();
-                    if (reference()) {
+                    if (logicalExpression()) {
                         if (lexList.get(i()).getKod() == 35) {// ;
                             inc();
                             if (lexList.get(i()).getKod() == 28 && isDefined(i())) {// idn
@@ -408,7 +391,6 @@ public class SyntaxAnalyzer {
                                     if (expression()) {
                                         if (lexList.get(i()).getKod() == 18) {// )
                                             inc();
-                                            endOfLine();
                                             if (op()) {
                                                 return true;
                                             } else {
@@ -488,13 +470,13 @@ public class SyntaxAnalyzer {
     }
 
     private static boolean logicalMul() {
-        flagLogical = true;
+        int temp=i();
         if (reference()) {
             return true;
-        } else if (lexList.get(i()).getKod() == 32) {// not
+        } else if (setCounter(temp) && lexList.get(i()).getKod() == 32) {// not
             inc();
             if (logicalTherm()) {
-                inc();
+                //inc();
                 return true;
             } else {
                 errorLog("Невірний логічний терм після NOT");
@@ -521,11 +503,9 @@ public class SyntaxAnalyzer {
     }
 
     private static boolean reference() {
-        flagReference = true;
         if (expression()) {
             if (referenceSign()) {
                 if (expression()) {
-                    flagReference = false;
                     return true;
                 } else {
                     errorLog("Невірний вираз після знаку відношення");
@@ -557,13 +537,13 @@ public class SyntaxAnalyzer {
             if (lexList.get(i()).getKod() == 28 && isDefined(i())) {// idn
                 inc();
                 while (lexList.get(i()).getKod() == 21) {// >>
+                    inc();
+                    if (lexList.get(i()).getKod() == 28 && isDefined(i())) {/*idn*/
                         inc();
-                        if (lexList.get(i()).getKod() == 28 && isDefined(i())) {/*idn*/
-                            inc();
-                        } else {
-                            errorLog("Невірний операнд вводу");
-                            return false;
-                        }
+                    } else {
+                        errorLog("Невірний операнд вводу");
+                        return false;
+                    }
                 }
                 return true;
             } else {
@@ -604,9 +584,8 @@ public class SyntaxAnalyzer {
     private static boolean spOg() {
         if (type()) {
             if (spId()) {
-                while (lexList.get(i()).getKod() == 11) {// ⁋
+                while (lexList.get(i()).getKod() == 11 && lexList.get(i() + 1).getKod() != 9) {// ⁋
                     inc();
-                    if (lexList.get(i()).getKod() == 9) return true;
                     if (type()) {
                         if (spId()) {/*idn*/} else {
                             errorLog("Очікується ідентифікатор");
@@ -617,6 +596,7 @@ public class SyntaxAnalyzer {
                         return false;
                     }
                 }
+                inc();
                 return true;
             } else {
                 errorLog("Очікується список ідентифікаторів");
@@ -648,7 +628,7 @@ public class SyntaxAnalyzer {
     }
 
     private static boolean type() {
-        if (lexList.get(i()).getKod() == 3 || lexList.get(i()).getKod() == 4) {
+        if (lexList.get(i()).getKod() == 3 || lexList.get(i()).getKod() == 4) {// int or real
             inc();
             return true;
         } else if (op()) {

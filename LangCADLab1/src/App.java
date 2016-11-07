@@ -1,11 +1,9 @@
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -21,6 +19,8 @@ public class App extends Application {
     Stage window;
     FileManager file= LexicalAnalyzer.getFile();
     TextArea textArea=new TextArea(file.read());
+    //TextArea numberLines=new TextArea();
+    Label numberLines= new Label();
     TextArea errors = new TextArea();
     static LexicalError lexicalError;
     public static void main(String[] args) {
@@ -33,14 +33,20 @@ public class App extends Application {
         window.setTitle("Лексичний+Семантичний аналізатор. Пивовар Назарій Вар 10 група ТР-41");
         Button buttonStart=new Button("Почати");
         buttonStart.setOnAction(e ->initLexicalAnalyzer());
-
+        numberLines.setMinWidth(30);
+        numberLines.setPadding(new Insets(7,0,0,0));
+        textArea.textProperty().addListener(e->numberLines(textArea.getText()));
         textArea.setMinSize(400,450);
+        textArea.setStyle("-fx-font-size: 14px");
+        numberLines.setStyle("-fx-font-size: 14px;" +
+                "-fx-alignment: center");
+        numberLines(textArea.getText());
         errors.setMaxHeight(85);
         VBox vBox = new VBox();
        // vBox.setAlignment(Pos.BOTTOM_CENTER);
         vBox.getChildren().addAll(textArea,errors);
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(vBox, buttonStart);
+        hBox.getChildren().addAll(numberLines,vBox, buttonStart);
 
 
         StackPane stackPane = new StackPane();
@@ -77,7 +83,7 @@ public class App extends Application {
             lexicalError=null;
             LexicalAnalyzer.start();
             errors();
-            setTableLex();
+//            setTableLex();
 //            setTableId();
 //            setTableCon();
             SyntaxAnalyzer.start();
@@ -176,6 +182,13 @@ public class App extends Application {
         window1.setScene(scene);
         window1.show();
 
+    }
+    private void numberLines(String str){
+        int k=textArea.getText().split("\n").length;
+        str ="";
+        for(int i=1;i<=k;i++)
+            str+=i+"\n";
+        numberLines.setText(str);
     }
     public void errors(){
         if(lexicalError!=null)

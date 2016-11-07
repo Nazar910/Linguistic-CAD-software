@@ -393,7 +393,7 @@ public class LexicalAnalyzer{
             hasToRead=false;
         else{
 //            if(!lex.endsWith(".")){
-                if(ch == ')')
+                //if(ch == ')')
                     hasToRead=false;
                 addLex(lex,"con");//lexClass = CON
 //            }
