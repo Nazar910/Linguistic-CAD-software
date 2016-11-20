@@ -86,13 +86,13 @@ public class App extends Application {
 //            setTableLex();
 //            setTableId();
 //            setTableCon();
-            SyntaxAnalyzer.start();
-            errors.setText("Yeeees!");
+            SyntaxAvtomatAnalyzer.start();
+            errors.setText("Successfully!");
         } catch (LexicalError lexicalError) {
             errors.setText(lexicalError.getMessage()+lexicalError.getState());
-        } catch (SyntaxError semanticError) {
-            System.out.println(semanticError.getMessage());
-            errors.setText(semanticError.getMessage());
+        } catch (SyntaxError syntaxError) {
+            System.out.println(syntaxError.getMessage());
+            errors.setText(syntaxError.getMessage());
         }
 
     }
