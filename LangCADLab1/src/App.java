@@ -89,7 +89,7 @@ public class App extends Application {
             SyntaxAvtomatAnalyzer.start();
             errors.setText("Successfully!");
         } catch (LexicalError lexicalError) {
-            errors.setText(lexicalError.getMessage()+lexicalError.getState());
+            errors.setText(lexicalError.getMessage()+"\nState="+lexicalError.getState());
         } catch (SyntaxError syntaxError) {
             System.out.println(syntaxError.getMessage());
             errors.setText(syntaxError.getMessage());
@@ -190,14 +190,9 @@ public class App extends Application {
             str+=i+"\n";
         numberLines.setText(str);
     }
-    public void errors(){
+    public void errors() throws LexicalError{
         if(lexicalError!=null)
-            try {
-                    //textField.setText(lexicalError.getMessage());
                     throw lexicalError;
-            } catch (LexicalError lexicalError1) {
-                lexicalError1.printStackTrace();
-            }
     }
     public static void setError(LexicalError lexicalErrorBuf){
         lexicalError = lexicalErrorBuf;
