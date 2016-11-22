@@ -235,18 +235,6 @@ public class LexicalAnalyzer {
                 line++;
                 column = 1;
             }
-            if (ch == '[' || ch == ']') {
-                System.out.println();
-            }
-//            if(ch == '(')
-//                brackets++;
-//            else if(ch == ')')
-//                brackets--;
-//            if(ch == '?' && lex.equals(" )")){
-//                lex=" "+ch;
-//                addLex(lex,""+ch);
-//            }
-
             lex = " " + ch;
             hasToRead = true;
             or = true;

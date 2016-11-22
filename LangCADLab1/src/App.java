@@ -1,10 +1,15 @@
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -32,6 +37,7 @@ public class App extends Application {
         window = primaryStage;
         window.setTitle("Лексичний+Семантичний аналізатор. Пивовар Назарій Вар 10 група ТР-41");
         Button buttonStart=new Button("Почати");
+
         buttonStart.setOnAction(e ->initLexicalAnalyzer());
         numberLines.setMinWidth(30);
         numberLines.setPadding(new Insets(7,0,0,0));
@@ -54,6 +60,15 @@ public class App extends Application {
 
 
         Scene scene = new Scene(stackPane);
+        final KeyCombination keyCombination = new KeyCodeCombination(KeyCode.F5,KeyCombination.CONTROL_DOWN);
+        scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(keyCombination.match(event)){
+                    buttonStart.fire();
+                }
+            }
+        });
         window.setMinWidth(550);
         window.setMinHeight(580);
         window.setScene(scene);
@@ -88,7 +103,9 @@ public class App extends Application {
 //            setTableCon();
             SyntaxAvtomatAnalyzer.start();
             errors.setText("Successfully!");
+            System.out.println("Successfully!");
         } catch (LexicalError lexicalError) {
+            System.out.println(lexicalError.getMessage()+"\nState="+lexicalError.getState());
             errors.setText(lexicalError.getMessage()+"\nState="+lexicalError.getState());
         } catch (SyntaxError syntaxError) {
             System.out.println(syntaxError.getMessage());

@@ -171,7 +171,6 @@ public class SyntaxAvtomatAnalyzer {
                 }
             } else {
                 if (get(getAlpha()).getCompareSuccess().equals("exit") && stack.isEmpty()) {
-                    System.out.println("Successfully");
                     break;
                 }
                 checkStack(get(getAlpha()).getStack()[index]);
