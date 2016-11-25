@@ -49,7 +49,6 @@ public class App extends Application {
         numberLines(textArea.getText());
         errors.setMaxHeight(85);
         VBox vBox = new VBox();
-       // vBox.setAlignment(Pos.BOTTOM_CENTER);
         vBox.getChildren().addAll(textArea,errors);
         HBox hBox = new HBox();
         hBox.getChildren().addAll(numberLines,vBox, buttonStart);
@@ -98,7 +97,7 @@ public class App extends Application {
             lexicalError=null;
             LexicalAnalyzer.start();
             errors();
-//            setTableLex();
+            setTableLex();
 //            setTableId();
 //            setTableCon();
             SyntaxAvtomatAnalyzer.start();

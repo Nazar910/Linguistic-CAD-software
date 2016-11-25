@@ -203,7 +203,7 @@ public class LexicalAnalyzer {
         or = false;
         if (ch == ' ') {
             fState1();
-        } else if (ch >= 'A' && ch <= 'z' && ch != '[' && ch != ']') {
+        } else if (ch >= 'A' && ch <= 'z' && (ch < '[' || ch > '`')) {
             lex = " " + ch;
             fState2();
         } else if (ch >= '1' && ch <= '9') {
@@ -267,7 +267,7 @@ public class LexicalAnalyzer {
         if (hasToRead) {
             ch = getChar();
         }
-        if (ch >= 'A' && ch <= 'z' && ch!='[' && ch!=']' || ch == '_') {
+        if (ch >= 'A' && ch <= 'z'  && (ch < '[' || ch > '`') || ch == '_') {
             lex += ch;
             fState2();
         } else if (ch >= '0' && ch <= '9') {
@@ -314,7 +314,7 @@ public class LexicalAnalyzer {
         } else if (ch >= '0' && ch <= '9') {
             lex += ch;
             fState4();
-        } else if (ch >= 'A' && ch <= 'z' && ch!='[' && ch!=']') {
+        } else if (ch >= 'A' && ch <= 'z'  && (ch < '[' || ch > '`')) {
             error("4");
         } else if (ch == 0)
             hasToRead = false;
@@ -333,7 +333,7 @@ public class LexicalAnalyzer {
             fState5();
         } else if (ch >= '0' && ch <= '9') {
             error("40");
-        } else if (ch >= 'A' && ch <= 'z' && ch!='[' && ch!=']') {
+        } else if (ch >= 'A' && ch <= 'z' && (ch < '[' || ch > '`')) {
             error("40");
         } else if (ch == 0)
             hasToRead = false;
