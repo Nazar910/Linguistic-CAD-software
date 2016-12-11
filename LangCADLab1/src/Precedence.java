@@ -1,3 +1,5 @@
+package lang.cad.determination;
+
 import java.util.*;
 
 /**
@@ -62,8 +64,8 @@ public class Precedence {
         rightGrammar.put("<ЛТ>", "<ЛМ>|<ЛТ> and <ЛМ>");
         rightGrammar.put("<ЛТ1>", "<ЛТ>");
         rightGrammar.put("<ЛМ>", "<відношення>|[ <ЛВ1> ]|not <ЛМ>");
-        rightGrammar.put("<E1>","<E>");
-        rightGrammar.put("<E2>","<E1>");
+        rightGrammar.put("<E1>", "<E>");
+        rightGrammar.put("<E2>", "<E1>");
         rightGrammar.put("<E>", "<T1>|<E> + <T1>|<E> - <T1>");
         rightGrammar.put("<T1>", "<T>");
         rightGrammar.put("<T>", "<c>|<T> * <c>|<T> / <c>");
@@ -207,7 +209,7 @@ public class Precedence {
 
     public static void main(String[] args) {
         Precedence obj = new Precedence(false);
-        System.out.println(obj.FirstPlus("<T>",new HashSet<>()));
+        System.out.println(obj.FirstPlus("<T>", new HashSet<>()));
         obj.calculate();
     }
 
@@ -309,7 +311,7 @@ public class Precedence {
     private Set<String> First(String lex) {
         Set<String> first = new HashSet<>();
         if (isNotTerminal(lex)) {
-            String[] array =  getGrammar().get(lex).split("\\|");
+            String[] array = getGrammar().get(lex).split("\\|");
             for (String item : array) {
                 first.add(item.split(" ")[0]);
             }
@@ -335,7 +337,7 @@ public class Precedence {
     }
 
     private HashMap<String, String> getGrammar() {
-        return isRightGrammar()? rightGrammar: grammar;
+        return isRightGrammar() ? rightGrammar : grammar;
     }
 
 
@@ -344,13 +346,19 @@ public class Precedence {
     }
 
     public String[][] getMatr() {
-        return isRightGrammar()? rightMatr: matr;
+        return isRightGrammar() ? rightMatr : matr;
     }
 
     private void resetMatr() {
-        for (int i = 0; i < getMatr().length; i++) {
-            for (int j = 0; j < getMatr().length; j++) {
-                getMatr()[i][j] = "";
+        for (int i = 0; i < getMatrLength(); i++) {
+            for (int j = 0; j < getMatrLength(); j++) {
+                if(i == getMatrLength()-1 && j != getMatrLength()-1){
+                    getMatr()[i][j]="<";
+                } else if (j==getMatrLength()-1 && i != getMatrLength()-1){
+                    getMatr()[i][j]=">";
+                } else{
+                    getMatr()[i][j] = "";
+                }
             }
         }
     }
@@ -360,7 +368,7 @@ public class Precedence {
     }
 
     public ArrayList<String> getTableColumns() {
-        return isRightGrammar()? rightTableColumns: tableColumns;
+        return isRightGrammar() ? rightTableColumns : tableColumns;
     }
 
     public int getMatrLength() {
