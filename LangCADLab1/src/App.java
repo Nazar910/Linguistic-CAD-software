@@ -97,7 +97,7 @@ public class App extends Application {
             lexicalError=null;
             LexicalAnalyzer.start();
             errors();
-            setTableLex();
+//            setTableLex();
 //            setTableId();
 //            setTableCon();
             SyntaxAvtomatAnalyzer.start();
