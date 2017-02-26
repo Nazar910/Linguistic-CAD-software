@@ -1,3 +1,5 @@
+package com.pyvovar.nazar;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,7 +37,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
-        window.setTitle("Лексичний+Семантичний аналізатор. Пивовар Назарій Вар 10 група ТР-41");
+        window.setTitle("Лексичний+Синтаксичний аналізатор. Пивовар Назарій Вар 10 група ТР-41");
         Button buttonStart=new Button("Почати");
 
         buttonStart.setOnAction(e ->initLexicalAnalyzer());
@@ -100,7 +102,7 @@ public class App extends Application {
 //            setTableLex();
 //            setTableId();
 //            setTableCon();
-            SyntaxAvtomatAnalyzer.start();
+            SyntaxPrecedenceTableAnalyzer.start();
             errors.setText("Successfully!");
             System.out.println("Successfully!");
         } catch (LexicalError lexicalError) {

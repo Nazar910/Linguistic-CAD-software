@@ -1,3 +1,5 @@
+package com.pyvovar.nazar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +19,18 @@ public class LexicalAnalyzer {
     private static boolean or;
     private static String type = "";
     private static TableManager tableManager;
+
+
     private static List<String> lexDB = new ArrayList<>();
-    private static FileManager file = new FileManager("E:/OneDrive/program.txt");
+    private static FileManager file = new FileManager("D:/OneDrive/program.txt");
 
     public static FileManager getFile() {
         return file;
     }
 
+    public static List<String> getLexDB() {
+        return lexDB;
+    }
     public static void initLexDB() {
 
         lexDB.add("prog");//1
@@ -86,7 +93,7 @@ public class LexicalAnalyzer {
         column = 1;
         or = false;
         type = "";
-        file = new FileManager("E:/OneDrive/program.txt");
+        file = new FileManager("D:/OneDrive/program.txt");
         tableManager = new TableManager();
         lexDB = new ArrayList<>();
     }
@@ -97,9 +104,9 @@ public class LexicalAnalyzer {
 
     public static void start/*main*/(/*String[] args*/) throws LexicalError {
         def();
-        FileManager fileLex = new FileManager("E:/OneDrive/tableLex.txt");
-        FileManager fileId = new FileManager("E:/OneDrive/tableId.txt");
-        FileManager fileCon = new FileManager("E:/OneDrive/tableCon.txt");
+        FileManager fileLex = new FileManager("D:/OneDrive/tableLex.txt");
+        FileManager fileId = new FileManager("D:/OneDrive/tableId.txt");
+        FileManager fileCon = new FileManager("D:/OneDrive/tableCon.txt");
         str = file.read();
         //System.out.println(str);
         if (str != null) hasToRead = true;

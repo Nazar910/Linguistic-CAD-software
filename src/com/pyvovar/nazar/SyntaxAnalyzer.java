@@ -1,3 +1,5 @@
+package com.pyvovar.nazar;
+
 import java.util.List;
 
 /**

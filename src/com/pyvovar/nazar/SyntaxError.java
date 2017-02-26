@@ -1,3 +1,5 @@
+package com.pyvovar.nazar;
+
 /**
  * Created by pyvov on 30.10.2016.
  */

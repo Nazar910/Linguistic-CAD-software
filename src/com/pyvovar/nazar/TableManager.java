@@ -1,3 +1,5 @@
+package com.pyvovar.nazar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class TableManager {
     }
     public int idOfExistingId(String id){
         int i=0;
-//        for(i=0;i<IdRecord.getCount();i++){
+//        for(i=0;i<com.pyvovar.nazar.IdRecord.getCount();i++){
 //            if(idTable.get(i).getId().equals(id)) break;
 //        }
         for(IdRecord ir:idTable){
@@ -49,7 +51,7 @@ public class TableManager {
     }
     public int idOfExistingCon(String con){
         int i=0;
-//        for(i=0;i<ConRecord.getCount();i++){
+//        for(i=0;i<com.pyvovar.nazar.ConRecord.getCount();i++){
 //            if(conTable.get(i).getLex().equals(con)) break;
 //        }
         for(ConRecord cr:conTable){

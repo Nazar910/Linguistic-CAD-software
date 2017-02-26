@@ -1,4 +1,4 @@
-package lang.cad.determination;
+package com.pyvovar.nazar;
 
 import java.util.*;
 
@@ -253,8 +253,18 @@ public class Precedence {
                         }
                     }
                     if (isNotTerminal(getTableColumns().get(i))) {
+                        //3.1
+                        Set<String> lastR = LastPlus(getTableColumns().get(i), new HashSet<>());
+                        int k = 0;
+                        for (String item : lastR) {
+                            k = getTableColumns().indexOf(item);
+                            if (!getMatr()[k][j].contains(">")) {
+                                getMatr()[k][j] += ">";
+                            }
+                        }
+                        //3.2
                         if (isNotTerminal(getTableColumns().get(j))) {
-                            Set<String> lastR = new HashSet<>();
+                            lastR = new HashSet<>();
                             Set<String> firstV = new HashSet<>();
                             lastR = LastPlus(getTableColumns().get(i), new HashSet<>());
                             firstV = FirstPlus(getTableColumns().get(j), new HashSet<>());
@@ -266,15 +276,6 @@ public class Precedence {
                                     if (!getMatr()[ik][jk].contains(">")) {
                                         getMatr()[ik][jk] += ">";
                                     }
-                                }
-                            }
-                        } else {
-                            Set<String> lastR = LastPlus(getTableColumns().get(i), new HashSet<>());
-                            int k = 0;
-                            for (String item : lastR) {
-                                k = getTableColumns().indexOf(item);
-                                if (!getMatr()[k][j].contains(">")) {
-                                    getMatr()[k][j] += ">";
                                 }
                             }
                         }
@@ -336,7 +337,7 @@ public class Precedence {
         return (lex.startsWith("<") && lex.endsWith(">"));
     }
 
-    private HashMap<String, String> getGrammar() {
+    public HashMap<String, String> getGrammar() {
         return isRightGrammar() ? rightGrammar : grammar;
     }
 
