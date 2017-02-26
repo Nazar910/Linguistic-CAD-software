@@ -26,36 +26,28 @@ public class SyntaxPrecedenceTableAnalyzer {
         this.lexList = LexicalAnalyzer.getTableManager().getLexRecords();
         this.lexDB.set(27, "IDN");
         this.lexDB.set(28, "CON");
-        System.out.println(lexList);
         Precedence precedence = new Precedence(true);
         this.grammar = precedence.getGrammar();
         this.matr = precedence.calculate();
         this.tableColumns = precedence.getTableColumns();
-        System.out.println(Arrays.deepToString(matr));
-        System.out.println(precedence.getTableColumns());
-        System.out.println(grammar);
-        String s = "IDN";
-//        System.out.println(reduce(s, "⁋"));
-        System.out.println(reduce(s, "prog","⁋"));
+        System.out.println(reduce("<оп1.> ⁋", "{", "}"));
 
         stack.add("#");
         for (int i = 0; i < lexList.size(); i++) {
-            if (lexList.get(i).getLine() == 8) {
-                System.out.print("");
-            }
             String left = stack.peekLast();
-            String right = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod()-1)));
-//            System.out.println(lexList.get(i).getLex() +
-//                    " " + getSign(left, right) + " " + lexList.get(i + 1).getLex());
+            String right = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
+            if (i == lexList.size() - 1 && right.equals("⁋")) {
+                right = "#";
+            }
             boolean lt = getSign(left, right).equals("<");
             boolean equals = getSign(left, right).equals("=");
             boolean gt = getSign(left, right).equals(">");
             if (lt || equals) {
                 stack.add(right);
-            } else if (gt) {
+            } else {
                 LinkedList<String> str = new LinkedList<>();
-                String backspace=" ";
-                while(!getSign(left, right).equals("<")) {
+                String backspace = " ";
+                while (!getSign(left, right).equals("<")) {
                     str.addFirst(left);
                     str.addFirst(backspace);
                     right = stack.pollLast();
@@ -67,7 +59,14 @@ public class SyntaxPrecedenceTableAnalyzer {
                     stringBuilder.append(s1);
                 }
                 String nextElem = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
-                String reduced = reduce(stringBuilder.toString(),left, nextElem);
+                if (i == lexList.size() - 1 && nextElem.equals("⁋")) {
+                    nextElem = "#";
+                }
+                if (nextElem.equals("}")) {
+                    System.out.print("");
+                }
+                if (left.equals("#") && stringBuilder.toString().equals("<програма>") && nextElem.equals("#")) break;
+                String reduced = reduce(stringBuilder.toString(), left, nextElem);
                 if (!reduced.equals("404")) {
                     stack.add(reduced);
                 } else {
