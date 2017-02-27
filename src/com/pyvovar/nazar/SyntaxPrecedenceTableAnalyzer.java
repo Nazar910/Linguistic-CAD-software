@@ -30,7 +30,6 @@ public class SyntaxPrecedenceTableAnalyzer {
         this.grammar = precedence.getGrammar();
         this.matr = precedence.calculate();
         this.tableColumns = precedence.getTableColumns();
-        System.out.println(reduce("<оп1.> ⁋", "{", "}"));
 
         stack.add("#");
         for (int i = 0; i < lexList.size(); i++) {
@@ -44,6 +43,8 @@ public class SyntaxPrecedenceTableAnalyzer {
             boolean gt = getSign(left, right).equals(">");
             if (lt || equals) {
                 stack.add(right);
+                stack.forEach(el -> System.out.print(el + " "));
+                System.out.println();
             } else {
                 LinkedList<String> str = new LinkedList<>();
                 String backspace = " ";
@@ -69,6 +70,8 @@ public class SyntaxPrecedenceTableAnalyzer {
                 String reduced = reduce(stringBuilder.toString(), left, nextElem);
                 if (!reduced.equals("404")) {
                     stack.add(reduced);
+                    stack.forEach(el -> System.out.print(el + " "));
+                    System.out.println();
                 } else {
                     throw new SyntaxError("Error in " + lexList.get(i).getLine());
                 }
