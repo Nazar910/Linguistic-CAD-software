@@ -22,7 +22,7 @@ public class LexicalAnalyzer {
 
 
     private static List<String> lexDB = new ArrayList<>();
-    private static FileManager file = new FileManager("D:/OneDrive/program.txt");
+    private static FileManager file = new FileManager("./program.txt");
 
     public static FileManager getFile() {
         return file;
@@ -93,7 +93,7 @@ public class LexicalAnalyzer {
         column = 1;
         or = false;
         type = "";
-        file = new FileManager("D:/OneDrive/program.txt");
+        file = new FileManager("./program.txt");
         tableManager = new TableManager();
         lexDB = new ArrayList<>();
     }
@@ -104,9 +104,9 @@ public class LexicalAnalyzer {
 
     public static void start/*main*/(/*String[] args*/) throws LexicalError {
         def();
-        FileManager fileLex = new FileManager("D:/OneDrive/tableLex.txt");
-        FileManager fileId = new FileManager("D:/OneDrive/tableId.txt");
-        FileManager fileCon = new FileManager("D:/OneDrive/tableCon.txt");
+        FileManager fileLex = new FileManager("./tableLex.txt");
+        FileManager fileId = new FileManager("./tableId.txt");
+        FileManager fileCon = new FileManager("./tableCon.txt");
         str = file.read();
         //System.out.println(str);
         if (str != null) hasToRead = true;
