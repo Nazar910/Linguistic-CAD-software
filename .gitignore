@@ -3,3 +3,4 @@ out/
 tableCon.txt
 tableId.txt
 tableLex.txt
+target/

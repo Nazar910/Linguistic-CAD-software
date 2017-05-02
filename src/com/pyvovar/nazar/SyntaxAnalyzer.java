@@ -6,60 +6,65 @@ import java.util.List;
  * Created by pyvov on 30.10.2016.
  */
 public class SyntaxAnalyzer {
-    private static List<LexRecord> lexList;
-    private static int counter;
-    private static StringBuffer errorBuffer;
+    private List<LexRecord> lexList;
+    private int counter;
+    private StringBuffer errorBuffer;
+    private LexicalAnalyzer lexical;
 
-    private static boolean setCounter(int counter) {
-        SyntaxAnalyzer.counter = counter;
+    public SyntaxAnalyzer(LexicalAnalyzer lexical) {
+        this.lexical = lexical;
+    }
+
+    private boolean setCounter(int counter) {
+        this.counter = counter;
         return true;
     }
 
-    private static void errorLog(String str) {
+    private void errorLog(String str) {
         errorBuffer.append(str + " : Line = " + lexList.get(i()).getLine() + '\n');
     }
 
-    private static void clearErrorLog() {
+    private void clearErrorLog() {
         errorBuffer.delete(0, errorBuffer.length());
     }
 
-    private static String getErrorLog() {
+    private String getErrorLog() {
         return errorBuffer.toString();
     }
 
-    private static int getBracesToBeClosed() {
+    private int getBracesToBeClosed() {
         return bracesToBeClosed;
     }
 
-    private static int bracesToBeClosed;
+    private int bracesToBeClosed;
 
-    private static boolean isEnd() {
+    private boolean isEnd() {
         return counter == lexList.size() - 1 ? true : false;
     }
 
-    private static int i() {
+    private int i() {
         return counter;
     }
 
-    private static void inc() {
+    private void inc() {
         if (lexList.size() > counter - 1) counter++;
     }
 
-    private static void incBraces() {
+    private void incBraces() {
         bracesToBeClosed++;
     }
 
-    private static void decBraces() {
+    private void decBraces() {
         bracesToBeClosed--;
     }
 
-    private static boolean isDefined(int id) {
+    private boolean isDefined(int id) {
         int i = lexList.get(id).getKodIdCon() - 1;
 
-        if (LexicalAnalyzer.getTableManager().getIdRecords().get(i).getType().equals(" prog")) {
+        if (this.lexical.getTableManager().getIdRecords().get(i).getType().equals(" prog")) {
             errorLog("Не можна використовувати змінну типу prog");
             return false;
-        } else if (LexicalAnalyzer.getTableManager().getIdRecords().get(i).getType() != "") {
+        } else if (this.lexical.getTableManager().getIdRecords().get(i).getType() != "") {
             return true;
         } else {
             errorLog("Використання незазначеної змінної");
@@ -67,13 +72,13 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static void resetStatic() {
+    private void reset() {
         counter = 0;
         bracesToBeClosed = 0;
         errorBuffer = new StringBuffer("");
     }
 
-    private static boolean openBraces() {
+    private boolean openBraces() {
         if (lexList.get(i()).getKod() == 9) {// {
             inc();
             incBraces();
@@ -88,15 +93,15 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean closeBraces() {
+    private boolean closeBraces() {
         while (lexList.get(i()).getKod() == 10/* || lexList.get(i()).getKod() == 10 && lexList.get(i()+1).getKod() == 11*/) {// }
             inc();
             decBraces();
         }
         if (getBracesToBeClosed() == 0) {
             int i = i();
-            while (i<lexList.size()) {
-                if(lexList.get(i).getKod() != 11){
+            while (i < lexList.size()) {
+                if (lexList.get(i).getKod() != 11) {
                     errorLog("За межами тіла програми не має нічого бути");
                     return false;
                 }
@@ -112,8 +117,8 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean prog() {
-        lexList = LexicalAnalyzer.getTableManager().getLexRecords();
+    private boolean prog() {
+        lexList = this.lexical.getTableManager().getLexRecords();
         if (lexList.get(i()).getKod() == 1) {//prog
             inc();
             if (lexList.get(i()).getKod() == 28) {// IDN
@@ -127,8 +132,7 @@ public class SyntaxAnalyzer {
                                 if (spOp()) {
                                     if (closeBraces()) {// }
                                         return true;
-                                    }
-                                    else {
+                                    } else {
                                         return false;
                                     }
                                 } else {
@@ -160,7 +164,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean spOp() {
+    private boolean spOp() {
         if (op()) {
             if (lexList.get(i()).getKod() == 11) {// ⁋
                 inc();
@@ -193,7 +197,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean op() {
+    private boolean op() {
         /*if (lexList.get(i()).getKod() == 35) {
             errorLog("Заборонено використання ; не в циклі");
             return false;
@@ -276,7 +280,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean expression() {
+    private boolean expression() {
         if (therm()) {
             while (lexList.get(i()) != null
                     && (lexList.get(i()).getKod() == 13 || lexList.get(i()).getKod() == 14)) {// + -
@@ -295,7 +299,7 @@ public class SyntaxAnalyzer {
 
     }
 
-    private static boolean therm() {
+    private boolean therm() {
         if (c()) {
             while (lexList.get(i()) != null
                     && (lexList.get(i()).getKod() == 15 || lexList.get(i()).getKod() == 16)) {// * /
@@ -314,7 +318,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean c() {
+    private boolean c() {
         if (lexList.get(i()).getKod() == 28 && isDefined(i()) || lexList.get(i()).getKod() == 29) {// idn or con
             inc();
             return true;
@@ -338,7 +342,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean conditionalBrunch() {
+    private boolean conditionalBrunch() {
         if (lexList.get(i()).getKod() == 17) {// (
             inc();
             if (reference()) {
@@ -377,7 +381,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean loop() {
+    private boolean loop() {
         if (lexList.get(i()).getKod() == 17) {// (
             inc();
             if (op()) {
@@ -437,7 +441,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean logicalExpression() {
+    private boolean logicalExpression() {
         if (logicalTherm()) {
             while (lexList.get(i()).getKod() == 31) {// or
                 inc();
@@ -454,7 +458,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean logicalTherm() {
+    private boolean logicalTherm() {
         if (logicalMul()) {
             while (lexList.get(i()).getKod() == 30) {// and
                 inc();
@@ -471,8 +475,8 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean logicalMul() {
-        int temp=i();
+    private boolean logicalMul() {
+        int temp = i();
         if (reference()) {
             return true;
         } else if (setCounter(temp) && lexList.get(i()).getKod() == 32) {// not
@@ -504,7 +508,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean reference() {
+    private boolean reference() {
         if (expression()) {
             if (referenceSign()) {
                 if (expression()) {
@@ -523,7 +527,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean referenceSign() {
+    private boolean referenceSign() {
         if (lexList.get(i()).getKod() >= 22 && lexList.get(i()).getKod() <= 27) {// < > <= >= == !=
             inc();
             return true;
@@ -533,7 +537,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean cin() {
+    private boolean cin() {
         if (lexList.get(i()).getKod() == 21) {// >>
             inc();
             if (lexList.get(i()).getKod() == 28 && isDefined(i())) {// idn
@@ -558,7 +562,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean cout() {
+    private boolean cout() {
         if (lexList.get(i()).getKod() == 20) {// <<
             inc();
             if (lexList.get(i()).getKod() == 28 && isDefined(i()) || lexList.get(i()).getKod() == 29) {// idn or con
@@ -583,7 +587,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean spOg() {
+    private boolean spOg() {
         if (type()) {
             if (spId()) {
                 while (lexList.get(i()).getKod() == 11 && lexList.get(i() + 1).getKod() != 9) {// ⁋
@@ -610,7 +614,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean spId() {
+    private boolean spId() {
         if (lexList.get(i()).getKod() == 28) { // IDN
             inc();
             while (lexList.get(i()).getKod() == 12) {// ,
@@ -629,7 +633,7 @@ public class SyntaxAnalyzer {
         }
     }
 
-    private static boolean type() {
+    private boolean type() {
         if (lexList.get(i()).getKod() == 3 || lexList.get(i()).getKod() == 4) {// int or real
             inc();
             return true;
@@ -642,13 +646,13 @@ public class SyntaxAnalyzer {
         }
     }
 
-    public static void start() throws SyntaxError {
-        resetStatic();
+    public void start() throws SyntaxError {
+        reset();
         if (prog()) System.out.println("Yeeeeeees");
         else throw new SyntaxError(getErrorLog());
     }
 
-    public static int getCounter() {
+    public int getCounter() {
         return counter;
     }
 }

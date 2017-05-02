@@ -128,8 +128,8 @@ public class SyntaxAvtomatAnalyzer {
         avtomatList.add(new Record(53,new int[]{0}, new int[]{0}, new String[]{""}, "", "exit"));//53 exit
     }
 
-    public static void start() throws SyntaxError {
-        lexList = LexicalAnalyzer.getTableManager().getLexRecords();
+    public void start(LexicalAnalyzer lexical) throws SyntaxError {
+        lexList = lexical.getTableManager().getLexRecords();
         resetStatic();
         int i = 0;
         LexRecord lex;

@@ -1,0 +1,4 @@
+prog Program
+var int i
+{cout<<2
+}

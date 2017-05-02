@@ -7,32 +7,25 @@ import java.util.List;
  * Created by pyvov on 06.10.2016.
  */
 public class LexicalAnalyzer {
-    private static boolean hasToRead = false;
-    private static char ch;
-    private static int i;
-    private static String str;
-    private static String lex = "";
-    private static int operands;
-    private static int brackets = -1;
-    private static int line = 1;
-    private static int column = 1;
-    private static boolean or;
-    private static String type = "";
-    private static TableManager tableManager;
+    private boolean hasToRead = false;
+    private char ch = 0;
+    private int i = 0;
+    private String str = "";
+    private String lex = "";
+    private int operands = 0;
+    private int brackets = -1;
+    private int line = 1;
+    private int column = 1;
+    private boolean or = false;
+    private String type = "";
+    private TableManager tableManager;
 
 
-    private static List<String> lexDB = new ArrayList<>();
-    private static FileManager file = new FileManager("./program.txt");
+    private List<String> lexDB;
+    private FileManager file = new FileManager("./program.txt");
 
-    public static FileManager getFile() {
-        return file;
-    }
-
-    public static List<String> getLexDB() {
-        return lexDB;
-    }
-    public static void initLexDB() {
-
+    public LexicalAnalyzer() {
+        lexDB = new ArrayList<>();
         lexDB.add("prog");//1
         lexDB.add("var");//2
         lexDB.add("int");//3
@@ -72,45 +65,41 @@ public class LexicalAnalyzer {
         lexDB.add("]");//37
     }
 
-    public static int checkLex(String lex) {
+    public LexicalAnalyzer(String code) {
+        this();
+        FileManager file = new FileManager("./program.txt");
+        file.write(code);
+    }
+
+    public FileManager getFile() {
+        return file;
+    }
+
+    public List<String> getLexDB() {
+        return lexDB;
+    }
+
+    public int checkLex(String lex) {
         String s;
-        for (int i = 0; i < lexDB.size(); i++) {
-            s = " " + lexDB.get(i);
+        for (int i = 0; i < this.lexDB.size(); i++) {
+            s = " " + this.lexDB.get(i);
             if (lex.equals(s))
                 return i + 1;
         }
         return 0;
     }
 
-    private static void def() {
-        hasToRead = false;
-        ch = 0;
-        i = 0;
-        str = "";
-        lex = "";
-        operands = 0;
-        line = 1;
-        column = 1;
-        or = false;
-        type = "";
-        file = new FileManager("./program.txt");
-        tableManager = new TableManager();
-        lexDB = new ArrayList<>();
-    }
-
-    public static TableManager getTableManager() {
+    public TableManager getTableManager() {
         return tableManager;
     }
 
-    public static void start/*main*/(/*String[] args*/) throws LexicalError {
-        def();
+    public void start() throws LexicalError {
         FileManager fileLex = new FileManager("./tableLex.txt");
         FileManager fileId = new FileManager("./tableId.txt");
         FileManager fileCon = new FileManager("./tableCon.txt");
         str = file.read();
         //System.out.println(str);
         if (str != null) hasToRead = true;
-        initLexDB();
         tableManager = new TableManager();
         fState1();
         StringBuilder sb = new StringBuilder();
@@ -138,7 +127,7 @@ public class LexicalAnalyzer {
         fileCon.write(sb.toString());
     }
 
-    private static char getChar() {
+    private char getChar() {
         if (i < str.length()) {
             column++;
             return str.charAt(i++);
@@ -147,7 +136,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private static void addLex(String lex, String clas) {
+    private void addLex(String lex, String clas) throws LexicalError {
         if (lex.charAt(1) == '\n') {
             lex = " ⁋";
             type = "";
@@ -193,6 +182,7 @@ public class LexicalAnalyzer {
             if (lex.equals(" int") || lex.equals(" real") || lex.equals(" prog"))
                 type = lex;
             if (kod == 0) {
+                System.out.println(lex);
                 error("0");
                 return;
             }
@@ -203,7 +193,7 @@ public class LexicalAnalyzer {
         fState1();
     }
 
-    private static void fState1() {
+    private void fState1() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         } else hasToRead = true;
@@ -261,16 +251,16 @@ public class LexicalAnalyzer {
         }
     }
 
-    private static void error(String state) {
+    private void error(String state) throws LexicalError {
         //System.out.println("Error in stage number "+state);
 
         LexicalError lexicalError = new LexicalError("Лексична помилка! рядок = " + line/*+"; стовпчик = "+column*/, line, column, Integer.parseInt(state));
-        App.setError(lexicalError);
+        throw lexicalError;
 
         // System.exit(1);
     }
 
-    private static void fState2() {
+    private  void fState2() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         }
@@ -290,7 +280,7 @@ public class LexicalAnalyzer {
     }
 
 
-    private static void fState3() {
+    private  void fState3() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         } else hasToRead = true;
@@ -311,7 +301,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private static void fState4() {
+    private  void fState4() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         } else hasToRead = true;
@@ -331,7 +321,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private static void fState4_0() {
+    private  void fState4_0() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         } else hasToRead = true;
@@ -351,7 +341,7 @@ public class LexicalAnalyzer {
     }
 
 
-    private static void fState5() {
+    private  void fState5() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         }
@@ -371,7 +361,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private static void fState6() {
+    private  void fState6() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         }
@@ -385,7 +375,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private static void fState10() {
+    private  void fState10() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         }
@@ -403,7 +393,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private static void fState11() {
+    private  void fState11() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         }
@@ -422,7 +412,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private static void fState12() {
+    private  void fState12() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         } else hasToRead = true;
@@ -438,7 +428,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private static void fState13() {
+    private  void fState13() throws LexicalError {
         if (hasToRead) {
             ch = getChar();
         }

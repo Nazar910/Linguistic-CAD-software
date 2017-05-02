@@ -24,12 +24,13 @@ import java.util.List;
  */
 public class App extends Application {
     Stage window;
-    FileManager file= LexicalAnalyzer.getFile();
-    TextArea textArea=new TextArea(file.read());
+    FileManager file = new FileManager("./program.txt");
+    TextArea textArea = new TextArea(file.read());
     //TextArea numberLines=new TextArea();
-    Label numberLines= new Label();
+    Label numberLines = new Label();
     TextArea errors = new TextArea();
     static LexicalError lexicalError;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -38,22 +39,22 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         window.setTitle("Лексичний+Синтаксичний аналізатор. Пивовар Назарій Вар 10 група ТР-41");
-        Button buttonStart=new Button("Почати");
+        Button buttonStart = new Button("Почати");
 
-        buttonStart.setOnAction(e ->initLexicalAnalyzer());
+        buttonStart.setOnAction(e -> initLexicalAnalyzer());
         numberLines.setMinWidth(30);
-        numberLines.setPadding(new Insets(7,0,0,0));
-        textArea.textProperty().addListener(e->numberLines(textArea.getText()));
-        textArea.setMinSize(400,450);
+        numberLines.setPadding(new Insets(7, 0, 0, 0));
+        textArea.textProperty().addListener(e -> numberLines(textArea.getText()));
+        textArea.setMinSize(400, 450);
         textArea.setStyle("-fx-font-size: 14px");
         numberLines.setStyle("-fx-font-size: 14px;" +
                 "-fx-alignment: center");
         numberLines(textArea.getText());
         errors.setMaxHeight(85);
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(textArea,errors);
+        vBox.getChildren().addAll(textArea, errors);
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(numberLines,vBox, buttonStart);
+        hBox.getChildren().addAll(numberLines, vBox, buttonStart);
 
 
         StackPane stackPane = new StackPane();
@@ -61,11 +62,11 @@ public class App extends Application {
 
 
         Scene scene = new Scene(stackPane);
-        final KeyCombination keyCombination = new KeyCodeCombination(KeyCode.F5,KeyCombination.CONTROL_DOWN);
+        final KeyCombination keyCombination = new KeyCodeCombination(KeyCode.F5, KeyCombination.CONTROL_DOWN);
         scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(keyCombination.match(event)){
+                if (keyCombination.match(event)) {
                     buttonStart.fire();
                 }
             }
@@ -76,45 +77,52 @@ public class App extends Application {
         window.show();
     }
 
-    private ObservableList<LexRecord> getLexes(){
+    private ObservableList<LexRecord> getLexes(LexicalAnalyzer lexical) {
         ObservableList<LexRecord> lexRecords = FXCollections.observableArrayList();
-        List<LexRecord> list = LexicalAnalyzer.getTableManager().getLexRecords();
+        List<LexRecord> list = lexical.getTableManager().getLexRecords();
         lexRecords.addAll(list);
         return lexRecords;
     }
-    private ObservableList<IdRecord> getIds(){
+
+    private ObservableList<IdRecord> getIds(LexicalAnalyzer lexical) {
         ObservableList<IdRecord> idRecords = FXCollections.observableArrayList();
-        idRecords.addAll(LexicalAnalyzer.getTableManager().getIdRecords());
+        idRecords.addAll(lexical.getTableManager().getIdRecords());
         return idRecords;
     }
-    private ObservableList<ConRecord> getCons(){
+
+    private ObservableList<ConRecord> getCons(LexicalAnalyzer lexical) {
         ObservableList<ConRecord> conRecords = FXCollections.observableArrayList();
-        conRecords.addAll(LexicalAnalyzer.getTableManager().getConRecords());
+        conRecords.addAll(lexical.getTableManager().getConRecords());
         return conRecords;
     }
-    private void initLexicalAnalyzer(){
+
+    private void initLexicalAnalyzer() {
         errors.setText("");
         file.write(textArea.getText());
         try {
-            lexicalError=null;
-            LexicalAnalyzer.start();
+            lexicalError = null;
+            LexicalAnalyzer lexical = new LexicalAnalyzer();
+            lexical.start();
             errors();
 //            setTableLex();
 //            setTableId();
 //            setTableCon();
-            SyntaxPrecedenceTableAnalyzer.start();
+            SyntaxPrecedenceTableAnalyzer syntax
+                    = new SyntaxPrecedenceTableAnalyzer(lexical.getTableManager().getLexRecords(), lexical.getLexDB());
+            syntax.start();
             errors.setText("Successfully!");
             System.out.println("Successfully!");
         } catch (LexicalError lexicalError) {
-            System.out.println(lexicalError.getMessage()+"\nState="+lexicalError.getState());
-            errors.setText(lexicalError.getMessage()+"\nState="+lexicalError.getState());
+            System.out.println(lexicalError.getMessage() + "\nState=" + lexicalError.getState());
+            errors.setText(lexicalError.getMessage() + "\nState=" + lexicalError.getState());
         } catch (SyntaxError syntaxError) {
             System.out.println(syntaxError.getMessage());
             errors.setText(syntaxError.getMessage());
         }
 
     }
-    private void setTableLex(){
+
+    private void setTableLex(LexicalAnalyzer lexical) {
         TableView<LexRecord> table;
         TableColumn<LexRecord, Integer> lexIdColumn = new TableColumn<>("№");
         lexIdColumn.setMinWidth(20);
@@ -138,17 +146,18 @@ public class App extends Application {
 
         table = new TableView<>();
 
-        table.setItems(getLexes());
+        table.setItems(getLexes(lexical));
         table.getColumns().addAll(lexIdColumn, lexLineColumn, lexLexColumn, lexKodColumn, lexKodIdConColumn);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(table);
         Scene scene = new Scene(vBox);
-        Stage window1=new Stage();
+        Stage window1 = new Stage();
         window1.setScene(scene);
         window1.show();
     }
-    private void setTableId(){
+
+    private void setTableId(LexicalAnalyzer lexical) {
         TableView<IdRecord> table;
         TableColumn<IdRecord, Integer> idKodColumn = new TableColumn<>("Код");
         idKodColumn.setMinWidth(20);
@@ -167,18 +176,19 @@ public class App extends Application {
         idValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
         table = new TableView<>();
-        table.setItems(getIds());
+        table.setItems(getIds(lexical));
         table.getColumns().addAll(idKodColumn, idLexColumn, idTypeColumn, idValueColumn);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(table);
         Scene scene = new Scene(vBox);
-        Stage window1=new Stage();
+        Stage window1 = new Stage();
         window1.setScene(scene);
         window1.show();
 
     }
-    private void setTableCon(){
+
+    private void setTableCon(LexicalAnalyzer lexical) {
         TableView<ConRecord> table;
         TableColumn<ConRecord, Integer> conKodColumn = new TableColumn<>("Код");
         conKodColumn.setMinWidth(20);
@@ -190,29 +200,32 @@ public class App extends Application {
 
 
         table = new TableView<>();
-        table.setItems(getCons());
+        table.setItems(getCons(lexical));
         table.getColumns().addAll(conKodColumn, conLexColumn);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(table);
         Scene scene = new Scene(vBox);
-        Stage window1=new Stage();
+        Stage window1 = new Stage();
         window1.setScene(scene);
         window1.show();
 
     }
-    private void numberLines(String str){
-        int k=textArea.getText().split("\n").length;
-        str ="";
-        for(int i=1;i<=k;i++)
-            str+=i+"\n";
+
+    private void numberLines(String str) {
+        int k = textArea.getText().split("\n").length;
+        str = "";
+        for (int i = 1; i <= k; i++)
+            str += i + "\n";
         numberLines.setText(str);
     }
-    public void errors() throws LexicalError{
-        if(lexicalError!=null)
-                    throw lexicalError;
+
+    public void errors() throws LexicalError {
+        if (lexicalError != null)
+            throw lexicalError;
     }
-    public static void setError(LexicalError lexicalErrorBuf){
+
+    public static void setError(LexicalError lexicalErrorBuf) {
         lexicalError = lexicalErrorBuf;
     }
 }
