@@ -40,9 +40,6 @@ public class TableManager {
     }
     public int idOfExistingId(String id){
         int i=0;
-//        for(i=0;i<com.pyvovar.nazar.IdRecord.getCount();i++){
-//            if(idTable.get(i).getId().equals(id)) break;
-//        }
         for(IdRecord ir:idTable){
             if(ir.getId().equals(id)) break;
             i++;
@@ -51,9 +48,6 @@ public class TableManager {
     }
     public int idOfExistingCon(String con){
         int i=0;
-//        for(i=0;i<com.pyvovar.nazar.ConRecord.getCount();i++){
-//            if(conTable.get(i).getLex().equals(con)) break;
-//        }
         for(ConRecord cr:conTable){
 
             if(cr.getLex().equals(con)) break;

@@ -1,35 +1,28 @@
 package com.pyvovar.nazar;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-/**
- * Created by pyvov on 26.02.2017.
- */
 public class SyntaxPrecedenceTableAnalyzer {
     private List<LexRecord> lexList;
     private Map<String, String> grammar;
     private String[][] matr;
     private List<String> tableColumns;
-    private List<String> lexDB = LexicalAnalyzer.getLexDB();
+    private List<String> lexDB;
     private LinkedList<String> stack = new LinkedList<>();
 
-
-    public static void start() throws SyntaxError {
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer();
-        analyzer.startMain();
-    }
-
-    private void startMain() throws SyntaxError {
-        this.lexList = LexicalAnalyzer.getTableManager().getLexRecords();
+    public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
+        this.lexList = lexList;
+        this.lexDB = lexDB;
         this.lexDB.set(27, "IDN");
         this.lexDB.set(28, "CON");
+
         Precedence precedence = new Precedence(true);
         this.grammar = precedence.getGrammar();
         this.matr = precedence.calculate();
         this.tableColumns = precedence.getTableColumns();
+    }
+
+    public void start() throws SyntaxError {
 
         stack.add("#");
         for (int i = 0; i < lexList.size(); i++) {
