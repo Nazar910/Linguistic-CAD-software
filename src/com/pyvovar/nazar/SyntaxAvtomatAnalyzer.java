@@ -8,31 +8,31 @@ import java.util.Stack;
  * Created by pyvov on 18.11.2016.
  */
 public class SyntaxAvtomatAnalyzer {
-    private static List<Record> avtomatList = new ArrayList<>();
-    private static List<LexRecord> lexList;
-    private static Stack stack;
-    private static int alpha;
+    private List<Record> avtomatList = new ArrayList<>();
+    private List<LexRecord> lexList;
+    private Stack stack;
+    private int alpha;
 
-    private static int getAlpha() {
+    private int getAlpha() {
         return alpha;
     }
 
-    private static void setAlpha(int a) {
+    private void setAlpha(int a) {
         alpha = a;
     }
 
-    private static int popStack() {
+    private int popStack() {
         if (!stack.isEmpty()) {
             return Integer.parseInt(stack.pop().toString());
         }
         return 0;
     }
 
-    private static void resetStatic() {
+    private void resetStatic() {
         alpha = 1;
         stack.clear();
     }
-    private static Record get(int alpha){
+    private Record get(int alpha){
         Record res = null;
         for(Record avt:avtomatList){
             if(avt!=null && alpha == avt.getAlpha())
@@ -40,7 +40,7 @@ public class SyntaxAvtomatAnalyzer {
         }
         return res;
     }
-    private static void checkStack(String str) {
+    private void checkStack(String str) {
         if (str.equals("")) return;
         if (str.contains("push")) {
             int push1 = str.indexOf("push"), push2 = push1 + 4;
@@ -65,7 +65,8 @@ public class SyntaxAvtomatAnalyzer {
         }
     }
 
-    static {
+    public SyntaxAvtomatAnalyzer(List<LexRecord> lexList) {
+        this.lexList = lexList;
         stack = new Stack();
         avtomatList.add(null);
         avtomatList.add(new Record(1,new int[]{1}, new int[]{2}, new String[]{""}, "", "error: Program have to start with prog"));//1 prog
@@ -128,8 +129,7 @@ public class SyntaxAvtomatAnalyzer {
         avtomatList.add(new Record(53,new int[]{0}, new int[]{0}, new String[]{""}, "", "exit"));//53 exit
     }
 
-    public void start(LexicalAnalyzer lexical) throws SyntaxError {
-        lexList = lexical.getTableManager().getLexRecords();
+    public void start() throws SyntaxError {
         resetStatic();
         int i = 0;
         LexRecord lex;
