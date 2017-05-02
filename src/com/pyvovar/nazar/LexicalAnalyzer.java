@@ -22,9 +22,11 @@ public class LexicalAnalyzer {
 
 
     private List<String> lexDB;
-    private FileManager file = new FileManager("./program.txt");
+    private FileManager file;
 
-    public LexicalAnalyzer() {
+    public LexicalAnalyzer(FileManager file) {
+        this.file = file;
+
         lexDB = new ArrayList<>();
         lexDB.add("prog");//1
         lexDB.add("var");//2
@@ -63,12 +65,6 @@ public class LexicalAnalyzer {
         lexDB.add(";");//35
         lexDB.add("[");//36
         lexDB.add("]");//37
-    }
-
-    public LexicalAnalyzer(String code) {
-        this();
-        FileManager file = new FileManager("./program.txt");
-        file.write(code);
     }
 
     public FileManager getFile() {

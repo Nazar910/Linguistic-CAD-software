@@ -101,7 +101,7 @@ public class App extends Application {
         file.write(textArea.getText());
         try {
             lexicalError = null;
-            LexicalAnalyzer lexical = new LexicalAnalyzer();
+            LexicalAnalyzer lexical = new LexicalAnalyzer(file);
             lexical.start();
             errors();
 //            setTableLex();

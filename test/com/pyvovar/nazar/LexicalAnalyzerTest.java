@@ -9,6 +9,7 @@ import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -22,9 +23,11 @@ public class LexicalAnalyzerTest {
 
     private LexicalAnalyzer lexical;
 
+    private FileManager mockFileManager;
+
     @Before
     public void before() {
-        FileManager mockFileManager = mock(FileManager.class);
+        mockFileManager = mock(FileManager.class);
 
         rightSamples.add("prog Program\nvar int i\n{i=2\n}");
         rightSamples.add("prog Program\nvar int i\n{cout<<2\n}");
@@ -35,8 +38,9 @@ public class LexicalAnalyzerTest {
     @Test
     public void whenRightSamplesReturnSuccess() {
         try {
-            for(String s: rightSamples) {
-                lexical = new LexicalAnalyzer(s);
+            for(String code: rightSamples) {
+                when(mockFileManager.read()).thenReturn(code);
+                lexical = new LexicalAnalyzer(mockFileManager);
                 lexical.start();
             }
         } catch (LexicalError lexicalError) {
@@ -48,7 +52,8 @@ public class LexicalAnalyzerTest {
     public void whenWrongSampleThrowException() {
         for (String code: wrongSamples.keySet()) {
             try {
-                lexical = new LexicalAnalyzer(code);
+                when(mockFileManager.read()).thenReturn(code);
+                lexical = new LexicalAnalyzer(mockFileManager);
                 lexical.start();
                 fail("Expect an exception to be thrown before this message...");
             } catch (LexicalError lexicalError) {
@@ -59,7 +64,7 @@ public class LexicalAnalyzerTest {
 
     @Test
     public void checkLex() {
-        lexical = new LexicalAnalyzer();
+        lexical = new LexicalAnalyzer(mockFileManager);
         int idn = lexical.checkLex(" idn");
         assertEquals(28, idn);
     }

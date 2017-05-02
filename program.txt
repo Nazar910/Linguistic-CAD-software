@@ -1,4 +1,4 @@
 prog Program
 var int i
-{i|=2
+{i=1
 }
