@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
  */
 public class LexicalAnalyzerTest {
 
-    private ArrayList<String> rightSamples = new ArrayList<>();
+    private ArrayList<String> wrightSamples = new ArrayList<>();
 
     private HashMap<String, String> wrongSamples = new HashMap<>();
 
@@ -28,16 +28,16 @@ public class LexicalAnalyzerTest {
     public void before() {
         mockFileManager = mock(FileManager.class);
 
-        rightSamples.add("prog Program\nvar int i\n{i=2\n}");
-        rightSamples.add("prog Program\nvar int i\n{cout<<2\n}");
+        wrightSamples.add("prog Program\nvar int i\n{i=2\n}");
+        wrightSamples.add("prog Program\nvar int i\n{cout<<2\n}");
 
         wrongSamples.put("prog Program\nvar int i\n{i|=2\n}", "Лексична помилка! рядок = 3");
     }
 
     @Test
-    public void whenRightSamplesReturnSuccess() {
+    public void whenWrightSamplesReturnSuccess() {
         try {
-            for(String code: rightSamples) {
+            for(String code: wrightSamples) {
                 when(mockFileManager.read()).thenReturn(code);
                 lexical = new LexicalAnalyzer(mockFileManager);
                 lexical.start();
