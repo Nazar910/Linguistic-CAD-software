@@ -17,11 +17,9 @@ public class LexicalAnalyzerTest {
 
     private LexicalAnalyzer lexical;
 
-    private FileManager mockFileManager;
-
     @Before
     public void before() {
-        mockFileManager = mock(FileManager.class);
+        FileManager mockFileManager = mock(FileManager.class);
         lexical = new LexicalAnalyzer();
     }
 
