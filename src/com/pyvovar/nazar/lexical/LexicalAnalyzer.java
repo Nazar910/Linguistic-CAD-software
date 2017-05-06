@@ -1,4 +1,11 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.lexical;
+
+import com.pyvovar.nazar.records.ConRecord;
+import com.pyvovar.nazar.records.IdRecord;
+import com.pyvovar.nazar.records.LexRecord;
+import com.pyvovar.nazar.helpers.FileManager;
+import com.pyvovar.nazar.helpers.TableManager;
+import com.pyvovar.nazar.errors.LexicalError;
 
 import java.util.ArrayList;
 import java.util.List;

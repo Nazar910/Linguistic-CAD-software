@@ -1,4 +1,4 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.helpers;
 
 import java.util.*;
 
@@ -8,15 +8,15 @@ import java.util.*;
  */
 public class Precedence {
     private HashMap<String, String> grammar;
-    private HashMap<String, String> rightGrammar;
+    private HashMap<String, String> wrightGrammar;
     private String[][] matr = new String[59][59];
     private String[][] rightMatr;
     private ArrayList<String> tableColumns;
-    private ArrayList<String> rightTableColumns;
-    private boolean isRightGrammar = false;
+    private ArrayList<String> wrightTableColumns;
+    private boolean isWrightGrammar = false;
 
-    public Precedence(boolean isRightGrammar) {
-        this.isRightGrammar = isRightGrammar;
+    public Precedence(boolean isWrightGrammar) {
+        this.isWrightGrammar = isWrightGrammar;
         grammar = new HashMap<>();
         grammar.put("<програма>", "prog IDN ⁋ var <сп.ог.> { <сп.оп.> }");
         grammar.put("<сп.ог.>", "<тип> <сп.ід.> ⁋|<сп.ог.> <тип> <сп.ід.> ⁋");
@@ -40,38 +40,38 @@ public class Precedence {
         grammar.put("<відношення>", "<E> <зн.відн.> <E>");
         grammar.put("<зн.відн.>", ">|>=|<|<=|==|!=");
 
-        rightGrammar = new HashMap<>();
-        rightGrammar.put("<програма>", "prog <IDN> ⁋ var <сп.ог1.> { <сп.оп1.> }");
-        rightGrammar.put("<IDN>", "IDN");
-        rightGrammar.put("<сп.ог.>", "<тип> <сп.ід1.> ⁋|<сп.ог.> <тип> <сп.ід1.> ⁋");
-        rightGrammar.put("<сп.ог1.>", "<сп.ог.>");
-        rightGrammar.put("<тип>", "int|real");
-        rightGrammar.put("<сп.ід.>", "IDN|<сп.ід.> , IDN");
-        rightGrammar.put("<сп.ід1.>", "<сп.ід.>");
-        rightGrammar.put("<сп.оп.>", "<оп1.> ⁋|<сп.оп.> <оп1.> ⁋");
-        rightGrammar.put("<сп.оп1.>", "<сп.оп.>");
-        rightGrammar.put("<оп.>", "<вив.>|<введ.>|<присв.>|<цикл>|<ум.пер.>");
-        rightGrammar.put("<оп1.>", "<оп.>");
-        rightGrammar.put("<вив.>", "cout <оп.вив.>|<вив.> <оп.вив.>");
-        rightGrammar.put("<оп.вив.>", "<< IDN|<< CON");
-        rightGrammar.put("<введ.>", "cin <оп.введ.>|<введ.> <оп.введ.>");
-        rightGrammar.put("<оп.введ.>", ">> IDN");
-        rightGrammar.put("<присв.>", "<IDN> = <ЛВ1> ? <E1> : <E1>|<IDN> = <E2>");
-        rightGrammar.put("<цикл>", "for ( <IDN> = <E2> ; <ЛВ1> ; <IDN> = <E2> ) <оп.>");
-        rightGrammar.put("<ум.пер.>", "if ( <відношення> ) { <сп.оп1.> }");
-        rightGrammar.put("<ЛВ>", "<ЛТ1>|<ЛВ> or <ЛТ1>");
-        rightGrammar.put("<ЛВ1>", "<ЛВ>");
-        rightGrammar.put("<ЛТ>", "<ЛМ>|<ЛТ> and <ЛМ>");
-        rightGrammar.put("<ЛТ1>", "<ЛТ>");
-        rightGrammar.put("<ЛМ>", "<відношення>|[ <ЛВ1> ]|not <ЛМ>");
-        rightGrammar.put("<E1>", "<E>");
-        rightGrammar.put("<E2>", "<E1>");
-        rightGrammar.put("<E>", "<T1>|<E> + <T1>|<E> - <T1>");
-        rightGrammar.put("<T1>", "<T>");
-        rightGrammar.put("<T>", "<c>|<T> * <c>|<T> / <c>");
-        rightGrammar.put("<c>", "IDN|CON|( <E2> )");
-        rightGrammar.put("<відношення>", "<E> <зн.відн.> <E1>");
-        rightGrammar.put("<зн.відн.>", ">|>=|<|<=|==|!=");
+        wrightGrammar = new HashMap<>();
+        wrightGrammar.put("<програма>", "prog <IDN> ⁋ var <сп.ог1.> { <сп.оп1.> }");
+        wrightGrammar.put("<IDN>", "IDN");
+        wrightGrammar.put("<сп.ог.>", "<тип> <сп.ід1.> ⁋|<сп.ог.> <тип> <сп.ід1.> ⁋");
+        wrightGrammar.put("<сп.ог1.>", "<сп.ог.>");
+        wrightGrammar.put("<тип>", "int|real");
+        wrightGrammar.put("<сп.ід.>", "IDN|<сп.ід.> , IDN");
+        wrightGrammar.put("<сп.ід1.>", "<сп.ід.>");
+        wrightGrammar.put("<сп.оп.>", "<оп1.> ⁋|<сп.оп.> <оп1.> ⁋");
+        wrightGrammar.put("<сп.оп1.>", "<сп.оп.>");
+        wrightGrammar.put("<оп.>", "<вив.>|<введ.>|<присв.>|<цикл>|<ум.пер.>");
+        wrightGrammar.put("<оп1.>", "<оп.>");
+        wrightGrammar.put("<вив.>", "cout <оп.вив.>|<вив.> <оп.вив.>");
+        wrightGrammar.put("<оп.вив.>", "<< IDN|<< CON");
+        wrightGrammar.put("<введ.>", "cin <оп.введ.>|<введ.> <оп.введ.>");
+        wrightGrammar.put("<оп.введ.>", ">> IDN");
+        wrightGrammar.put("<присв.>", "<IDN> = <ЛВ1> ? <E1> : <E1>|<IDN> = <E2>");
+        wrightGrammar.put("<цикл>", "for ( <IDN> = <E2> ; <ЛВ1> ; <IDN> = <E2> ) <оп.>");
+        wrightGrammar.put("<ум.пер.>", "if ( <відношення> ) { <сп.оп1.> }");
+        wrightGrammar.put("<ЛВ>", "<ЛТ1>|<ЛВ> or <ЛТ1>");
+        wrightGrammar.put("<ЛВ1>", "<ЛВ>");
+        wrightGrammar.put("<ЛТ>", "<ЛМ>|<ЛТ> and <ЛМ>");
+        wrightGrammar.put("<ЛТ1>", "<ЛТ>");
+        wrightGrammar.put("<ЛМ>", "<відношення>|[ <ЛВ1> ]|not <ЛМ>");
+        wrightGrammar.put("<E1>", "<E>");
+        wrightGrammar.put("<E2>", "<E1>");
+        wrightGrammar.put("<E>", "<T1>|<E> + <T1>|<E> - <T1>");
+        wrightGrammar.put("<T1>", "<T>");
+        wrightGrammar.put("<T>", "<c>|<T> * <c>|<T> / <c>");
+        wrightGrammar.put("<c>", "IDN|CON|( <E2> )");
+        wrightGrammar.put("<відношення>", "<E> <зн.відн.> <E1>");
+        wrightGrammar.put("<зн.відн.>", ">|>=|<|<=|==|!=");
 
         tableColumns = new ArrayList<>();
         tableColumns.add("<програма>");
@@ -134,77 +134,77 @@ public class Precedence {
         tableColumns.add("]");
         tableColumns.add("#");
 
-        rightTableColumns = new ArrayList<>();
-        rightTableColumns.add("<програма>");
-        rightTableColumns.add("<сп.ог.>");
-        rightTableColumns.add("<сп.ог1.>");
-        rightTableColumns.add("<тип>");
-        rightTableColumns.add("<сп.ід.>");
-        rightTableColumns.add("<сп.ід1.>");
-        rightTableColumns.add("<сп.оп.>");
-        rightTableColumns.add("<сп.оп1.>");
-        rightTableColumns.add("<оп.>");
-        rightTableColumns.add("<оп1.>");
-        rightTableColumns.add("<вив.>");
-        rightTableColumns.add("<оп.вив.>");
-        rightTableColumns.add("<введ.>");
-        rightTableColumns.add("<оп.введ.>");
-        rightTableColumns.add("<присв.>");
-        rightTableColumns.add("<цикл>");
-        rightTableColumns.add("<ум.пер.>");
-        rightTableColumns.add("<ЛВ>");
-        rightTableColumns.add("<ЛВ1>");
-        rightTableColumns.add("<ЛТ>");
-        rightTableColumns.add("<ЛТ1>");
-        rightTableColumns.add("<ЛМ>");
-        rightTableColumns.add("<E>");
-        rightTableColumns.add("<E1>");
-        rightTableColumns.add("<E2>");
-        rightTableColumns.add("<T>");
-        rightTableColumns.add("<T1>");
-        rightTableColumns.add("<c>");
-        rightTableColumns.add("<відношення>");
-        rightTableColumns.add("<зн.відн.>");
-        rightTableColumns.add("prog");
-        rightTableColumns.add("var");
-        rightTableColumns.add("int");
-        rightTableColumns.add("real");
-        rightTableColumns.add("cout");
-        rightTableColumns.add("cin");
-        rightTableColumns.add("if");
-        rightTableColumns.add("for");
-        rightTableColumns.add("{");
-        rightTableColumns.add("}");
-        rightTableColumns.add("⁋");
-        rightTableColumns.add(",");
-        rightTableColumns.add("+");
-        rightTableColumns.add("-");
-        rightTableColumns.add("/");
-        rightTableColumns.add("*");
-        rightTableColumns.add("(");
-        rightTableColumns.add(")");
-        rightTableColumns.add("=");
-        rightTableColumns.add("<<");
-        rightTableColumns.add(">>");
-        rightTableColumns.add("<");
-        rightTableColumns.add("<=");
-        rightTableColumns.add(">");
-        rightTableColumns.add(">=");
-        rightTableColumns.add("==");
-        rightTableColumns.add("!=");
-        rightTableColumns.add("IDN");
-        rightTableColumns.add("<IDN>");
-        rightTableColumns.add("CON");
-        rightTableColumns.add("and");
-        rightTableColumns.add("or");
-        rightTableColumns.add("not");
-        rightTableColumns.add("?");
-        rightTableColumns.add(":");
-        rightTableColumns.add(";");
-        rightTableColumns.add("[");
-        rightTableColumns.add("]");
-        rightTableColumns.add("#");
-        rightMatr = new String[rightTableColumns.size()][rightTableColumns.size()];
+        wrightTableColumns = new ArrayList<>();
+        wrightTableColumns.add("<програма>");
+        wrightTableColumns.add("<сп.ог.>");
+        wrightTableColumns.add("<сп.ог1.>");
+        wrightTableColumns.add("<тип>");
+        wrightTableColumns.add("<сп.ід.>");
+        wrightTableColumns.add("<сп.ід1.>");
+        wrightTableColumns.add("<сп.оп.>");
+        wrightTableColumns.add("<сп.оп1.>");
+        wrightTableColumns.add("<оп.>");
+        wrightTableColumns.add("<оп1.>");
+        wrightTableColumns.add("<вив.>");
+        wrightTableColumns.add("<оп.вив.>");
+        wrightTableColumns.add("<введ.>");
+        wrightTableColumns.add("<оп.введ.>");
+        wrightTableColumns.add("<присв.>");
+        wrightTableColumns.add("<цикл>");
+        wrightTableColumns.add("<ум.пер.>");
+        wrightTableColumns.add("<ЛВ>");
+        wrightTableColumns.add("<ЛВ1>");
+        wrightTableColumns.add("<ЛТ>");
+        wrightTableColumns.add("<ЛТ1>");
+        wrightTableColumns.add("<ЛМ>");
+        wrightTableColumns.add("<E>");
+        wrightTableColumns.add("<E1>");
+        wrightTableColumns.add("<E2>");
+        wrightTableColumns.add("<T>");
+        wrightTableColumns.add("<T1>");
+        wrightTableColumns.add("<c>");
+        wrightTableColumns.add("<відношення>");
+        wrightTableColumns.add("<зн.відн.>");
+        wrightTableColumns.add("prog");
+        wrightTableColumns.add("var");
+        wrightTableColumns.add("int");
+        wrightTableColumns.add("real");
+        wrightTableColumns.add("cout");
+        wrightTableColumns.add("cin");
+        wrightTableColumns.add("if");
+        wrightTableColumns.add("for");
+        wrightTableColumns.add("{");
+        wrightTableColumns.add("}");
+        wrightTableColumns.add("⁋");
+        wrightTableColumns.add(",");
+        wrightTableColumns.add("+");
+        wrightTableColumns.add("-");
+        wrightTableColumns.add("/");
+        wrightTableColumns.add("*");
+        wrightTableColumns.add("(");
+        wrightTableColumns.add(")");
+        wrightTableColumns.add("=");
+        wrightTableColumns.add("<<");
+        wrightTableColumns.add(">>");
+        wrightTableColumns.add("<");
+        wrightTableColumns.add("<=");
+        wrightTableColumns.add(">");
+        wrightTableColumns.add(">=");
+        wrightTableColumns.add("==");
+        wrightTableColumns.add("!=");
+        wrightTableColumns.add("IDN");
+        wrightTableColumns.add("<IDN>");
+        wrightTableColumns.add("CON");
+        wrightTableColumns.add("and");
+        wrightTableColumns.add("or");
+        wrightTableColumns.add("not");
+        wrightTableColumns.add("?");
+        wrightTableColumns.add(":");
+        wrightTableColumns.add(";");
+        wrightTableColumns.add("[");
+        wrightTableColumns.add("]");
+        wrightTableColumns.add("#");
+        rightMatr = new String[wrightTableColumns.size()][wrightTableColumns.size()];
     }
 
     public static void main(String[] args) {
@@ -338,7 +338,7 @@ public class Precedence {
     }
 
     public HashMap<String, String> getGrammar() {
-        return isRightGrammar() ? rightGrammar : grammar;
+        return isWrightGrammar() ? wrightGrammar : grammar;
     }
 
 
@@ -347,7 +347,7 @@ public class Precedence {
     }
 
     public String[][] getMatr() {
-        return isRightGrammar() ? rightMatr : matr;
+        return isWrightGrammar() ? rightMatr : matr;
     }
 
     private void resetMatr() {
@@ -364,12 +364,12 @@ public class Precedence {
         }
     }
 
-    public boolean isRightGrammar() {
-        return isRightGrammar;
+    public boolean isWrightGrammar() {
+        return isWrightGrammar;
     }
 
     public ArrayList<String> getTableColumns() {
-        return isRightGrammar() ? rightTableColumns : tableColumns;
+        return isWrightGrammar() ? wrightTableColumns : tableColumns;
     }
 
     public int getMatrLength() {

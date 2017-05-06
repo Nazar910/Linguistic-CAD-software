@@ -4,3 +4,4 @@ tableCon.txt
 tableId.txt
 tableLex.txt
 target/
+*.iml

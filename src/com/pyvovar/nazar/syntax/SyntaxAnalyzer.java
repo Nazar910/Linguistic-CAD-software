@@ -1,4 +1,8 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.syntax;
+
+import com.pyvovar.nazar.records.IdRecord;
+import com.pyvovar.nazar.records.LexRecord;
+import com.pyvovar.nazar.errors.SyntaxError;
 
 import java.util.List;
 
@@ -7,12 +11,13 @@ import java.util.List;
  */
 public class SyntaxAnalyzer {
     private List<LexRecord> lexList;
+    private List<IdRecord> idRecords;
     private int counter;
     private StringBuffer errorBuffer;
-    private LexicalAnalyzer lexical;
 
-    public SyntaxAnalyzer(LexicalAnalyzer lexical) {
-        this.lexical = lexical;
+    public SyntaxAnalyzer(List<LexRecord> lexList, List<IdRecord> idRecords) {
+        this.lexList = lexList;
+        this.idRecords = idRecords;
     }
 
     private boolean setCounter(int counter) {
@@ -61,10 +66,10 @@ public class SyntaxAnalyzer {
     private boolean isDefined(int id) {
         int i = lexList.get(id).getKodIdCon() - 1;
 
-        if (this.lexical.getTableManager().getIdRecords().get(i).getType().equals(" prog")) {
+        if (this.idRecords.get(i).getType().equals(" prog")) {
             errorLog("Не можна використовувати змінну типу prog");
             return false;
-        } else if (this.lexical.getTableManager().getIdRecords().get(i).getType() != "") {
+        } else if (this.idRecords.get(i).getType() != "") {
             return true;
         } else {
             errorLog("Використання незазначеної змінної");
@@ -94,7 +99,7 @@ public class SyntaxAnalyzer {
     }
 
     private boolean closeBraces() {
-        while (lexList.get(i()).getKod() == 10/* || lexList.get(i()).getKod() == 10 && lexList.get(i()+1).getKod() == 11*/) {// }
+        while (lexList.get(i()).getKod() == 10) {// }
             inc();
             decBraces();
         }
@@ -118,7 +123,6 @@ public class SyntaxAnalyzer {
     }
 
     private boolean prog() {
-        lexList = this.lexical.getTableManager().getLexRecords();
         if (lexList.get(i()).getKod() == 1) {//prog
             inc();
             if (lexList.get(i()).getKod() == 28) {// IDN

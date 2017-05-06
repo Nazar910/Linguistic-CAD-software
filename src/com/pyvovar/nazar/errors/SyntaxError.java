@@ -1,4 +1,4 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.errors;
 
 /**
  * Created by pyvov on 30.10.2016.

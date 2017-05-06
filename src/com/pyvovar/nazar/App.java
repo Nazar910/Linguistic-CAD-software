@@ -1,5 +1,13 @@
 package com.pyvovar.nazar;
 
+import com.pyvovar.nazar.helpers.FileManager;
+import com.pyvovar.nazar.lexical.LexicalAnalyzer;
+import com.pyvovar.nazar.records.ConRecord;
+import com.pyvovar.nazar.records.IdRecord;
+import com.pyvovar.nazar.records.LexRecord;
+import com.pyvovar.nazar.errors.LexicalError;
+import com.pyvovar.nazar.errors.SyntaxError;
+import com.pyvovar.nazar.syntax.SyntaxPrecedenceTableAnalyzer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
