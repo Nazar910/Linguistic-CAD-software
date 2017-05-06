@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -47,7 +48,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                                 new LexRecord(4, "⁋", 11, 0),
                                 new LexRecord(4, "}", 10, 0),
                                 new LexRecord(5, "⁋", 11, 0)
-                        )), lexDB)
+                        )), new ArrayList<>(lexDB))
         );
 
         wrongLexSequences.put(new Pair<>(
@@ -67,7 +68,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                                 new LexRecord(4, "}", 10, 0),
                                 new LexRecord(5, "⁋", 11, 0)
                         )),
-                        lexDB),
+                        new ArrayList<>(lexDB)),
                 "Error in 3"
         );
     }
@@ -90,14 +91,15 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     @Test
     public void whenWrongLexSequencesThrowException() {
 
-        for (Pair<ArrayList<LexRecord>, ArrayList<String>> pair: wrongLexSequences.keySet()) {
+        for (Map.Entry<Pair<ArrayList<LexRecord>, ArrayList<String>>, String> entry: wrongLexSequences.entrySet()) {
 
             try {
+                Pair<ArrayList<LexRecord>, ArrayList<String>> pair = entry.getKey();
                 SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
                 analyzer.start();
                 fail("Expect an exception to be thrown before this message...");
             } catch (SyntaxError syntaxError) {
-                assertEquals(wrongLexSequences.get(pair), syntaxError.getMessage());
+                assertEquals(entry.getValue(), syntaxError.getMessage());
             }
 
         }
