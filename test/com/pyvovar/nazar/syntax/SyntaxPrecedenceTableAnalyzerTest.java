@@ -1,6 +1,8 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.syntax;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
+import com.pyvovar.nazar.records.LexRecord;
+import com.pyvovar.nazar.errors.SyntaxError;
+import com.pyvovar.nazar.syntax.SyntaxPrecedenceTableAnalyzer;
 import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +10,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -16,14 +17,21 @@ import static org.junit.Assert.fail;
 /**
  * Created by nazar on 5/2/17.
  */
-public class SyntaxAvtomatAnalyzerTest {
+public class SyntaxPrecedenceTableAnalyzerTest {
 
-    private ArrayList<ArrayList<LexRecord>> wrightLexSequences = new ArrayList<>();
-    private HashMap<ArrayList<LexRecord>, String> wrongLexSequences = new HashMap<>();
+    private ArrayList<Pair<ArrayList<LexRecord>, ArrayList<String>>> wrightLexSequences = new ArrayList<>();
+    private HashMap<Pair<ArrayList<LexRecord>, ArrayList<String>>, String> wrongLexSequences = new HashMap<>();
+
+    private ArrayList<String> lexDB = new ArrayList<>(Arrays.asList(
+            "prog", "var", "int", "real", "cout", "cin", "if", "for", "{", "}",
+                "⁋", ",", "+", "-", "*", "/", "(", ")", "=", "<<", ">>", "<", ">",
+                "<=", ">=", "==", "!=", "idn", "con", "and", "or", "not", "?",
+                ":", ";", "[", "]"
+    ));
 
     @Before
     public void before() {
-        wrightLexSequences.add(
+        wrightLexSequences.add(new Pair<>(
                         new ArrayList<LexRecord>(Arrays.asList(
                                 new LexRecord(1, "prog", 1, 0),
                                 new LexRecord(1, "Program", 28, 1),
@@ -39,10 +47,10 @@ public class SyntaxAvtomatAnalyzerTest {
                                 new LexRecord(4, "⁋", 11, 0),
                                 new LexRecord(4, "}", 10, 0),
                                 new LexRecord(5, "⁋", 11, 0)
-                        ))
+                        )), lexDB)
         );
 
-        wrongLexSequences.put(
+        wrongLexSequences.put(new Pair<>(
                         new ArrayList<LexRecord>(Arrays.asList(
                                 new LexRecord(1, "prog", 1, 0),
                                 new LexRecord(1, "Program", 28, 1),
@@ -58,8 +66,9 @@ public class SyntaxAvtomatAnalyzerTest {
                                 new LexRecord(4, "⁋", 11, 0),
                                 new LexRecord(4, "}", 10, 0),
                                 new LexRecord(5, "⁋", 11, 0)
-                        )), "Line 3 error: \"⁋\" expected\n" +
-                            "Error in state 7"
+                        )),
+                        lexDB),
+                "Error in 3"
         );
     }
 
@@ -67,9 +76,9 @@ public class SyntaxAvtomatAnalyzerTest {
     public void whenWrightLexSequencesReturnSuccess() {
 
         try {
-            for (ArrayList<LexRecord> lexList : wrightLexSequences) {
+            for (Pair<ArrayList<LexRecord>, ArrayList<String>> pair : wrightLexSequences) {
 
-                SyntaxAvtomatAnalyzer analyzer = new SyntaxAvtomatAnalyzer(lexList);
+                SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
                 analyzer.start();
 
             }
@@ -81,15 +90,14 @@ public class SyntaxAvtomatAnalyzerTest {
     @Test
     public void whenWrongLexSequencesThrowException() {
 
-        for (ArrayList<LexRecord> lexList: wrongLexSequences.keySet()) {
+        for (Pair<ArrayList<LexRecord>, ArrayList<String>> pair: wrongLexSequences.keySet()) {
 
             try {
-                SyntaxAvtomatAnalyzer analyzer = new SyntaxAvtomatAnalyzer(lexList);
+                SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
                 analyzer.start();
                 fail("Expect an exception to be thrown before this message...");
             } catch (SyntaxError syntaxError) {
-                //TODO somehow getting with existing key returns null
-                assertEquals(wrongLexSequences.get(lexList), syntaxError.getMessage());
+                assertEquals(wrongLexSequences.get(pair), syntaxError.getMessage());
             }
 
         }

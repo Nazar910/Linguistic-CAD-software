@@ -1,6 +1,9 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.syntax;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
+import com.pyvovar.nazar.records.IdRecord;
+import com.pyvovar.nazar.records.LexRecord;
+import com.pyvovar.nazar.syntax.SyntaxAnalyzer;
+import com.pyvovar.nazar.errors.SyntaxError;
 import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +11,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

@@ -1,4 +1,8 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.helpers;
+
+import com.pyvovar.nazar.records.ConRecord;
+import com.pyvovar.nazar.records.IdRecord;
+import com.pyvovar.nazar.records.LexRecord;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.helpers;
 
 import java.util.*;
 

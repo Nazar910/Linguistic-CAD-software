@@ -1,4 +1,4 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.records;
 
 /**
  * Created by pyvov on 07.10.2016.

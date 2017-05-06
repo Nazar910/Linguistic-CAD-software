@@ -1,4 +1,8 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.syntax;
+
+import com.pyvovar.nazar.records.IdRecord;
+import com.pyvovar.nazar.records.LexRecord;
+import com.pyvovar.nazar.errors.SyntaxError;
 
 import java.util.List;
 

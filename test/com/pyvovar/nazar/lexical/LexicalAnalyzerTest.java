@@ -1,5 +1,8 @@
-package com.pyvovar.nazar;
+package com.pyvovar.nazar.lexical;
 
+import com.pyvovar.nazar.helpers.FileManager;
+import com.pyvovar.nazar.lexical.LexicalAnalyzer;
+import com.pyvovar.nazar.errors.LexicalError;
 import org.junit.Before;
 import org.junit.Test;
 
