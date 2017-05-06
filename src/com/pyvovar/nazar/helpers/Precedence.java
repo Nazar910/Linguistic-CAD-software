@@ -13,10 +13,10 @@ public class Precedence {
     private String[][] rightMatr;
     private ArrayList<String> tableColumns;
     private ArrayList<String> wrightTableColumns;
-    private boolean iswrightGrammar = false;
+    private boolean isWrightGrammar = false;
 
-    public Precedence(boolean iswrightGrammar) {
-        this.iswrightGrammar = iswrightGrammar;
+    public Precedence(boolean isWrightGrammar) {
+        this.isWrightGrammar = isWrightGrammar;
         grammar = new HashMap<>();
         grammar.put("<програма>", "prog IDN ⁋ var <сп.ог.> { <сп.оп.> }");
         grammar.put("<сп.ог.>", "<тип> <сп.ід.> ⁋|<сп.ог.> <тип> <сп.ід.> ⁋");
@@ -338,7 +338,7 @@ public class Precedence {
     }
 
     public HashMap<String, String> getGrammar() {
-        return iswrightGrammar() ? wrightGrammar : grammar;
+        return isWrightGrammar() ? wrightGrammar : grammar;
     }
 
 
@@ -347,7 +347,7 @@ public class Precedence {
     }
 
     public String[][] getMatr() {
-        return iswrightGrammar() ? rightMatr : matr;
+        return isWrightGrammar() ? rightMatr : matr;
     }
 
     private void resetMatr() {
@@ -364,12 +364,12 @@ public class Precedence {
         }
     }
 
-    public boolean iswrightGrammar() {
-        return iswrightGrammar;
+    public boolean isWrightGrammar() {
+        return isWrightGrammar;
     }
 
     public ArrayList<String> getTableColumns() {
-        return iswrightGrammar() ? wrightTableColumns : tableColumns;
+        return isWrightGrammar() ? wrightTableColumns : tableColumns;
     }
 
     public int getMatrLength() {
