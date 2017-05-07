@@ -43,11 +43,18 @@ public class SyntaxPrecedenceTableAnalyzer {
                 LinkedList<String> buff = new LinkedList<>();
                 expression.forEach(buff::addFirst);
                 System.out.println(buff);
+                int index = buff.indexOf("=");
+                if (index >= 0) {
+                    LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
+                    LinkedList<String> poliz = convertToPoliz(toPoliz);
+                    double result = calculatePoliz(poliz);
+                    System.out.println("Result = " + result);
+                }
                 expression = new LinkedList<>();
             }
 
-            if ((right.equals("IDN") || right.equals("CON") || this.arithmeticOperations.contains(right))
-                    && polizIndex != i) {
+            if ((right.equals("IDN") || right.equals("CON")
+                    || this.arithmeticOperations.contains(right) || right.equals("=")) && polizIndex != i) {
                 expression.push(lexList.get(i).getLex());
                 polizIndex = i;
             }
