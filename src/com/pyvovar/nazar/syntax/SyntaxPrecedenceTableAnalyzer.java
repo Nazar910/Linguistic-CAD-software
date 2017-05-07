@@ -5,6 +5,8 @@ import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 public class SyntaxPrecedenceTableAnalyzer {
     private List<LexRecord> lexList;
@@ -13,9 +15,21 @@ public class SyntaxPrecedenceTableAnalyzer {
     private List<String> tableColumns;
     private List<String> lexDB;
     private LinkedList<String> stack = new LinkedList<>();
+    private LinkedList<String> expression = new LinkedList<>();
+
+    private HashMap<String, String> idns = new HashMap<>();
+
+    private Set<String> arithmeticOperations = new HashSet<>(
+            Arrays.asList("*", "/", "+", "-"));
 
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
+
+        lexList.stream()
+                .filter(elem -> elem.getKod() == 28)
+                .forEach(elem -> idns.put(elem.getLex().trim(), ""));
+
+        System.out.println(idns);
         this.lexDB = lexDB;
         this.lexDB.set(27, "IDN");
         this.lexDB.set(28, "CON");
@@ -29,9 +43,42 @@ public class SyntaxPrecedenceTableAnalyzer {
     public void start() throws SyntaxError {
 
         stack.add("#");
+        int polizIndex = -1;
         for (int i = 0; i < lexList.size(); i++) {
             String left = stack.peekLast();
             String right = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
+
+            boolean forLoop = false;
+            if (right.equals(";")) {
+                forLoop = true;
+            }
+
+            if ((right.equals("⁋") || forLoop || right.equals(")")) && expression.size() != 0) {
+                LinkedList<String> buff = new LinkedList<>();
+                expression.forEach(buff::addFirst);
+                System.out.println(buff);
+                buff = buff.stream()
+                        .map(String::trim)
+                        .collect(Collectors.toCollection(LinkedList::new));
+
+                String idn = buff.getFirst();
+                int index = buff.indexOf("=");
+                if (index >= 0) {
+                    LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
+                    LinkedList<String> poliz = convertToPoliz(toPoliz);
+                    double result = calculatePoliz(poliz);
+                    this.idns.put(idn, result + "");
+                    System.out.println("Result = " + result);
+                }
+                expression = new LinkedList<>();
+            }
+
+            if ((right.equals("IDN") || right.equals("CON")
+                    || this.arithmeticOperations.contains(right) || right.equals("=")) && polizIndex != i) {
+                expression.push(lexList.get(i).getLex());
+                polizIndex = i;
+            }
+
             if (i == lexList.size() - 1 && right.equals("⁋")) {
                 right = "#";
             }
@@ -104,6 +151,98 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     private String getLexDBbyIndex(int index) {
         return this.lexDB.get(index);
+    }
+
+    public LinkedList<String> convertToPoliz(LinkedList<String> expression) {
+        LinkedList<String> poliz = new LinkedList<>();
+        LinkedList<String> operators = new LinkedList<>();
+
+        LinkedList<String> plusMinus = new LinkedList<>(Arrays.asList("+", "-"));
+        LinkedList<String> mulDiv = new LinkedList<>(Arrays.asList("*", "/"));
+
+        for (String e : expression) {
+
+            if (this.arithmeticOperations.contains(e) || e.equals("(")) {
+                //if e is +, -, / or *
+
+                if (operators.peekLast() == null) {
+                    //if it is first operator in stack
+                    operators.addLast(e);
+                    continue;
+                }
+
+                if (mulDiv.contains(e) && mulDiv.contains(operators.peekLast())) {
+                    //if it is * or / we already have * or / in stack
+                    poliz.addLast(operators.pollLast());
+                }
+
+                if (plusMinus.contains(e) && plusMinus.contains(operators.peekLast())) {
+                    //if it + or - and we already have + or - in stack
+                    poliz.addLast(operators.pollLast());
+                }
+
+                operators.addLast(e);
+                continue;
+            }
+
+            if (e.equals(")")) {
+                //if it is ")" move all operators to poliz except "("
+                while (!operators.peekLast().equals("(")) {
+                    poliz.addLast(operators.pollLast());
+                }
+                operators.pollLast();
+                continue;
+            }
+
+            poliz.addLast(e);
+        }
+
+        while (operators.size() != 0) {
+            poliz.addLast(operators.pollLast());
+        }
+
+        return poliz;
+    }
+
+    public double calculatePoliz(LinkedList<String> poliz) {
+        LinkedList<Double> stack = new LinkedList<>();
+
+        for (String p : poliz) {
+
+            if (!this.arithmeticOperations.contains(p)) {
+
+                double item;
+
+                String value = this.idns.get(p);
+                if (value != null) {
+                    item = Double.parseDouble(value);
+                } else {
+                    item = Double.parseDouble(p);
+                }
+
+                stack.push(item);
+                continue;
+            }
+
+            double op2 = stack.pop();
+            double op1 = stack.pop();
+            switch (p) {
+                case "+":
+                    stack.push(op1 + op2);
+                    break;
+                case "-":
+                    stack.push(op1 - op2);
+                    break;
+                case "*":
+                    stack.push(op1 * op2);
+                    break;
+                case "/":
+                    stack.push(op1 / op2);
+                    break;
+            }
+        }
+
+        return stack.getLast();
     }
 
 }
