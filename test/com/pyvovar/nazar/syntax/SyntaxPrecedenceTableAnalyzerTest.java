@@ -55,6 +55,31 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                         )), new ArrayList<>(lexDB))
         );
 
+        wrightLexSequences.add(new Pair<>(
+                        new ArrayList<LexRecord>(Arrays.asList(
+                                new LexRecord(1, "prog", 1, 0),
+                                new LexRecord(1, "Program", 28, 1),
+                                new LexRecord(2, "⁋", 11, 0),
+                                new LexRecord(2, "var", 2, 0),
+                                new LexRecord(2, "int", 3, 0),
+                                new LexRecord(2, "i", 28, 2),
+                                new LexRecord(3, "⁋", 11, 0),
+                                new LexRecord(3, "{", 9, 0),
+                                new LexRecord(3, "i", 28, 2),
+                                new LexRecord(3, "=", 19, 0),
+                                new LexRecord(3, "0", 29, 1),
+                                new LexRecord(3, "⁋", 11, 0),
+                                new LexRecord(3, "i", 28, 2),
+                                new LexRecord(3, "=", 19, 0),
+                                new LexRecord(3, "i", 29, 2),
+                                new LexRecord(3, "+", 13, 0),
+                                new LexRecord(3, "1", 29, 3),
+                                new LexRecord(4, "⁋", 11, 0),
+                                new LexRecord(4, "}", 10, 0),
+                                new LexRecord(5, "⁋", 11, 0)
+                        )), new ArrayList<>(lexDB))
+        );
+
         wrongLexSequences.put(new Pair<>(
                         new ArrayList<LexRecord>(Arrays.asList(
                                 new LexRecord(1, "prog", 1, 0),

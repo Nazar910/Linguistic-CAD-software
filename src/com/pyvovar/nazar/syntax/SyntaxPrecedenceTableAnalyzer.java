@@ -17,11 +17,19 @@ public class SyntaxPrecedenceTableAnalyzer {
     private LinkedList<String> stack = new LinkedList<>();
     private LinkedList<String> expression = new LinkedList<>();
 
+    private HashMap<String, String> idns = new HashMap<>();
+
     private Set<String> arithmeticOperations = new HashSet<>(
             Arrays.asList("*", "/", "+", "-"));
 
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
+
+        lexList.stream()
+                .filter(elem -> elem.getKod() == 28)
+                .forEach(elem -> idns.put(elem.getLex().trim(), ""));
+
+        System.out.println(idns);
         this.lexDB = lexDB;
         this.lexDB.set(27, "IDN");
         this.lexDB.set(28, "CON");
@@ -49,13 +57,17 @@ public class SyntaxPrecedenceTableAnalyzer {
                 LinkedList<String> buff = new LinkedList<>();
                 expression.forEach(buff::addFirst);
                 System.out.println(buff);
-                buff = buff.stream().map(String::trim).collect(Collectors.toCollection(LinkedList::new));
+                buff = buff.stream()
+                        .map(String::trim)
+                        .collect(Collectors.toCollection(LinkedList::new));
+
+                String idn = buff.getFirst();
                 int index = buff.indexOf("=");
-                System.out.println("Index = " + index);
                 if (index >= 0) {
                     LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
                     LinkedList<String> poliz = convertToPoliz(toPoliz);
                     double result = calculatePoliz(poliz);
+                    this.idns.put(idn, result + "");
                     System.out.println("Result = " + result);
                 }
                 expression = new LinkedList<>();
@@ -198,13 +210,23 @@ public class SyntaxPrecedenceTableAnalyzer {
         for (String p : poliz) {
 
             if (!this.arithmeticOperations.contains(p)) {
-                stack.push(Double.parseDouble(p));
+
+                double item;
+
+                String value = this.idns.get(p);
+                if (value != null) {
+                    item = Double.parseDouble(value);
+                } else {
+                    item = Double.parseDouble(p);
+                }
+
+                stack.push(item);
                 continue;
             }
 
             double op2 = stack.pop();
             double op1 = stack.pop();
-            switch(p) {
+            switch (p) {
                 case "+":
                     stack.push(op1 + op2);
                     break;

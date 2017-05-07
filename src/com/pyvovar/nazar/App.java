@@ -54,8 +54,10 @@ public class App extends Application {
         numberLines.setPadding(new Insets(7, 0, 0, 0));
         textArea.textProperty().addListener(e -> numberLines(textArea.getText()));
         textArea.setMinSize(400, 450);
-        textArea.setStyle("-fx-font-size: 14px");
-        numberLines.setStyle("-fx-font-size: 14px;" +
+        textArea.setStyle("-fx-font-size: 28px");
+        errors.setStyle("-fx-font-size: 28px");
+        buttonStart.setStyle("-fx-font-size: 28px");
+        numberLines.setStyle("-fx-font-size: 28px;" +
                 "-fx-alignment: center");
         numberLines(textArea.getText());
         errors.setMaxHeight(85);
