@@ -5,6 +5,7 @@ import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
 
 import java.util.*;
+import java.util.stream.DoubleStream;
 
 public class SyntaxPrecedenceTableAnalyzer {
     private List<LexRecord> lexList;
@@ -174,6 +175,37 @@ public class SyntaxPrecedenceTableAnalyzer {
         }
 
         return poliz;
+    }
+
+    public double calculatePoliz(LinkedList<String> poliz) {
+        LinkedList<Double> stack = new LinkedList<>();
+
+        for (String p : poliz) {
+
+            if (!this.arithmeticOperations.contains(p)) {
+                stack.push(Double.parseDouble(p));
+                continue;
+            }
+
+            double op2 = stack.pop();
+            double op1 = stack.pop();
+            switch(p) {
+                case "+":
+                    stack.push(op1 + op2);
+                    break;
+                case "-":
+                    stack.push(op1 - op2);
+                    break;
+                case "*":
+                    stack.push(op1 * op2);
+                    break;
+                case "/":
+                    stack.push(op1 / op2);
+                    break;
+            }
+        }
+
+        return stack.getLast();
     }
 
 }

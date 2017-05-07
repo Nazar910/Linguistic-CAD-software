@@ -23,6 +23,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     private HashMap<Pair<ArrayList<LexRecord>, ArrayList<String>>, String> wrongLexSequences = new HashMap<>();
 
     private HashMap<LinkedList<String>, LinkedList<String>> expressions = new HashMap<>();
+    private HashMap<LinkedList<String>, Double> polizes = new HashMap<>();
 
     private ArrayList<String> lexDB = new ArrayList<>(Arrays.asList(
             "prog", "var", "int", "real", "cout", "cin", "if", "for", "{", "}",
@@ -78,6 +79,10 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                         new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")));
         expressions.put(new LinkedList<>(Arrays.asList("3", "+", "4", "*", "2", "/", "(", "1", "-", "5", ")")),
                         new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")));
+
+        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "+")), 7.0);
+        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")), 11.0);
+        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), 1.0);
     }
 
     @Test
@@ -122,13 +127,25 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
         for (Map.Entry<LinkedList<String>, LinkedList<String>> entry: expressions.entrySet()) {
 
-
             LinkedList<String> actual = analyzer.convertToPoliz(entry.getKey());
             LinkedList<String> expected = entry.getValue();
 
-            System.out.println("Expected: " + expected);
-            System.out.println("Actual: " + actual);
             assertArrayEquals(expected.toArray(), actual.toArray());
+
+        }
+    }
+
+    @Test
+    public void whenGetPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        for (Map.Entry<LinkedList<String>, Double> entry: polizes.entrySet()) {
+
+            double actual = analyzer.calculatePoliz(entry.getKey());
+            double expected = entry.getValue();
+
+            assertEquals(expected, actual, 0.001);
 
         }
     }
