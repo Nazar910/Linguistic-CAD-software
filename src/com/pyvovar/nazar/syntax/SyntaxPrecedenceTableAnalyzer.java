@@ -13,6 +13,10 @@ public class SyntaxPrecedenceTableAnalyzer {
     private List<String> tableColumns;
     private List<String> lexDB;
     private LinkedList<String> stack = new LinkedList<>();
+    private LinkedList<String> expression = new LinkedList<>();
+
+    private Set<String> arithmeticOperations = new HashSet<>(
+            Arrays.asList("*", "/", "+", "-"));
 
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
@@ -29,9 +33,24 @@ public class SyntaxPrecedenceTableAnalyzer {
     public void start() throws SyntaxError {
 
         stack.add("#");
+        int polizIndex = -1;
         for (int i = 0; i < lexList.size(); i++) {
             String left = stack.peekLast();
             String right = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
+
+            if (right.equals("⁋") && expression.size() != 0) {
+                LinkedList<String> buff = new LinkedList<>();
+                expression.forEach(buff::addFirst);
+                System.out.println(buff);
+                expression = new LinkedList<>();
+            }
+
+            if ((right.equals("IDN") || right.equals("CON") || this.arithmeticOperations.contains(right))
+                    && polizIndex != i) {
+                expression.push(lexList.get(i).getLex());
+                polizIndex = i;
+            }
+
             if (i == lexList.size() - 1 && right.equals("⁋")) {
                 right = "#";
             }
@@ -104,6 +123,54 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     private String getLexDBbyIndex(int index) {
         return this.lexDB.get(index);
+    }
+
+    public LinkedList<String> convertToPoliz(LinkedList<String> expression) {
+        LinkedList<String> poliz = new LinkedList<>();
+        LinkedList<String> operators = new LinkedList<>();
+
+        LinkedList<String> plusMinus = new LinkedList<>(Arrays.asList("+", "-"));
+        LinkedList<String> mulDiv = new LinkedList<>(Arrays.asList("*", "/"));
+
+        for (String e : expression) {
+
+            if (this.arithmeticOperations.contains(e) || e.equals("(")) {
+                //if e is +, -, / or *
+
+                if (operators.peekLast() == null) {
+                    operators.addLast(e);
+                    continue;
+                }
+
+                if (mulDiv.contains(e) && mulDiv.contains(operators.peekLast())) {
+                    //and if we already have arithmetic sign in stack
+                    poliz.addLast(operators.pollLast());
+                }
+
+                if (plusMinus.contains(e) && plusMinus.contains(operators.peekLast())) {
+                    poliz.addLast(operators.pollLast());
+                }
+
+                operators.addLast(e);
+                continue;
+            }
+
+            if (e.equals(")")) {
+                while (!operators.peekLast().equals("(")) {
+                    poliz.addLast(operators.pollLast());
+                }
+                operators.pollLast();
+                continue;
+            }
+
+            poliz.addLast(e);
+        }
+
+        while (operators.size() != 0) {
+            poliz.addLast(operators.pollLast());
+        }
+
+        return poliz;
     }
 
 }

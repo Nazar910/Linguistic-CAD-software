@@ -4,14 +4,13 @@ import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
 import com.pyvovar.nazar.syntax.SyntaxPrecedenceTableAnalyzer;
 import javafx.util.Pair;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -22,6 +21,8 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
     private ArrayList<Pair<ArrayList<LexRecord>, ArrayList<String>>> wrightLexSequences = new ArrayList<>();
     private HashMap<Pair<ArrayList<LexRecord>, ArrayList<String>>, String> wrongLexSequences = new HashMap<>();
+
+    private HashMap<LinkedList<String>, LinkedList<String>> expressions = new HashMap<>();
 
     private ArrayList<String> lexDB = new ArrayList<>(Arrays.asList(
             "prog", "var", "int", "real", "cout", "cin", "if", "for", "{", "}",
@@ -71,10 +72,17 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                         new ArrayList<>(lexDB)),
                 "Error in 3"
         );
+
+        expressions.put(new LinkedList<>(Arrays.asList("i", "+", "k")), new LinkedList<>(Arrays.asList("i", "k", "+")));
+        expressions.put(new LinkedList<>(Arrays.asList("3", "+", "4", "*", "2")),
+                        new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")));
+        expressions.put(new LinkedList<>(Arrays.asList("3", "+", "4", "*", "2", "/", "(", "1", "-", "5", ")")),
+                        new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")));
     }
 
     @Test
     public void whenWrightLexSequencesReturnSuccess() {
+        System.out.println("=========Wright Lexes Test=========");
 
         try {
             for (Pair<ArrayList<LexRecord>, ArrayList<String>> pair : wrightLexSequences) {
@@ -90,6 +98,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
     @Test
     public void whenWrongLexSequencesThrowException() {
+        System.out.println("=========Wrong Lexes Test=========");
 
         for (Map.Entry<Pair<ArrayList<LexRecord>, ArrayList<String>>, String> entry: wrongLexSequences.entrySet()) {
 
@@ -104,6 +113,24 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
         }
 
+    }
+
+    @Test
+    public void whenGetExpressionConvertToWrightPoliz() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        for (Map.Entry<LinkedList<String>, LinkedList<String>> entry: expressions.entrySet()) {
+
+
+            LinkedList<String> actual = analyzer.convertToPoliz(entry.getKey());
+            LinkedList<String> expected = entry.getValue();
+
+            System.out.println("Expected: " + expected);
+            System.out.println("Actual: " + actual);
+            assertArrayEquals(expected.toArray(), actual.toArray());
+
+        }
     }
 
 }
