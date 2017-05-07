@@ -5,6 +5,7 @@ import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 public class SyntaxPrecedenceTableAnalyzer {
@@ -39,11 +40,18 @@ public class SyntaxPrecedenceTableAnalyzer {
             String left = stack.peekLast();
             String right = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
 
-            if (right.equals("⁋") && expression.size() != 0) {
+            boolean forLoop = false;
+            if (right.equals(";")) {
+                forLoop = true;
+            }
+
+            if ((right.equals("⁋") || forLoop || right.equals(")")) && expression.size() != 0) {
                 LinkedList<String> buff = new LinkedList<>();
                 expression.forEach(buff::addFirst);
                 System.out.println(buff);
+                buff = buff.stream().map(String::trim).collect(Collectors.toCollection(LinkedList::new));
                 int index = buff.indexOf("=");
+                System.out.println("Index = " + index);
                 if (index >= 0) {
                     LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
                     LinkedList<String> poliz = convertToPoliz(toPoliz);
