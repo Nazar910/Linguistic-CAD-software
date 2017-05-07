@@ -138,16 +138,18 @@ public class SyntaxPrecedenceTableAnalyzer {
                 //if e is +, -, / or *
 
                 if (operators.peekLast() == null) {
+                    //if it is first operator in stack
                     operators.addLast(e);
                     continue;
                 }
 
                 if (mulDiv.contains(e) && mulDiv.contains(operators.peekLast())) {
-                    //and if we already have arithmetic sign in stack
+                    //if it is * or / we already have * or / in stack
                     poliz.addLast(operators.pollLast());
                 }
 
                 if (plusMinus.contains(e) && plusMinus.contains(operators.peekLast())) {
+                    //if it + or - and we already have + or - in stack
                     poliz.addLast(operators.pollLast());
                 }
 
@@ -156,6 +158,7 @@ public class SyntaxPrecedenceTableAnalyzer {
             }
 
             if (e.equals(")")) {
+                //if it is ")" move all operators to poliz except "("
                 while (!operators.peekLast().equals("(")) {
                     poliz.addLast(operators.pollLast());
                 }
