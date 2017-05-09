@@ -67,7 +67,6 @@ public class SyntaxPrecedenceTableAnalyzer {
                 if (index >= 0) {
                     String result;
                     int ternaryIndex = buff.indexOf("?");
-                    System.out.println("Ternary =" + ternaryIndex);
 
                     if (ternaryIndex != -1) {
                         System.out.println("===========Ternary===========");
@@ -78,7 +77,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                         LinkedList<String> logicalExprPoliz = this.convertToPoliz(logicalExpr);
 
                         String resultOflogicalExpr = calculatePoliz(logicalExprPoliz);
-                        System.out.println("Result of logical =" + resultOflogicalExpr);
+                        
                         LinkedList<String> toPoliz = resultOflogicalExpr.equals("true")
                                 ? new LinkedList<>(buff.subList(ternaryIndex + 1, colonIndex))
                                 : new LinkedList<>(buff.subList(colonIndex + 1, buff.size()));
