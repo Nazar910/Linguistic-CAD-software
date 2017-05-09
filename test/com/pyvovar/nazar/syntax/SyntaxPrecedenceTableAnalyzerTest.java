@@ -143,6 +143,10 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         expressions.put(new LinkedList<>(Arrays.asList("3", "+", "4", "*", "2", "/", "(", "1", "-", "5", ")")),
                         new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")));
         expressions.put(new LinkedList<>(Arrays.asList("i", ">", "k")), new LinkedList<>(Arrays.asList("i", "k", ">")));
+        expressions.put(new LinkedList<>(Arrays.asList("1", "*", "2", "+", "3")),
+                new LinkedList<>(Arrays.asList("1", "2", "*", "3", "+")));
+        expressions.put(new LinkedList<>(Arrays.asList("1", "+", "2", "*", "(", "3", "+", "4", ")", "*", "(", "5", "+", "6", ")")),
+                new LinkedList<>(Arrays.asList("1", "2", "3", "4", "+", "*", "5", "6", "+", "*", "+")));
 
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "+")), "7.0");
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")), "11.0");
