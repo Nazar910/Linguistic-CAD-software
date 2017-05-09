@@ -1,5 +1,6 @@
 prog Program
 var int i
 {i=1
-i=i+2
+i = i == 1 ? 2 : i
+for(i = 0; i < 10; i=i+1) cout<<i
 }
