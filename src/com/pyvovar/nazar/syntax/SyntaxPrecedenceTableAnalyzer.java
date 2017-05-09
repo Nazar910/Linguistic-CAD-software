@@ -206,7 +206,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                 }
 
                 if (this.expressionSigns.contains(e) && this.expressionSigns.contains(operators.peekLast())) {
-                    //if it + or - and we already have + or - in stack
+                    //if it expression sign and we already one in stack
                     poliz.addLast(operators.pollLast());
                 }
 
