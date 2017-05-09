@@ -23,7 +23,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     private HashMap<Pair<ArrayList<LexRecord>, ArrayList<String>>, String> wrongLexSequences = new HashMap<>();
 
     private HashMap<LinkedList<String>, LinkedList<String>> expressions = new HashMap<>();
-    private HashMap<LinkedList<String>, Double> polizes = new HashMap<>();
+    private HashMap<LinkedList<String>, String> polizes = new HashMap<>();
 
     private ArrayList<String> lexDB = new ArrayList<>(Arrays.asList(
             "prog", "var", "int", "real", "cout", "cin", "if", "for", "{", "}",
@@ -80,7 +80,43 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                         )), new ArrayList<>(lexDB))
         );
 
-        wrongLexSequences.put(new Pair<>(
+        wrightLexSequences.add(new Pair<>(
+                new ArrayList<LexRecord>(Arrays.asList(
+                        new LexRecord(1, "prog", 1, 0),
+                        new LexRecord(1, "Program", 28, 1),
+                        new LexRecord(2, "⁋", 11, 0),
+                        new LexRecord(2, "var", 2, 0),
+                        new LexRecord(2, "int", 3, 0),
+                        new LexRecord(2, "i", 28, 2),
+                        new LexRecord(3, "⁋", 11, 0),
+                        new LexRecord(3, "{", 9, 0),
+                        new LexRecord(3, "i", 28, 2),
+                        new LexRecord(3, "=", 19, 0),
+                        new LexRecord(3, "0", 29, 1),
+                        new LexRecord(3, "⁋", 11, 0),
+                        new LexRecord(3, "i", 28, 2),
+                        new LexRecord(3, "=", 19, 0),
+                        new LexRecord(3, "i", 29, 2),
+                        new LexRecord(3, "+", 13, 0),
+                        new LexRecord(3, "1", 29, 3),
+                        new LexRecord(4, "⁋", 11, 0),
+                        new LexRecord(4, "i", 28, 2),
+                        new LexRecord(4, "=", 19, 0),
+                        new LexRecord(4, "i", 29, 2),
+                        new LexRecord(4, "<", 22, 0),
+                        new LexRecord(4, "1", 29, 3),
+                        new LexRecord(4, "?", 33, 0),
+                        new LexRecord(4, "1", 29, 3),
+                        new LexRecord(4, ":", 34, 0),
+                        new LexRecord(4, "i", 29, 2),
+                        new LexRecord(5, "⁋", 11, 0),
+                        new LexRecord(5, "}", 10, 0),
+                        new LexRecord(6, "⁋", 11, 0)
+                )), new ArrayList<>(lexDB))
+        );
+
+        wrongLexSequences.put(
+                new Pair<>(
                         new ArrayList<LexRecord>(Arrays.asList(
                                 new LexRecord(1, "prog", 1, 0),
                                 new LexRecord(1, "Program", 28, 1),
@@ -106,10 +142,12 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                         new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")));
         expressions.put(new LinkedList<>(Arrays.asList("3", "+", "4", "*", "2", "/", "(", "1", "-", "5", ")")),
                         new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")));
+        expressions.put(new LinkedList<>(Arrays.asList("i", ">", "k")), new LinkedList<>(Arrays.asList("i", "k", ">")));
 
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "+")), 7.0);
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")), 11.0);
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), 1.0);
+        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "+")), "7.0");
+        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")), "11.0");
+        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), "1.0");
+        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "<")), "true");
     }
 
     @Test
@@ -167,12 +205,12 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
         SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
 
-        for (Map.Entry<LinkedList<String>, Double> entry: polizes.entrySet()) {
+        for (Map.Entry<LinkedList<String>, String> entry: polizes.entrySet()) {
 
-            double actual = analyzer.calculatePoliz(entry.getKey());
-            double expected = entry.getValue();
+            String actual = analyzer.calculatePoliz(entry.getKey());
+            String expected = entry.getValue();
 
-            assertEquals(expected, actual, 0.001);
+            assertEquals(expected, actual);
 
         }
     }

@@ -2,4 +2,5 @@ prog Program
 var int i
 {i=1
 i=i+2
+i=3*i
 }

@@ -21,6 +21,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     private Set<String> arithmeticOperations = new HashSet<>(
             Arrays.asList("*", "/", "+", "-"));
+    private LinkedList<String> expressionSigns = new LinkedList<>(Arrays.asList(">", "<", "==", "<=", ">="));;
 
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
@@ -63,11 +64,11 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 String idn = buff.getFirst();
                 int index = buff.indexOf("=");
-                if (index >= 0) {
+                if (index >= 0 && buff.indexOf("?") == -1) {
                     LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
                     LinkedList<String> poliz = convertToPoliz(toPoliz);
-                    double result = calculatePoliz(poliz);
-                    this.idns.put(idn, result + "");
+                    String result = calculatePoliz(poliz);
+                    this.idns.put(idn, result);
                     System.out.println("Result = " + result);
                 }
                 expression = new LinkedList<>();
@@ -162,7 +163,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
         for (String e : expression) {
 
-            if (this.arithmeticOperations.contains(e) || e.equals("(")) {
+            if (this.arithmeticOperations.contains(e) || e.equals("(") || expressionSigns.contains(e)) {
                 //if e is +, -, / or *
 
                 if (operators.peekLast() == null) {
@@ -177,6 +178,11 @@ public class SyntaxPrecedenceTableAnalyzer {
                 }
 
                 if (plusMinus.contains(e) && plusMinus.contains(operators.peekLast())) {
+                    //if it + or - and we already have + or - in stack
+                    poliz.addLast(operators.pollLast());
+                }
+
+                if (this.expressionSigns.contains(e) && this.expressionSigns.contains(operators.peekLast())) {
                     //if it + or - and we already have + or - in stack
                     poliz.addLast(operators.pollLast());
                 }
@@ -204,45 +210,92 @@ public class SyntaxPrecedenceTableAnalyzer {
         return poliz;
     }
 
-    public double calculatePoliz(LinkedList<String> poliz) {
-        LinkedList<Double> stack = new LinkedList<>();
+    public String calculatePoliz(LinkedList<String> poliz) {
+        LinkedList<String> stack = new LinkedList<>();
 
         for (String p : poliz) {
 
-            if (!this.arithmeticOperations.contains(p)) {
+            if (!this.arithmeticOperations.contains(p) && !this.expressionSigns.contains(p)) {
 
-                double item;
+                String item;
 
                 String value = this.idns.get(p);
                 if (value != null) {
-                    item = Double.parseDouble(value);
+                    item = value;
                 } else {
-                    item = Double.parseDouble(p);
+                    item = p;
                 }
 
                 stack.push(item);
                 continue;
             }
+            if (this.arithmeticOperations.contains(p) || this.expressionSigns.contains(p)) {
+                double op2 = Double.parseDouble(stack.pop());
+                double op1 = Double.parseDouble(stack.pop());
 
-            double op2 = stack.pop();
-            double op1 = stack.pop();
+                double result = 0;
+                boolean wasArithmetic = true;
+                switch (p) {
+                    case "+":
+                        result = op1 + op2;
+                        break;
+                    case "-":
+                        result = op1 - op2;
+                        break;
+                    case "*":
+                        result = op1 * op2;
+                        break;
+                    case "/":
+                        result = op1 / op2;
+                        break;
+                    default:
+                        wasArithmetic = false;
+                }
+
+                if (wasArithmetic) {
+                    stack.push(result + "");
+                    continue;
+                }
+
+                boolean boolResult = false;
+                switch (p) {
+                    case "<":
+                        boolResult = op1 < op2;
+                        break;
+                    case ">":
+                        boolResult = op1 > op2;
+                        break;
+                    case "<=":
+                        boolResult = op1 <= op2;
+                        break;
+                    case ">=":
+                        boolResult = op1 >= op2;
+                        break;
+                    case "==":
+                        boolResult = op1 == op2;
+                        break;
+                }
+
+                stack.push(boolResult + "");
+                continue;
+            }
+
+            boolean boolOp2 = new Boolean(stack.pop());
+            boolean boolOp1 = new Boolean(stack.pop());
+
+            boolean boolResult = false;
             switch (p) {
-                case "+":
-                    stack.push(op1 + op2);
+                case "and" :
+                    boolResult = boolOp1 && boolOp2;
                     break;
-                case "-":
-                    stack.push(op1 - op2);
-                    break;
-                case "*":
-                    stack.push(op1 * op2);
-                    break;
-                case "/":
-                    stack.push(op1 / op2);
+                case "or" :
+                    boolResult = boolOp1 || boolOp2;
                     break;
             }
+
+            stack.push(boolResult + "");
         }
 
         return stack.getLast();
     }
-
 }
