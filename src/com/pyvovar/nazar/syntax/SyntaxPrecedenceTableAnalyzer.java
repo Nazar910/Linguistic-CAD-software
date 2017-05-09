@@ -45,16 +45,20 @@ public class SyntaxPrecedenceTableAnalyzer {
 
         stack.add("#");
         int polizIndex = -1;
+        boolean forLoop = false;
         for (int i = 0; i < lexList.size(); i++) {
             String left = stack.peekLast();
             String right = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
 
-            boolean forLoop = false;
-            if (right.equals(";")) {
+            if (right.equals("for")) {
                 forLoop = true;
             }
 
-            if ((right.equals("⁋") || forLoop || right.equals(")")) && expression.size() != 0) {
+            if (right.equals("⁋")) {
+                forLoop = false;
+            }
+
+            if ((right.equals("⁋") || (forLoop && right.equals(")") || right.equals(";"))) && expression.size() != 0) {
                 LinkedList<String> buff = new LinkedList<>();
                 expression.forEach(buff::addFirst);
                 System.out.println(buff);
@@ -89,6 +93,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                         LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
                         poliz = convertToPoliz(toPoliz);
                     }
+                    System.out.println(poliz);
                     result = calculatePoliz(poliz);
                     this.idns.put(idn, result);
                     System.out.println("Result = " + result);
@@ -98,7 +103,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
             if ((right.equals("IDN") || right.equals("CON") || right.equals("?") || right.equals(":")
                     || this.expressionSigns.contains(right) || this.arithmeticOperations.contains(right)
-                    || right.equals("=")) && polizIndex != i) {
+                    || right.equals("=") || (!forLoop && (right.equals("(") || right.equals(")")))) && polizIndex != i) {
                 expression.push(lexList.get(i).getLex());
                 polizIndex = i;
             }
@@ -200,7 +205,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                     poliz.addLast(operators.pollLast());
                 }
 
-                if (plusMinus.contains(e) && plusMinus.contains(operators.peekLast())) {
+                if (plusMinus.contains(e) && (plusMinus.contains(operators.peekLast()) || mulDiv.contains(operators.peekLast()))) {
                     //if it + or - and we already have + or - in stack
                     poliz.addLast(operators.pollLast());
                 }
