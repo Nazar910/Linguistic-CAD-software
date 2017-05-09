@@ -68,6 +68,8 @@ public class SyntaxPrecedenceTableAnalyzer {
                     String result;
                     int ternaryIndex = buff.indexOf("?");
 
+                    LinkedList<String> poliz;
+
                     if (ternaryIndex != -1) {
                         System.out.println("===========Ternary===========");
 
@@ -82,13 +84,12 @@ public class SyntaxPrecedenceTableAnalyzer {
                                 ? new LinkedList<>(buff.subList(ternaryIndex + 1, colonIndex))
                                 : new LinkedList<>(buff.subList(colonIndex + 1, buff.size()));
 
-                        LinkedList<String> poliz = convertToPoliz(toPoliz);
-                        result = calculatePoliz(poliz);
+                        poliz = convertToPoliz(toPoliz);
                     } else {
                         LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
-                        LinkedList<String> poliz = convertToPoliz(toPoliz);
-                        result = calculatePoliz(poliz);
+                        poliz = convertToPoliz(toPoliz);
                     }
+                    result = calculatePoliz(poliz);
                     this.idns.put(idn, result);
                     System.out.println("Result = " + result);
                 }
