@@ -98,7 +98,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                         new LexRecord(3, "=", 19, 0),
                         new LexRecord(3, "i", 29, 2),
                         new LexRecord(3, "+", 13, 0),
-                        new LexRecord(3, "1", 29, 3),
+                        new LexRecord(3, "2", 29, 3),
                         new LexRecord(4, "⁋", 11, 0),
                         new LexRecord(4, "i", 28, 2),
                         new LexRecord(4, "=", 19, 0),

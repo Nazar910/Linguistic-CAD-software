@@ -64,10 +64,27 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 String idn = buff.getFirst();
                 int index = buff.indexOf("=");
-                if (index >= 0 && buff.indexOf("?") == -1) {
-                    LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
-                    LinkedList<String> poliz = convertToPoliz(toPoliz);
-                    String result = calculatePoliz(poliz);
+                if (index >= 0) {
+                    String result = "";
+                    int ternaryIndex = buff.indexOf("?");
+                    if (ternaryIndex != -1) {
+                        System.out.println("===========Ternary===========");
+
+                        int colonIndex = buff.indexOf(":");
+
+                        LinkedList<String> logicalExpr = new LinkedList<>(buff.subList(0, ternaryIndex));
+
+                        LinkedList<String> toPoliz = calculatePoliz(logicalExpr).equals("true")
+                                ? new LinkedList<>(buff.subList(ternaryIndex + 1, colonIndex))
+                                : new LinkedList<>(buff.subList(colonIndex + 1, buff.size()));
+
+                        LinkedList<String> poliz = convertToPoliz(toPoliz);
+                        result = calculatePoliz(poliz);
+                    } else {
+                        LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
+                        LinkedList<String> poliz = convertToPoliz(toPoliz);
+                        result = calculatePoliz(poliz);
+                    }
                     this.idns.put(idn, result);
                     System.out.println("Result = " + result);
                 }
