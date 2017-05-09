@@ -77,7 +77,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                         LinkedList<String> logicalExprPoliz = this.convertToPoliz(logicalExpr);
 
                         String resultOflogicalExpr = calculatePoliz(logicalExprPoliz);
-                        
+
                         LinkedList<String> toPoliz = resultOflogicalExpr.equals("true")
                                 ? new LinkedList<>(buff.subList(ternaryIndex + 1, colonIndex))
                                 : new LinkedList<>(buff.subList(colonIndex + 1, buff.size()));
