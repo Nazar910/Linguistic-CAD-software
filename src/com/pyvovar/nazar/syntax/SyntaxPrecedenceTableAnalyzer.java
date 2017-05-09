@@ -65,16 +65,21 @@ public class SyntaxPrecedenceTableAnalyzer {
                 String idn = buff.getFirst();
                 int index = buff.indexOf("=");
                 if (index >= 0) {
-                    String result = "";
+                    String result;
                     int ternaryIndex = buff.indexOf("?");
+                    System.out.println("Ternary =" + ternaryIndex);
+
                     if (ternaryIndex != -1) {
                         System.out.println("===========Ternary===========");
 
                         int colonIndex = buff.indexOf(":");
 
-                        LinkedList<String> logicalExpr = new LinkedList<>(buff.subList(0, ternaryIndex));
+                        LinkedList<String> logicalExpr = new LinkedList<>(buff.subList(index + 1, ternaryIndex));
+                        LinkedList<String> logicalExprPoliz = this.convertToPoliz(logicalExpr);
 
-                        LinkedList<String> toPoliz = calculatePoliz(logicalExpr).equals("true")
+                        String resultOflogicalExpr = calculatePoliz(logicalExprPoliz);
+                        System.out.println("Result of logical =" + resultOflogicalExpr);
+                        LinkedList<String> toPoliz = resultOflogicalExpr.equals("true")
                                 ? new LinkedList<>(buff.subList(ternaryIndex + 1, colonIndex))
                                 : new LinkedList<>(buff.subList(colonIndex + 1, buff.size()));
 
@@ -91,8 +96,9 @@ public class SyntaxPrecedenceTableAnalyzer {
                 expression = new LinkedList<>();
             }
 
-            if ((right.equals("IDN") || right.equals("CON")
-                    || this.arithmeticOperations.contains(right) || right.equals("=")) && polizIndex != i) {
+            if ((right.equals("IDN") || right.equals("CON") || right.equals("?") || right.equals(":")
+                    || this.expressionSigns.contains(right) || this.arithmeticOperations.contains(right)
+                    || right.equals("=")) && polizIndex != i) {
                 expression.push(lexList.get(i).getLex());
                 polizIndex = i;
             }
