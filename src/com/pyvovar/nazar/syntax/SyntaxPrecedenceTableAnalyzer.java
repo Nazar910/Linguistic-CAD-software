@@ -3,6 +3,7 @@ package com.pyvovar.nazar.syntax;
 import com.pyvovar.nazar.helpers.Precedence;
 import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
+import sun.awt.image.ImageWatched;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,8 +21,16 @@ public class SyntaxPrecedenceTableAnalyzer {
     private HashMap<String, String> idns = new HashMap<>();
 
     private Set<String> arithmeticOperations = new HashSet<>(
-            Arrays.asList("*", "/", "+", "-"));
-    private LinkedList<String> expressionSigns = new LinkedList<>(Arrays.asList(">", "<", "==", "<=", ">="));;
+            Arrays.asList("*", "/", "+", "-", "="));
+    private LinkedList<String> expressionSigns = new LinkedList<>(Arrays.asList(">", "<", "==", "<=", ">="));
+
+    private HashMap<LinkedList<String>, String> globalPolizies = new HashMap<>();
+
+    private HashSet<String> arithmeticNonterminals =
+            new HashSet<>(Arrays.asList("<E> + <T1>", "<E> - <T1>",
+                                            "<T> * <c>", "<T> / <c>"));
+
+    private LinkedList<String> poliz = new LinkedList<>();
 
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
@@ -50,7 +59,7 @@ public class SyntaxPrecedenceTableAnalyzer {
             String left = stack.peekLast();
             String right = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
 
-            if (right.equals("for")) {
+            /*if (right.equals("for")) {
                 forLoop = true;
             }
 
@@ -61,7 +70,7 @@ public class SyntaxPrecedenceTableAnalyzer {
             if ((right.equals("⁋") || (forLoop && right.equals(")") || right.equals(";"))) && expression.size() != 0) {
                 LinkedList<String> buff = new LinkedList<>();
                 expression.forEach(buff::addFirst);
-                System.out.println(buff);
+//                System.out.println(buff);
                 buff = buff.stream()
                         .map(String::trim)
                         .collect(Collectors.toCollection(LinkedList::new));
@@ -93,10 +102,12 @@ public class SyntaxPrecedenceTableAnalyzer {
                         LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
                         poliz = convertToPoliz(toPoliz);
                     }
-                    System.out.println(poliz);
+//                    System.out.println(poliz);
                     result = calculatePoliz(poliz);
                     this.idns.put(idn, result);
-                    System.out.println("Result = " + result);
+//                    System.out.println("Result = " + result);
+                    this.globalPolizies.put(poliz, result);
+
                 }
                 expression = new LinkedList<>();
             }
@@ -106,7 +117,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                     || right.equals("=") || (!forLoop && (right.equals("(") || right.equals(")")))) && polizIndex != i) {
                 expression.push(lexList.get(i).getLex());
                 polizIndex = i;
-            }
+            }*/
 
             if (i == lexList.size() - 1 && right.equals("⁋")) {
                 right = "#";
@@ -115,6 +126,11 @@ public class SyntaxPrecedenceTableAnalyzer {
             boolean equals = getSign(left, right).equals("=");
             boolean gt = getSign(left, right).equals(">");
             if (lt || equals) {
+
+                if (right.equals("⁋") || right.equals(";")) {
+                    this.poliz = new LinkedList<>();
+                }
+
                 stack.add(right);
                 stack.forEach(el -> System.out.print(el + " "));
                 System.out.println();
@@ -139,9 +155,30 @@ public class SyntaxPrecedenceTableAnalyzer {
                 if (nextElem.equals("}")) {
                     System.out.print("");
                 }
-                if (left.equals("#") && stringBuilder.toString().equals("<програма>") && nextElem.equals("#")) break;
-                String reduced = reduce(stringBuilder.toString(), left, nextElem);
+                String toReduce = stringBuilder.toString();
+                if (left.equals("#") && toReduce.equals("<програма>") && nextElem.equals("#")) break;
+
+                String reduced = reduce(toReduce, left, nextElem);
                 if (!reduced.equals("404")) {
+                    String arithmeticSign = "";
+
+                    for (String sign : arithmeticOperations) {
+                        if (toReduce.contains(sign)) {
+                            arithmeticSign = sign;
+                            break;
+                        }
+                    }
+
+                    if (!arithmeticSign.equals("")) {
+                        this.poliz.addLast(arithmeticSign);
+                    }
+
+                    if (toReduce.equals("IDN") || toReduce.equals("CON")) {
+                        this.poliz.addLast(this.lexList.get(i-1).getLex());
+                    }
+
+                    System.out.println(this.poliz);
+
                     stack.add(reduced);
                     stack.forEach(el -> System.out.print(el + " "));
                     System.out.println();
@@ -150,6 +187,13 @@ public class SyntaxPrecedenceTableAnalyzer {
                 }
                 i--;
             }
+        }
+
+
+        for(Map.Entry<LinkedList<String>, String> poliz: this.globalPolizies.entrySet()) {
+            System.out.println(poliz.getKey());
+            System.out.println(poliz.getValue());
+            System.out.println("============");
         }
     }
 
@@ -183,6 +227,8 @@ public class SyntaxPrecedenceTableAnalyzer {
     }
 
     public LinkedList<String> convertToPoliz(LinkedList<String> expression) {
+//        System.out.println("=======Poliz start=======");
+
         LinkedList<String> poliz = new LinkedList<>();
         LinkedList<String> operators = new LinkedList<>();
 
@@ -190,6 +236,7 @@ public class SyntaxPrecedenceTableAnalyzer {
         LinkedList<String> mulDiv = new LinkedList<>(Arrays.asList("*", "/"));
 
         for (String e : expression) {
+//            System.out.println(poliz);
 
             if (this.arithmeticOperations.contains(e) || e.equals("(") || expressionSigns.contains(e)) {
                 //if e is +, -, / or *
@@ -233,8 +280,10 @@ public class SyntaxPrecedenceTableAnalyzer {
 
         while (operators.size() != 0) {
             poliz.addLast(operators.pollLast());
+//            System.out.println(poliz);
         }
 
+//        System.out.println("=======Poliz end=======");
         return poliz;
     }
 
