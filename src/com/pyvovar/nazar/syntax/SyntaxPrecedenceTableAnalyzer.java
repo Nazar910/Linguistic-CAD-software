@@ -59,69 +59,10 @@ public class SyntaxPrecedenceTableAnalyzer {
             String left = stack.peekLast();
             String right = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
 
-            /*if (right.equals("for")) {
-                forLoop = true;
-            }
-
-            if (right.equals("⁋")) {
-                forLoop = false;
-            }
-
-            if ((right.equals("⁋") || (forLoop && right.equals(")") || right.equals(";"))) && expression.size() != 0) {
-                LinkedList<String> buff = new LinkedList<>();
-                expression.forEach(buff::addFirst);
-//                System.out.println(buff);
-                buff = buff.stream()
-                        .map(String::trim)
-                        .collect(Collectors.toCollection(LinkedList::new));
-
-                String idn = buff.getFirst();
-                int index = buff.indexOf("=");
-                if (index >= 0) {
-                    String result;
-                    int ternaryIndex = buff.indexOf("?");
-
-                    LinkedList<String> poliz;
-
-                    if (ternaryIndex != -1) {
-                        System.out.println("===========Ternary===========");
-
-                        int colonIndex = buff.indexOf(":");
-
-                        LinkedList<String> logicalExpr = new LinkedList<>(buff.subList(index + 1, ternaryIndex));
-                        LinkedList<String> logicalExprPoliz = this.convertToPoliz(logicalExpr);
-
-                        String resultOflogicalExpr = calculatePoliz(logicalExprPoliz);
-
-                        LinkedList<String> toPoliz = resultOflogicalExpr.equals("true")
-                                ? new LinkedList<>(buff.subList(ternaryIndex + 1, colonIndex))
-                                : new LinkedList<>(buff.subList(colonIndex + 1, buff.size()));
-
-                        poliz = convertToPoliz(toPoliz);
-                    } else {
-                        LinkedList<String> toPoliz = new LinkedList<>(buff.subList(index + 1, buff.size()));
-                        poliz = convertToPoliz(toPoliz);
-                    }
-//                    System.out.println(poliz);
-                    result = calculatePoliz(poliz);
-                    this.idns.put(idn, result);
-//                    System.out.println("Result = " + result);
-                    this.globalPolizies.put(poliz, result);
-
-                }
-                expression = new LinkedList<>();
-            }
-
-            if ((right.equals("IDN") || right.equals("CON") || right.equals("?") || right.equals(":")
-                    || this.expressionSigns.contains(right) || this.arithmeticOperations.contains(right)
-                    || right.equals("=") || (!forLoop && (right.equals("(") || right.equals(")")))) && polizIndex != i) {
-                expression.push(lexList.get(i).getLex());
-                polizIndex = i;
-            }*/
-
             if (i == lexList.size() - 1 && right.equals("⁋")) {
                 right = "#";
             }
+
             boolean lt = getSign(left, right).equals("<");
             boolean equals = getSign(left, right).equals("=");
             boolean gt = getSign(left, right).equals(">");
@@ -224,67 +165,6 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     private String getLexDBbyIndex(int index) {
         return this.lexDB.get(index);
-    }
-
-    public LinkedList<String> convertToPoliz(LinkedList<String> expression) {
-//        System.out.println("=======Poliz start=======");
-
-        LinkedList<String> poliz = new LinkedList<>();
-        LinkedList<String> operators = new LinkedList<>();
-
-        LinkedList<String> plusMinus = new LinkedList<>(Arrays.asList("+", "-"));
-        LinkedList<String> mulDiv = new LinkedList<>(Arrays.asList("*", "/"));
-
-        for (String e : expression) {
-//            System.out.println(poliz);
-
-            if (this.arithmeticOperations.contains(e) || e.equals("(") || expressionSigns.contains(e)) {
-                //if e is +, -, / or *
-
-                if (operators.peekLast() == null) {
-                    //if it is first operator in stack
-                    operators.addLast(e);
-                    continue;
-                }
-
-                if (mulDiv.contains(e) && mulDiv.contains(operators.peekLast())) {
-                    //if it is * or / we already have * or / in stack
-                    poliz.addLast(operators.pollLast());
-                }
-
-                if (plusMinus.contains(e) && (plusMinus.contains(operators.peekLast()) || mulDiv.contains(operators.peekLast()))) {
-                    //if it + or - and we already have + or - in stack
-                    poliz.addLast(operators.pollLast());
-                }
-
-                if (this.expressionSigns.contains(e) && this.expressionSigns.contains(operators.peekLast())) {
-                    //if it expression sign and we already one in stack
-                    poliz.addLast(operators.pollLast());
-                }
-
-                operators.addLast(e);
-                continue;
-            }
-
-            if (e.equals(")")) {
-                //if it is ")" move all operators to poliz except "("
-                while (!operators.peekLast().equals("(")) {
-                    poliz.addLast(operators.pollLast());
-                }
-                operators.pollLast();
-                continue;
-            }
-
-            poliz.addLast(e);
-        }
-
-        while (operators.size() != 0) {
-            poliz.addLast(operators.pollLast());
-//            System.out.println(poliz);
-        }
-
-//        System.out.println("=======Poliz end=======");
-        return poliz;
     }
 
     public String calculatePoliz(LinkedList<String> poliz) {

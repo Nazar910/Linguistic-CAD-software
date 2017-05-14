@@ -190,21 +190,6 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     }
 
     @Test
-    public void whenGetExpressionConvertToWrightPoliz() {
-        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
-
-        for (Map.Entry<LinkedList<String>, LinkedList<String>> entry: expressions.entrySet()) {
-
-            LinkedList<String> actual = analyzer.convertToPoliz(entry.getKey());
-            LinkedList<String> expected = entry.getValue();
-
-            assertArrayEquals(expected.toArray(), actual.toArray());
-
-        }
-    }
-
-    @Test
     public void whenGetPolizShouldCalculateItWright() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
         SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
