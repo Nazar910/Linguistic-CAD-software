@@ -59,6 +59,16 @@ public class SyntaxPrecedenceTableAnalyzer {
             if (lt || equals) {
 
                 if (right.equals("⁋") || right.equals(";")) {
+
+                    String calculated = this.calculatePoliz(poliz);
+
+                    if (calculated.indexOf('=') != -1) {
+                        String[] operands = calculated.split("=");
+                        this.idns.put(operands[0], operands[1]);
+                    }
+
+                    this.globalPolizies.put(poliz, calculated);
+
                     this.poliz = new LinkedList<>();
                 }
 
@@ -86,7 +96,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                 }
 
                 String nextElem = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
-                
+
                 if (i == lexList.size() - 1 && nextElem.equals("⁋")) {
                     nextElem = "#";
                 }
@@ -112,7 +122,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                     }
 
                     if (toReduce.equals("IDN") || toReduce.equals("CON")) {
-                        this.poliz.addLast(this.lexList.get(i-1).getLex());
+                        this.poliz.addLast(this.lexList.get(i - 1).getLex());
                     }
 
                     System.out.println(this.poliz);
@@ -128,7 +138,7 @@ public class SyntaxPrecedenceTableAnalyzer {
         }
 
 
-        for(Map.Entry<LinkedList<String>, String> poliz: this.globalPolizies.entrySet()) {
+        for (Map.Entry<LinkedList<String>, String> poliz : this.globalPolizies.entrySet()) {
             System.out.println(poliz.getKey());
             System.out.println(poliz.getValue());
             System.out.println("============");
@@ -167,6 +177,7 @@ public class SyntaxPrecedenceTableAnalyzer {
     public String calculatePoliz(LinkedList<String> poliz) {
         LinkedList<String> stack = new LinkedList<>();
 
+        boolean first = true;
         for (String p : poliz) {
 
             if (!this.arithmeticOperations.contains(p) && !this.expressionSigns.contains(p)) {
@@ -174,18 +185,26 @@ public class SyntaxPrecedenceTableAnalyzer {
                 String item;
 
                 String value = this.idns.get(p);
-                if (value != null) {
+                if (value != null && !value.equals("") && !first) {
                     item = value;
                 } else {
                     item = p;
                 }
 
                 stack.push(item);
+                first = false;
                 continue;
             }
             if (this.arithmeticOperations.contains(p) || this.expressionSigns.contains(p)) {
-                double op2 = Double.parseDouble(stack.pop());
-                double op1 = Double.parseDouble(stack.pop());
+                String strOp2 = stack.pop();
+                String strOp1 = stack.pop();
+
+                if (p.equals("=")) {
+                    return strOp1 + "=" + strOp2;
+                }
+
+                double op2 = Double.parseDouble(strOp2);
+                double op1 = Double.parseDouble(strOp1);
 
                 double result = 0;
                 boolean wasArithmetic = true;
@@ -239,10 +258,10 @@ public class SyntaxPrecedenceTableAnalyzer {
 
             boolean boolResult = false;
             switch (p) {
-                case "and" :
+                case "and":
                     boolResult = boolOp1 && boolOp2;
                     break;
-                case "or" :
+                case "or":
                     boolResult = boolOp1 || boolOp2;
                     break;
             }
