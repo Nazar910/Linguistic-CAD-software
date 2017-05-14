@@ -1,6 +1,5 @@
 prog Program
 var int i
 {i=1+2*3
-i = [i == 1] ? 2 : i
 i=1+2*(3+4)*(5+6)
 }
