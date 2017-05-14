@@ -3,11 +3,8 @@ package com.pyvovar.nazar.syntax;
 import com.pyvovar.nazar.helpers.Precedence;
 import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
-import sun.awt.image.ImageWatched;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 public class SyntaxPrecedenceTableAnalyzer {
     private List<LexRecord> lexList;
@@ -16,7 +13,6 @@ public class SyntaxPrecedenceTableAnalyzer {
     private List<String> tableColumns;
     private List<String> lexDB;
     private LinkedList<String> stack = new LinkedList<>();
-    private LinkedList<String> expression = new LinkedList<>();
 
     private HashMap<String, String> idns = new HashMap<>();
 
@@ -25,10 +21,6 @@ public class SyntaxPrecedenceTableAnalyzer {
     private LinkedList<String> expressionSigns = new LinkedList<>(Arrays.asList(">", "<", "==", "<=", ">="));
 
     private HashMap<LinkedList<String>, String> globalPolizies = new HashMap<>();
-
-    private HashSet<String> arithmeticNonterminals =
-            new HashSet<>(Arrays.asList("<E> + <T1>", "<E> - <T1>",
-                                            "<T> * <c>", "<T> / <c>"));
 
     private LinkedList<String> poliz = new LinkedList<>();
 
@@ -53,8 +45,6 @@ public class SyntaxPrecedenceTableAnalyzer {
     public void start() throws SyntaxError {
 
         stack.add("#");
-        int polizIndex = -1;
-        boolean forLoop = false;
         for (int i = 0; i < lexList.size(); i++) {
             String left = stack.peekLast();
             String right = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
@@ -78,18 +68,25 @@ public class SyntaxPrecedenceTableAnalyzer {
             } else {
                 LinkedList<String> str = new LinkedList<>();
                 String backspace = " ";
+
                 while (!getSign(left, right).equals("<")) {
+
                     str.addFirst(left);
                     str.addFirst(backspace);
+
                     right = stack.pollLast();
                     left = stack.peekLast();
                 }
                 str.removeFirst();
+
                 StringBuilder stringBuilder = new StringBuilder();
+
                 for (String s1 : str) {
                     stringBuilder.append(s1);
                 }
+
                 String nextElem = this.tableColumns.get(getTableColumnIndex(getLexDBbyIndex(lexList.get(i).getKod() - 1)));
+                
                 if (i == lexList.size() - 1 && nextElem.equals("⁋")) {
                     nextElem = "#";
                 }
