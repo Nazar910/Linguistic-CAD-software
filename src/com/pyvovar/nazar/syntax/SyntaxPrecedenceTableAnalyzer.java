@@ -81,18 +81,49 @@ public class SyntaxPrecedenceTableAnalyzer {
                     switch(right) {
 
                         case "then":
-                            String elem = this.operatorPolizStack.pollLast();
+                            String elem = this.operatorPolizStack.pop();
                             while (elem != null && !elem.equals("if")) {
-                                this.operatorPolizOut.addLast(elem);
-                                elem = this.operatorPolizStack.pollLast();
+
+                                this.operatorPolizOut.push(elem);
+
+                                if (this.operatorPolizStack.peek() == null) {
+                                    elem = null;
+                                    continue;
+                                }
+                                elem = this.operatorPolizStack.pop();
                             }
+
+                            this.operatorPolizStack.push("УПЛ");
+                            this.operatorPolizStack.push("m");
                             break;
                         case "}":
+                            elem = this.operatorPolizStack.pop();
 
+                            while (elem != null && !elem.equals("if")) {
+
+                                this.operatorPolizOut.push(elem);
+
+                                if (this.operatorPolizStack.peek() == null) {
+                                    elem = null;
+                                    continue;
+                                }
+                                elem = this.operatorPolizStack.pop();
+                            }
                             this.operatorPolizStack = new LinkedList<>();
+                            System.out.println(this.operatorPolizOut);
+                            this.operatorPolizOut = new LinkedList<>();
+                            break;
+                        case ">":
+                        case "<":
+                        case "==":
+                        case "!=":
+                        case ">=":
+                        case "=<":
+                        case "=":
+                            this.operatorPolizStack.push(right);
                             break;
                         default:
-                            this.operatorPolizStack.addLast(right);
+                            this.operatorPolizStack.push(right);
 
                     }
 
