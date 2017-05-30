@@ -24,6 +24,8 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     private LinkedList<String> poliz = new LinkedList<>();
 
+    private ArrayList<LinkedList<String>> operatorPoliz = new ArrayList<>();
+
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
 
@@ -44,6 +46,8 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     public void start() throws SyntaxError {
 
+        boolean ifFlag = false;
+        int opIndex = -1;
         stack.add("#");
         for (int i = 0; i < lexList.size(); i++) {
             String left = stack.peekLast();
@@ -58,7 +62,7 @@ public class SyntaxPrecedenceTableAnalyzer {
             boolean gt = getSign(left, right).equals(">");
             if (lt || equals) {
 
-                if (right.equals("⁋") || right.equals(";")) {
+                /*if (right.equals("⁋") || right.equals(";")) {
 
                     String calculated = this.calculatePoliz(poliz);
 
@@ -70,6 +74,28 @@ public class SyntaxPrecedenceTableAnalyzer {
                     this.globalPolizies.put(poliz, calculated);
 
                     this.poliz = new LinkedList<>();
+                }*/
+
+                if (ifFlag) {
+
+                    if (right.equals("then")) {
+
+                    } else if (right.equals("}")) {
+                        ifFlag = false;
+                        this.operatorPoliz.get(opIndex).addLast("}");
+                        System.out.println(this.operatorPoliz.get(opIndex));
+                        this.operatorPoliz.remove(opIndex--);
+                    } else {
+                        this.operatorPoliz.get(opIndex).addLast(right);
+                    }
+
+                }
+
+                if (right.equals("if")) {
+                    this.operatorPoliz.add(new LinkedList<>());
+                    opIndex++;
+                    this.operatorPoliz.get(opIndex).addLast("if");
+                    ifFlag = true;
                 }
 
                 stack.add(right);
@@ -108,7 +134,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 String reduced = reduce(toReduce, left, nextElem);
                 if (!reduced.equals("404")) {
-                    String arithmeticSign = "";
+                    /*String arithmeticSign = "";
 
                     for (String sign : arithmeticOperations) {
                         if (toReduce.contains(sign)) {
@@ -123,9 +149,9 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                     if (toReduce.equals("IDN") || toReduce.equals("CON")) {
                         this.poliz.addLast(this.lexList.get(i - 1).getLex());
-                    }
+                    }*/
 
-                    System.out.println(this.poliz);
+//                    System.out.println(this.poliz);
 
                     stack.add(reduced);
                     stack.forEach(el -> System.out.print(el + " "));
@@ -138,11 +164,11 @@ public class SyntaxPrecedenceTableAnalyzer {
         }
 
 
-        for (Map.Entry<LinkedList<String>, String> poliz : this.globalPolizies.entrySet()) {
-            System.out.println(poliz.getKey());
-            System.out.println(poliz.getValue());
-            System.out.println("============");
-        }
+//        for (Map.Entry<LinkedList<String>, String> poliz : this.globalPolizies.entrySet()) {
+//            System.out.println(poliz.getKey());
+//            System.out.println(poliz.getValue());
+//            System.out.println("============");
+//        }
     }
 
     private String reduce(String elem, String previousElem, String nextElem) {
