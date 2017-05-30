@@ -24,7 +24,8 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     private LinkedList<String> poliz = new LinkedList<>();
 
-    private ArrayList<LinkedList<String>> operatorPoliz = new ArrayList<>();
+    private LinkedList<String> operatorPolizStack = new LinkedList<>();
+    private LinkedList<String> operatorPolizOut = new LinkedList<>();
 
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
@@ -47,7 +48,6 @@ public class SyntaxPrecedenceTableAnalyzer {
     public void start() throws SyntaxError {
 
         boolean ifFlag = false;
-        int opIndex = -1;
         stack.add("#");
         for (int i = 0; i < lexList.size(); i++) {
             String left = stack.peekLast();
@@ -78,23 +78,29 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 if (ifFlag) {
 
-                    if (right.equals("then")) {
+                    switch(right) {
 
-                    } else if (right.equals("}")) {
-                        ifFlag = false;
-                        this.operatorPoliz.get(opIndex).addLast("}");
-                        System.out.println(this.operatorPoliz.get(opIndex));
-                        this.operatorPoliz.remove(opIndex--);
-                    } else {
-                        this.operatorPoliz.get(opIndex).addLast(right);
+                        case "then":
+                            String elem = this.operatorPolizStack.pollLast();
+                            while (elem != null && !elem.equals("if")) {
+                                this.operatorPolizOut.addLast(elem);
+                                elem = this.operatorPolizStack.pollLast();
+                            }
+                            break;
+                        case "}":
+
+                            this.operatorPolizStack = new LinkedList<>();
+                            break;
+                        default:
+                            this.operatorPolizStack.addLast(right);
+
                     }
 
                 }
 
+
                 if (right.equals("if")) {
-                    this.operatorPoliz.add(new LinkedList<>());
-                    opIndex++;
-                    this.operatorPoliz.get(opIndex).addLast("if");
+                    this.operatorPolizStack.addLast("if");
                     ifFlag = true;
                 }
 
