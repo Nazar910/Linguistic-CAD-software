@@ -25,6 +25,8 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     private HashMap<LinkedList<String>, LinkedList<String>> expressions = new HashMap<>();
     private HashMap<LinkedList<String>, String> polizes = new HashMap<>();
 
+    private HashMap<String, String> ifPolizies = new HashMap<>();
+
     private ArrayList<String> lexDB = new ArrayList<>(Arrays.asList(
             "prog", "var", "int", "real", "cout", "cin", "if", "for", "{", "}",
                 "⁋", ",", "+", "-", "*", "/", "(", ")", "=", "<<", ">>", "<", ">",
@@ -152,6 +154,8 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")), "11.0");
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), "1.0");
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "<")), "true");
+
+        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m1 УПЛ a 0 = m1");
     }
 
     @Test
@@ -200,6 +204,29 @@ public class SyntaxPrecedenceTableAnalyzerTest {
             String expected = entry.getValue();
 
             assertEquals(expected, actual);
+
+        }
+    }
+
+    @Test
+    public void whenGetIfOperatorShouldCreatePoliz() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        LinkedList<String> operatorPolizStack = new LinkedList<String>();
+        LinkedList<String> operatorPolizOut = new LinkedList<String>();
+        for (Map.Entry<String, String> entry: ifPolizies.entrySet()) {
+
+            for (String right : entry.getKey().split(" ")) {
+
+                analyzer.obtainIfOperator(right, operatorPolizStack, operatorPolizOut);
+            }
+
+            operatorPolizStack.clear();
+
+            assertEquals(String.join(" ", operatorPolizOut), entry.getValue());
+
+            operatorPolizOut.clear();
 
         }
     }

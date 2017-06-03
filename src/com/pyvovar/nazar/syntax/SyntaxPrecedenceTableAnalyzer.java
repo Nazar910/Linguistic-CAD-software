@@ -78,53 +78,11 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 if (ifFlag) {
 
-                    switch(right) {
-
-                        case "then":
-                            String elem = this.operatorPolizStack.pop();
-                            while (elem != null && !elem.equals("if")) {
-
-                                this.operatorPolizOut.push(elem);
-
-                                if (this.operatorPolizStack.peek() == null) {
-                                    elem = null;
-                                    continue;
-                                }
-                                elem = this.operatorPolizStack.pop();
-                            }
-
-                            this.operatorPolizStack.push("УПЛ");
-                            this.operatorPolizStack.push("m");
-                            break;
-                        case "}":
-                            elem = this.operatorPolizStack.pop();
-
-                            while (elem != null && !elem.equals("if")) {
-
-                                this.operatorPolizOut.push(elem);
-
-                                if (this.operatorPolizStack.peek() == null) {
-                                    elem = null;
-                                    continue;
-                                }
-                                elem = this.operatorPolizStack.pop();
-                            }
-                            this.operatorPolizStack = new LinkedList<>();
-                            System.out.println(this.operatorPolizOut);
-                            this.operatorPolizOut = new LinkedList<>();
-                            break;
-                        case ">":
-                        case "<":
-                        case "==":
-                        case "!=":
-                        case ">=":
-                        case "=<":
-                        case "=":
-                            this.operatorPolizStack.push(right);
-                            break;
-                        default:
-                            this.operatorPolizStack.push(right);
-
+                    if (obtainIfOperator(right, this.operatorPolizStack, this.operatorPolizOut)) {
+                        this.operatorPolizStack.clear();
+                        System.out.println(this.operatorPolizOut);
+                        this.operatorPolizOut.clear();
+                        ifFlag = false;
                     }
 
                 }
@@ -333,5 +291,57 @@ public class SyntaxPrecedenceTableAnalyzer {
         }
 
         return stack.getLast();
+    }
+
+    public boolean obtainIfOperator(String right, LinkedList<String> operatorPolizStack, LinkedList<String> operatorPolizOut) {
+        String elem;
+        int labelIndex = 1;
+        switch(right) {
+
+            case "{":
+            case "}":
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null && !elem.equals("if")) {
+
+                    operatorPolizOut.addLast(elem);
+
+                    if (operatorPolizStack.peekLast() == null) {
+                        elem = null;
+                        continue;
+                    }
+                    elem = operatorPolizStack.pollLast();
+                }
+
+                if (right.equals("}")) {
+                    operatorPolizOut.addLast("m" + labelIndex);
+                    return true;
+                }
+
+                operatorPolizOut.addLast("m" + labelIndex);
+                operatorPolizOut.addLast("УПЛ");
+                break;
+            case ">":
+            case "<":
+            case "==":
+            case "!=":
+            case ">=":
+            case "=<":
+            case "=":
+                operatorPolizStack.addLast(right);
+                break;
+            case "if":
+                operatorPolizStack.addLast(right);
+                labelIndex++;
+                break;
+            case "⁋":
+            case "(":
+            case ")":
+                break;
+            default:
+                operatorPolizOut.addLast(right);
+        }
+
+        return false;
     }
 }
