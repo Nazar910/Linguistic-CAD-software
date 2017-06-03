@@ -411,7 +411,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 labelIndex++;
 
-                if (semicolonIndex == 0) {
+                if (semicolonIndex % 2 == 0) {
                     operatorPolizOut.addLast("m" + labelIndex);
                     operatorPolizStack.addLast("m" + labelIndex);
 
@@ -465,19 +465,19 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 }
 
-                elem = labels.pollLast();
+                String second = labels.pollFirst();
+                String first = labels.pollFirst();
 
-                while (elem != null) {
-                    operatorPolizOut.addLast(elem);
+                while (second != null && first != null) {
+
+                    operatorPolizOut.addLast(first);
                     operatorPolizOut.addLast("БП");
+                    operatorPolizOut.addLast(second);
+                    operatorPolizOut.addLast(":");
 
-                    elem = labels.peekLast() == null
-                            ? null
-                            : labels.pollLast();
+                    second = labels.pollFirst();
+                    first = labels.pollFirst();
                 }
-
-                operatorPolizOut.pollLast();
-                operatorPolizOut.addLast(":");
                 break;
             case ">":
             case "<":
@@ -487,9 +487,14 @@ public class SyntaxPrecedenceTableAnalyzer {
             case "=<":
             case "=":
             case "+":
+            case "-":
+            case "/":
+            case "*":
                 operatorPolizStack.addLast(right);
                 break;
             case "for":
+                if (operatorPolizStack.contains("for")) break;
+
                 operatorPolizStack.addLast(right);
                 break;
             case "(":

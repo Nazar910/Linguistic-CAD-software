@@ -164,6 +164,8 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
         forPolizies.put("for ( i = 0 ; i < 10 ; i = i + 1 ) a = a + i ⁋",
                         "i 0 = m1 : i 10 < m2 УПЛ i i 1 + = a a i + = m1 БП m2 :");
+        forPolizies.put("for ( i = 0 ; i < 10 ; i = i + 1 ) for ( j = 0 ; j < 10 ; j = j + 1 ) a = a + i * j ⁋",
+                "i 0 = m1 : i 10 < m2 УПЛ i i 1 + = j 0 = m3 : j 10 < m4 УПЛ j j 1 + = a a i j * + = m3 БП m4 : m1 БП m2 :");
     }
 
     @Test
