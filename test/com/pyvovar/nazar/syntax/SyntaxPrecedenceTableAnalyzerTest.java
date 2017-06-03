@@ -155,8 +155,10 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), "1.0");
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "<")), "true");
 
-//        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m1 УПЛ a 0 = m1 :");
-        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ }", "a b > m1 УПЛ a 0 < m2 УПЛ a 0 = m2 : m1 :");
+        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m1 УПЛ a 0 = m1 :");
+        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m1 УПЛ a 0 < m2 УПЛ a 0 = m2 : m1 :");
+        ifPolizies.put("if ( a == b ) { if ( a < b ) { if ( a == -1 ) { a = 1 ⁋ } } }",
+                        "a b == m1 УПЛ a b < m2 УПЛ a -1 == m3 УПЛ a 1 = m3 : m2 : m1 :");
     }
 
     @Test
