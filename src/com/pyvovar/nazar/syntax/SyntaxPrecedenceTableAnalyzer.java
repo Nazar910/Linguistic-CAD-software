@@ -373,4 +373,127 @@ public class SyntaxPrecedenceTableAnalyzer {
 
         return false;
     }
+
+    public boolean obtainForOperator(String right,
+                                    LinkedList<String> operatorPolizStack,
+                                    LinkedList<String> operatorPolizOut,
+                                    HashMap<String, Integer> labelTable,
+                                     int semicolonIndex,
+                                     boolean closedFor) {
+        String elem;
+        switch(right) {
+
+            case ";":
+
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null) {
+
+                    operatorPolizOut.addLast(elem);
+
+                    String peekLast = operatorPolizStack.peekLast();
+                    elem = peekLast.equals("for") || peekLast.startsWith("m")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+
+
+                int labelIndex = 0;
+
+                if (labelTable.size() > 0) {
+                    labelIndex = labelTable.size();
+                }
+
+                labelIndex++;
+
+                if (semicolonIndex == 0) {
+                    operatorPolizOut.addLast("m" + labelIndex);
+                    operatorPolizStack.addLast("m" + labelIndex);
+
+                    operatorPolizOut.addLast(":");
+
+                    labelTable.put("m" + labelIndex, 0);
+                    return false;
+                }
+
+                operatorPolizOut.addLast("m" + labelIndex);
+                operatorPolizStack.addLast("m" + labelIndex);
+                operatorPolizOut.addLast("УПЛ");
+
+                //put zero as second value for now
+                labelTable.put("m" + labelIndex, 0);
+                break;
+            case ")":
+                if (!closedFor) {
+                    return false;
+                }
+
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null && !elem.startsWith("m")) {
+
+                    operatorPolizOut.addLast(elem);
+
+                    String peekLast = operatorPolizStack.peekLast();
+                    elem = peekLast == null || peekLast.startsWith("m")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+                break;
+            case "⁋":
+                elem = operatorPolizStack.pollLast();
+
+                LinkedList<String> labels = new LinkedList<>();
+                while (elem != null && !elem.equals("for")) {
+
+                    if (elem.startsWith("m")) {
+                        labels.addLast(elem);
+                    } else {
+                        operatorPolizOut.addLast(elem);
+                    }
+
+                    String peekLast = operatorPolizStack.peekLast();
+                    elem = peekLast == null || elem.equals("for")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+
+                elem = labels.pollLast();
+
+                while (elem != null) {
+                    operatorPolizOut.addLast(elem);
+                    operatorPolizOut.addLast("БП");
+
+                    elem = labels.peekLast() == null
+                            ? null
+                            : labels.pollLast();
+                }
+
+                operatorPolizOut.pollLast();
+                operatorPolizOut.addLast(":");
+                break;
+            case ">":
+            case "<":
+            case "==":
+            case "!=":
+            case ">=":
+            case "=<":
+            case "=":
+            case "+":
+                operatorPolizStack.addLast(right);
+                break;
+            case "for":
+                operatorPolizStack.addLast(right);
+                break;
+            case "(":
+                break;
+            default:
+                operatorPolizOut.addLast(right);
+        }
+
+        return false;
+    }
 }

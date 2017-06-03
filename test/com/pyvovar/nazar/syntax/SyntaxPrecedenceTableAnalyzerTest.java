@@ -26,6 +26,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     private HashMap<LinkedList<String>, String> polizes = new HashMap<>();
 
     private HashMap<String, String> ifPolizies = new HashMap<>();
+    private HashMap<String, String> forPolizies = new HashMap<>();
 
     private ArrayList<String> lexDB = new ArrayList<>(Arrays.asList(
             "prog", "var", "int", "real", "cout", "cin", "if", "for", "{", "}",
@@ -159,6 +160,9 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m1 УПЛ a 0 < m2 УПЛ a 0 = m2 : m1 :");
         ifPolizies.put("if ( a == b ) { if ( a < b ) { if ( a == -1 ) { a = 1 ⁋ } } }",
                         "a b == m1 УПЛ a b < m2 УПЛ a -1 == m3 УПЛ a 1 = m3 : m2 : m1 :");
+
+        forPolizies.put("for ( i = 0 ; i < 10 ; i = i + 1 ) a = a + i ⁋",
+                        "i 0 = m1 : i 10 < m2 УПЛ i i 1 + = a a i + = m1 БП m2 :");
     }
 
     @Test
@@ -224,6 +228,55 @@ public class SyntaxPrecedenceTableAnalyzerTest {
             for (String right : entry.getKey().split(" ")) {
 
                 analyzer.obtainIfOperator(right, operatorPolizStack, operatorPolizOut, labelTable);
+            }
+
+            operatorPolizStack.clear();
+
+            String expected = entry.getValue();
+            String actual = String.join(" ", operatorPolizOut);
+
+            assertEquals(expected, actual);
+
+            operatorPolizOut.clear();
+
+            labelTable.clear();
+
+        }
+    }
+
+    @Test
+    public void whenGetForOperatorShouldCreatePoliz() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        LinkedList<String> operatorPolizStack = new LinkedList<String>();
+        LinkedList<String> operatorPolizOut = new LinkedList<String>();
+        HashMap<String, Integer> labelTable = new HashMap<>();
+
+        for (Map.Entry<String, String> entry: forPolizies.entrySet()) {
+
+            int semicolonIndex = -1;
+            int forClosed = 0;
+            for (String right : entry.getKey().split(" ")) {
+
+                if (right.equals(";")) {
+                    semicolonIndex++;
+                }
+
+                if (right.equals("(")) {
+                    forClosed++;
+                }
+
+                if (right.equals(")")) {
+                    forClosed--;
+                }
+
+                analyzer.obtainForOperator(right,
+                                            operatorPolizStack,
+                                            operatorPolizOut,
+                                            labelTable,
+                                            semicolonIndex,
+                                            forClosed == 0);
             }
 
             operatorPolizStack.clear();
