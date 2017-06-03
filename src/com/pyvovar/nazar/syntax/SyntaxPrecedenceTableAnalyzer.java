@@ -27,6 +27,8 @@ public class SyntaxPrecedenceTableAnalyzer {
     private LinkedList<String> operatorPolizStack = new LinkedList<>();
     private LinkedList<String> operatorPolizOut = new LinkedList<>();
 
+    private HashMap<String, Integer> labelTable = new HashMap<>();
+
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
 
@@ -78,7 +80,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 if (ifFlag) {
 
-                    if (obtainIfOperator(right, this.operatorPolizStack, this.operatorPolizOut)) {
+                    if (obtainIfOperator(right, this.operatorPolizStack, this.operatorPolizOut, this.labelTable)) {
                         this.operatorPolizStack.clear();
                         System.out.println(this.operatorPolizOut);
                         this.operatorPolizOut.clear();
@@ -293,12 +295,42 @@ public class SyntaxPrecedenceTableAnalyzer {
         return stack.getLast();
     }
 
-    public boolean obtainIfOperator(String right, LinkedList<String> operatorPolizStack, LinkedList<String> operatorPolizOut) {
+    public boolean obtainIfOperator(String right,
+                                    LinkedList<String> operatorPolizStack,
+                                    LinkedList<String> operatorPolizOut,
+                                    HashMap<String, Integer> labelTable) {
         String elem;
-        int labelIndex = 1;
         switch(right) {
 
             case "{":
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null) {
+
+                    operatorPolizOut.addLast(elem);
+
+                    String peekLast = operatorPolizStack.peekLast();
+                    elem = peekLast.equals("if") || peekLast.startsWith("m")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+
+                int labelIndex = 0;
+
+                if (labelTable.size() > 0) {
+                    labelIndex = labelTable.size();
+                }
+
+                labelIndex++;
+
+                operatorPolizOut.addLast("m" + labelIndex);
+                operatorPolizStack.addLast("m" + labelIndex);
+                operatorPolizOut.addLast("УПЛ");
+
+                //put zero as second value for now
+                labelTable.put("m" + labelIndex, 0);
+                break;
             case "}":
                 elem = operatorPolizStack.pollLast();
 
@@ -306,21 +338,16 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                     operatorPolizOut.addLast(elem);
 
-                    if (operatorPolizStack.peekLast() == null) {
-                        elem = null;
-                        continue;
+                    if (elem.startsWith("m")) {
+                        operatorPolizOut.addLast(":");
                     }
-                    elem = operatorPolizStack.pollLast();
-                }
 
-                if (right.equals("}")) {
-                    operatorPolizOut.addLast("m" + labelIndex);
-                    return true;
-                }
+                    elem = operatorPolizStack.peekLast().equals("if")
+                            ? null
+                            : operatorPolizStack.pollLast();
 
-                operatorPolizOut.addLast("m" + labelIndex);
-                operatorPolizOut.addLast("УПЛ");
-                break;
+                }
+                return true;
             case ">":
             case "<":
             case "==":
@@ -331,8 +358,10 @@ public class SyntaxPrecedenceTableAnalyzer {
                 operatorPolizStack.addLast(right);
                 break;
             case "if":
+
+                if (operatorPolizStack.contains("if")) break;
+
                 operatorPolizStack.addLast(right);
-                labelIndex++;
                 break;
             case "⁋":
             case "(":

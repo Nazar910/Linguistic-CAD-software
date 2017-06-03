@@ -155,7 +155,8 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), "1.0");
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "<")), "true");
 
-        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m1 УПЛ a 0 = m1");
+//        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m1 УПЛ a 0 = m1 :");
+        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ }", "a b > m1 УПЛ a 0 < m2 УПЛ a 0 = m2 : m1 :");
     }
 
     @Test
@@ -215,18 +216,24 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
         LinkedList<String> operatorPolizStack = new LinkedList<String>();
         LinkedList<String> operatorPolizOut = new LinkedList<String>();
+        HashMap<String, Integer> labelTable = new HashMap<>();
         for (Map.Entry<String, String> entry: ifPolizies.entrySet()) {
 
             for (String right : entry.getKey().split(" ")) {
 
-                analyzer.obtainIfOperator(right, operatorPolizStack, operatorPolizOut);
+                analyzer.obtainIfOperator(right, operatorPolizStack, operatorPolizOut, labelTable);
             }
 
             operatorPolizStack.clear();
 
-            assertEquals(String.join(" ", operatorPolizOut), entry.getValue());
+            String expected = entry.getValue();
+            String actual = String.join(" ", operatorPolizOut);
+
+            assertEquals(expected, actual);
 
             operatorPolizOut.clear();
+
+            labelTable.clear();
 
         }
     }
