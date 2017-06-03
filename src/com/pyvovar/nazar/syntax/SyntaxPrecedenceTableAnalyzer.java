@@ -355,6 +355,10 @@ public class SyntaxPrecedenceTableAnalyzer {
             case ">=":
             case "=<":
             case "=":
+            case "+":
+            case "-":
+            case "*":
+            case "/":
                 operatorPolizStack.addLast(right);
                 break;
             case "if":
