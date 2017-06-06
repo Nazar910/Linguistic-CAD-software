@@ -28,6 +28,7 @@ public class SyntaxPrecedenceTableAnalyzer {
     private LinkedList<String> operatorPolizOut = new LinkedList<>();
 
     private HashMap<String, Integer> labelTable = new HashMap<>();
+    private HashMap<String, Integer> rTable = new HashMap<>();
 
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
@@ -51,6 +52,10 @@ public class SyntaxPrecedenceTableAnalyzer {
 
         boolean ifFlag = false;
         boolean forFlag = false;
+
+        int semicolonIndex = -1;
+        int forClosed = 0;
+
         stack.add("#");
         for (int i = 0; i < lexList.size(); i++) {
             String left = stack.peekLast();
@@ -81,16 +86,62 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 if (ifFlag) {
 
-                    if (obtainIfOperator(right, this.operatorPolizStack, this.operatorPolizOut, this.labelTable)) {
+                    if (obtainIfOperator(this.lexList.get(i).getLex().trim(), this.operatorPolizStack, this.operatorPolizOut, this.labelTable)) {
                         this.operatorPolizStack.clear();
-                        System.out.println(this.operatorPolizOut);
+
+                        System.out.println();
+                        this.operatorPolizOut.forEach(elem -> System.out.print(elem + " "));
+                        System.out.println();
+
                         this.operatorPolizOut.clear();
+                        this.labelTable.clear();
                         ifFlag = false;
                     }
 
                 }
+                
+                if (right.equals("for")) {
+                    forFlag = true;
+                }
 
-//                if (forFlag)
+                if (forFlag) {
+
+                    String lex = this.lexList.get(i).getLex().trim();
+
+                    if (lex.equals(";")) {
+                        semicolonIndex++;
+                    }
+
+                    if (lex.equals("(")) {
+                        forClosed++;
+                    }
+
+                    if (lex.equals(")")) {
+                        forClosed--;
+                    }
+
+                    if (obtainForOperator(lex,
+                            this.operatorPolizStack,
+                            this.operatorPolizOut,
+                            this.labelTable,
+                            this.rTable,
+                            semicolonIndex,
+                            forClosed == 0)) {
+                        operatorPolizStack.clear();
+
+                        System.out.println();
+                        this.operatorPolizOut.forEach(elem -> System.out.print(elem + " "));
+                        System.out.println();
+
+                        operatorPolizOut.clear();
+
+                        labelTable.clear();
+                        rTable.clear();
+
+                        forFlag = false;
+                    }
+
+                }
 
 
                 if (right.equals("if")) {
@@ -98,10 +149,6 @@ public class SyntaxPrecedenceTableAnalyzer {
                     ifFlag = true;
                 }
 
-                if (right.equals("for")) {
-                    this.operatorPolizStack.addLast("for");
-                    forFlag = true;
-                }
 
                 stack.add(right);
                 stack.forEach(el -> System.out.print(el + " "));
@@ -513,7 +560,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                     second = labels.pollFirst();
                     first = labels.pollFirst();
                 }
-                break;
+                return true;
             case ">":
             case "<":
             case "==":
