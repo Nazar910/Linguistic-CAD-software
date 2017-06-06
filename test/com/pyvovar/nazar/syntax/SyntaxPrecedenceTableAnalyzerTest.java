@@ -156,11 +156,11 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), "1.0");
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "<")), "true");
 
-        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m1 УПЛ a 0 = m1 :");
-        ifPolizies.put("if ( a > b ) { a = a + b ⁋ }", "a b > m1 УПЛ a a b + = m1 :");
-        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m1 УПЛ a 0 < m2 УПЛ a 0 = m2 : m1 :");
+        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m0 УПЛ a 0 = m0 :");
+        ifPolizies.put("if ( a > b ) { a = a + b ⁋ }", "a b > m0 УПЛ a a b + = m0 :");
+        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m0 УПЛ a 0 < m1 УПЛ a 0 = m1 : m0 :");
         ifPolizies.put("if ( a == b ) { if ( a < b ) { if ( a == -1 ) { a = 1 ⁋ } } }",
-                        "a b == m1 УПЛ a b < m2 УПЛ a -1 == m3 УПЛ a 1 = m3 : m2 : m1 :");
+                        "a b == m0 УПЛ a b < m1 УПЛ a -1 == m2 УПЛ a 1 = m2 : m1 : m0 :");
 
         forPolizies.put("for ( a = 1 ; a < 10 ; a = a * 2 ) cout << a ⁋",
                         "a 1 = r0 1 = m0 : a 10 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = cout a << m0 БП m1 :");

@@ -50,6 +50,7 @@ public class SyntaxPrecedenceTableAnalyzer {
     public void start() throws SyntaxError {
 
         boolean ifFlag = false;
+        boolean forFlag = false;
         stack.add("#");
         for (int i = 0; i < lexList.size(); i++) {
             String left = stack.peekLast();
@@ -89,10 +90,17 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 }
 
+//                if (forFlag)
+
 
                 if (right.equals("if")) {
                     this.operatorPolizStack.addLast("if");
                     ifFlag = true;
+                }
+
+                if (right.equals("for")) {
+                    this.operatorPolizStack.addLast("for");
+                    forFlag = true;
                 }
 
                 stack.add(right);
@@ -321,8 +329,6 @@ public class SyntaxPrecedenceTableAnalyzer {
                 if (labelTable.size() > 0) {
                     labelIndex = labelTable.size();
                 }
-
-                labelIndex++;
 
                 operatorPolizOut.addLast("m" + labelIndex);
                 operatorPolizStack.addLast("m" + labelIndex);
