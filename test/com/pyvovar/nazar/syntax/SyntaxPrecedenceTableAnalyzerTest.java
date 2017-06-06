@@ -162,10 +162,10 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         ifPolizies.put("if ( a == b ) { if ( a < b ) { if ( a == -1 ) { a = 1 ⁋ } } }",
                         "a b == m1 УПЛ a b < m2 УПЛ a -1 == m3 УПЛ a 1 = m3 : m2 : m1 :");
 
-        forPolizies.put("for ( i = 0 ; i < 10 ; i = i + 1 ) a = a + i ⁋",
-                        "i 0 = m1 : i 10 < m2 УПЛ i i 1 + = a a i + = m1 БП m2 :");
-        forPolizies.put("for ( i = 0 ; i < 10 ; i = i + 1 ) for ( j = 0 ; j < 10 ; j = j + 1 ) a = a + i * j ⁋",
-                "i 0 = m1 : i 10 < m2 УПЛ i i 1 + = j 0 = m3 : j 10 < m4 УПЛ j j 1 + = a a i j * + = m3 БП m4 : m1 БП m2 :");
+        forPolizies.put("for ( a = 1 ; a < 10 ; a = a * 2 ) cout << a ⁋",
+                        "a 1 = r0 1 = m0 : a 10 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = cout a << m0 БП m1 :");
+//        forPolizies.put("for ( i = 0 ; i < 10 ; i = i + 1 ) for ( j = 0 ; j < 10 ; j = j + 1 ) a = a + i * j ⁋",
+//                "i 0 = m1 : i 10 < m2 УПЛ i i 1 + = j 0 = m3 : j 10 < m4 УПЛ j j 1 + = a a i j * + = m3 БП m4 : m1 БП m2 :");
     }
 
     @Test
@@ -255,6 +255,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         LinkedList<String> operatorPolizStack = new LinkedList<String>();
         LinkedList<String> operatorPolizOut = new LinkedList<String>();
         HashMap<String, Integer> labelTable = new HashMap<>();
+        HashMap<String, Integer> rTable = new HashMap<>();
 
         for (Map.Entry<String, String> entry: forPolizies.entrySet()) {
 
@@ -278,6 +279,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                                             operatorPolizStack,
                                             operatorPolizOut,
                                             labelTable,
+                                            rTable,
                                             semicolonIndex,
                                             forClosed == 0);
             }

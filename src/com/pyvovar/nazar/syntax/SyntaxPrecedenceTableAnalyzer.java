@@ -382,6 +382,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                                     LinkedList<String> operatorPolizStack,
                                     LinkedList<String> operatorPolizOut,
                                     HashMap<String, Integer> labelTable,
+                                     HashMap<String, Integer> rTable,
                                      int semicolonIndex,
                                      boolean closedFor) {
         String elem;
@@ -409,9 +410,11 @@ public class SyntaxPrecedenceTableAnalyzer {
                     labelIndex = labelTable.size();
                 }
 
-                labelIndex++;
-
                 if (semicolonIndex % 2 == 0) {
+                    operatorPolizOut.addLast("r" + (rTable.size() - 1));
+                    operatorPolizOut.addLast("1");
+                    operatorPolizOut.addLast("=");
+
                     operatorPolizOut.addLast("m" + labelIndex);
                     operatorPolizStack.addLast("m" + labelIndex);
 
@@ -420,6 +423,19 @@ public class SyntaxPrecedenceTableAnalyzer {
                     labelTable.put("m" + labelIndex, 0);
                     return false;
                 }
+
+                operatorPolizOut.addLast("m" + labelIndex);
+                operatorPolizStack.addLast("m" + labelIndex);
+                operatorPolizOut.addLast("УПЛ");
+
+                //put zero as second value for now
+                labelTable.put("m" + labelIndex, 0);
+
+                operatorPolizOut.addLast("r" + (rTable.size() - 1));
+                operatorPolizOut.addLast("0");
+                operatorPolizOut.addLast("==");
+
+                labelIndex++;
 
                 operatorPolizOut.addLast("m" + labelIndex);
                 operatorPolizStack.addLast("m" + labelIndex);
@@ -445,6 +461,19 @@ public class SyntaxPrecedenceTableAnalyzer {
                             : operatorPolizStack.pollLast();
 
                 }
+
+                //if elem not null -> then we have label in stack
+                if (operatorPolizStack.peekLast() != null) {
+                    elem = operatorPolizStack.pollLast();
+
+                    operatorPolizOut.addLast(elem);
+                    operatorPolizOut.addLast(":");
+
+                    operatorPolizOut.addLast("r" + (rTable.size() - 1));
+                    operatorPolizOut.addLast("0");
+                    operatorPolizOut.addLast("=");
+                }
+
                 break;
             case "⁋":
                 elem = operatorPolizStack.pollLast();
@@ -490,9 +519,13 @@ public class SyntaxPrecedenceTableAnalyzer {
             case "-":
             case "/":
             case "*":
+            case "<<":
+            case ">>":
                 operatorPolizStack.addLast(right);
                 break;
             case "for":
+                rTable.put("r" + rTable.size(), 0);
+
                 if (operatorPolizStack.contains("for")) break;
 
                 operatorPolizStack.addLast(right);
