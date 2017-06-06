@@ -164,8 +164,9 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
         forPolizies.put("for ( a = 1 ; a < 10 ; a = a * 2 ) cout << a ⁋",
                         "a 1 = r0 1 = m0 : a 10 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = cout a << m0 БП m1 :");
-//        forPolizies.put("for ( i = 0 ; i < 10 ; i = i + 1 ) for ( j = 0 ; j < 10 ; j = j + 1 ) a = a + i * j ⁋",
-//                "i 0 = m1 : i 10 < m2 УПЛ i i 1 + = j 0 = m3 : j 10 < m4 УПЛ j j 1 + = a a i j * + = m3 БП m4 : m1 БП m2 :");
+        forPolizies.put("for ( a = 1 ; a < b ; a = a * 2 ) for ( b = 0 ; b < 10 ; b = b + 1 ) a = a + b ⁋",
+                "a 1 = r0 1 = m0 : a b < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = b 0 = r1 1 = m3 : b 10 < m4 УПЛ" +
+                        " r1 0 == m5 УПЛ b b 1 + = m5 : r1 0 = a a b + = m3 БП m4 : m0 БП m1 :");
     }
 
     @Test
@@ -294,6 +295,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
             operatorPolizOut.clear();
 
             labelTable.clear();
+            rTable.clear();
 
         }
     }
