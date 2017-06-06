@@ -25,6 +25,9 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     private HashMap<LinkedList<String>, LinkedList<String>> expressions = new HashMap<>();
     private HashMap<LinkedList<String>, String> polizes = new HashMap<>();
 
+    private HashMap<String, String> ifPolizies = new HashMap<>();
+    private HashMap<String, String> forPolizies = new HashMap<>();
+
     private ArrayList<String> lexDB = new ArrayList<>(Arrays.asList(
             "prog", "var", "int", "real", "cout", "cin", "if", "for", "{", "}",
                 "⁋", ",", "+", "-", "*", "/", "(", ")", "=", "<<", ">>", "<", ">",
@@ -152,6 +155,18 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")), "11.0");
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), "1.0");
         polizes.put(new LinkedList<>(Arrays.asList("3", "4", "<")), "true");
+
+        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m0 УПЛ a 0 = m0 :");
+        ifPolizies.put("if ( a > b ) { a = a + b ⁋ }", "a b > m0 УПЛ a a b + = m0 :");
+        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m0 УПЛ a 0 < m1 УПЛ a 0 = m1 : m0 :");
+        ifPolizies.put("if ( a == b ) { if ( a < b ) { if ( a == -1 ) { a = 1 ⁋ } } }",
+                        "a b == m0 УПЛ a b < m1 УПЛ a -1 == m2 УПЛ a 1 = m2 : m1 : m0 :");
+
+        forPolizies.put("for ( a = 1 ; a < 10 ; a = a * 2 ) cout << a ⁋",
+                        "a 1 = r0 1 = m0 : a 10 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = cout a << m0 БП m1 :");
+        forPolizies.put("for ( a = 1 ; a < b ; a = a * 2 ) for ( b = 0 ; b < 10 ; b = b + 1 ) a = a + b ⁋",
+                "a 1 = r0 1 = m0 : a b < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = b 0 = r1 1 = m3 : b 10 < m4 УПЛ" +
+                        " r1 0 == m5 УПЛ b b 1 + = m5 : r1 0 = a a b + = m3 БП m4 : m0 БП m1 :");
     }
 
     @Test
@@ -200,6 +215,87 @@ public class SyntaxPrecedenceTableAnalyzerTest {
             String expected = entry.getValue();
 
             assertEquals(expected, actual);
+
+        }
+    }
+
+    @Test
+    public void whenGetIfOperatorShouldCreatePoliz() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        LinkedList<String> operatorPolizStack = new LinkedList<String>();
+        LinkedList<String> operatorPolizOut = new LinkedList<String>();
+        HashMap<String, Integer> labelTable = new HashMap<>();
+        for (Map.Entry<String, String> entry: ifPolizies.entrySet()) {
+
+            for (String right : entry.getKey().split(" ")) {
+
+                analyzer.obtainIfOperator(right, operatorPolizStack, operatorPolizOut, labelTable);
+            }
+
+            operatorPolizStack.clear();
+
+            String expected = entry.getValue();
+            String actual = String.join(" ", operatorPolizOut);
+
+            assertEquals(expected, actual);
+
+            operatorPolizOut.clear();
+
+            labelTable.clear();
+
+        }
+    }
+
+    @Test
+    public void whenGetForOperatorShouldCreatePoliz() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        LinkedList<String> operatorPolizStack = new LinkedList<String>();
+        LinkedList<String> operatorPolizOut = new LinkedList<String>();
+        HashMap<String, Integer> labelTable = new HashMap<>();
+        HashMap<String, Integer> rTable = new HashMap<>();
+
+        for (Map.Entry<String, String> entry: forPolizies.entrySet()) {
+
+            int semicolonIndex = -1;
+            int forClosed = 0;
+            for (String right : entry.getKey().split(" ")) {
+
+                if (right.equals(";")) {
+                    semicolonIndex++;
+                }
+
+                if (right.equals("(")) {
+                    forClosed++;
+                }
+
+                if (right.equals(")")) {
+                    forClosed--;
+                }
+
+                analyzer.obtainForOperator(right,
+                                            operatorPolizStack,
+                                            operatorPolizOut,
+                                            labelTable,
+                                            rTable,
+                                            semicolonIndex,
+                                            forClosed == 0);
+            }
+
+            operatorPolizStack.clear();
+
+            String expected = entry.getValue();
+            String actual = String.join(" ", operatorPolizOut);
+
+            assertEquals(expected, actual);
+
+            operatorPolizOut.clear();
+
+            labelTable.clear();
+            rTable.clear();
 
         }
     }

@@ -24,6 +24,12 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     private LinkedList<String> poliz = new LinkedList<>();
 
+    private LinkedList<String> operatorPolizStack = new LinkedList<>();
+    private LinkedList<String> operatorPolizOut = new LinkedList<>();
+
+    private HashMap<String, Integer> labelTable = new HashMap<>();
+    private HashMap<String, Integer> rTable = new HashMap<>();
+
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
 
@@ -44,6 +50,12 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     public void start() throws SyntaxError {
 
+        boolean ifFlag = false;
+        boolean forFlag = false;
+
+        int semicolonIndex = -1;
+        int forClosed = 0;
+
         stack.add("#");
         for (int i = 0; i < lexList.size(); i++) {
             String left = stack.peekLast();
@@ -58,7 +70,7 @@ public class SyntaxPrecedenceTableAnalyzer {
             boolean gt = getSign(left, right).equals(">");
             if (lt || equals) {
 
-                if (right.equals("⁋") || right.equals(";")) {
+                /*if (right.equals("⁋") || right.equals(";")) {
 
                     String calculated = this.calculatePoliz(poliz);
 
@@ -70,7 +82,73 @@ public class SyntaxPrecedenceTableAnalyzer {
                     this.globalPolizies.put(poliz, calculated);
 
                     this.poliz = new LinkedList<>();
+                }*/
+
+                if (ifFlag) {
+
+                    if (obtainIfOperator(this.lexList.get(i).getLex().trim(), this.operatorPolizStack, this.operatorPolizOut, this.labelTable)) {
+                        this.operatorPolizStack.clear();
+
+                        System.out.println();
+                        this.operatorPolizOut.forEach(elem -> System.out.print(elem + " "));
+                        System.out.println();
+
+                        this.operatorPolizOut.clear();
+                        this.labelTable.clear();
+                        ifFlag = false;
+                    }
+
                 }
+                
+                if (right.equals("for")) {
+                    forFlag = true;
+                }
+
+                if (forFlag) {
+
+                    String lex = this.lexList.get(i).getLex().trim();
+
+                    if (lex.equals(";")) {
+                        semicolonIndex++;
+                    }
+
+                    if (lex.equals("(")) {
+                        forClosed++;
+                    }
+
+                    if (lex.equals(")")) {
+                        forClosed--;
+                    }
+
+                    if (obtainForOperator(lex,
+                            this.operatorPolizStack,
+                            this.operatorPolizOut,
+                            this.labelTable,
+                            this.rTable,
+                            semicolonIndex,
+                            forClosed == 0)) {
+                        operatorPolizStack.clear();
+
+                        System.out.println();
+                        this.operatorPolizOut.forEach(elem -> System.out.print(elem + " "));
+                        System.out.println();
+
+                        operatorPolizOut.clear();
+
+                        labelTable.clear();
+                        rTable.clear();
+
+                        forFlag = false;
+                    }
+
+                }
+
+
+                if (right.equals("if")) {
+                    this.operatorPolizStack.addLast("if");
+                    ifFlag = true;
+                }
+
 
                 stack.add(right);
                 stack.forEach(el -> System.out.print(el + " "));
@@ -108,7 +186,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 String reduced = reduce(toReduce, left, nextElem);
                 if (!reduced.equals("404")) {
-                    String arithmeticSign = "";
+                    /*String arithmeticSign = "";
 
                     for (String sign : arithmeticOperations) {
                         if (toReduce.contains(sign)) {
@@ -123,9 +201,9 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                     if (toReduce.equals("IDN") || toReduce.equals("CON")) {
                         this.poliz.addLast(this.lexList.get(i - 1).getLex());
-                    }
+                    }*/
 
-                    System.out.println(this.poliz);
+//                    System.out.println(this.poliz);
 
                     stack.add(reduced);
                     stack.forEach(el -> System.out.print(el + " "));
@@ -138,11 +216,11 @@ public class SyntaxPrecedenceTableAnalyzer {
         }
 
 
-        for (Map.Entry<LinkedList<String>, String> poliz : this.globalPolizies.entrySet()) {
-            System.out.println(poliz.getKey());
-            System.out.println(poliz.getValue());
-            System.out.println("============");
-        }
+//        for (Map.Entry<LinkedList<String>, String> poliz : this.globalPolizies.entrySet()) {
+//            System.out.println(poliz.getKey());
+//            System.out.println(poliz.getValue());
+//            System.out.println("============");
+//        }
     }
 
     private String reduce(String elem, String previousElem, String nextElem) {
@@ -270,5 +348,247 @@ public class SyntaxPrecedenceTableAnalyzer {
         }
 
         return stack.getLast();
+    }
+
+    public boolean obtainIfOperator(String right,
+                                    LinkedList<String> operatorPolizStack,
+                                    LinkedList<String> operatorPolizOut,
+                                    HashMap<String, Integer> labelTable) {
+        String elem;
+        switch(right) {
+
+            case "{":
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null) {
+
+                    operatorPolizOut.addLast(elem);
+
+                    String peekLast = operatorPolizStack.peekLast();
+                    elem = peekLast.equals("if") || peekLast.startsWith("m")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+
+                int labelIndex = 0;
+
+                if (labelTable.size() > 0) {
+                    labelIndex = labelTable.size();
+                }
+
+                operatorPolizOut.addLast("m" + labelIndex);
+                operatorPolizStack.addLast("m" + labelIndex);
+                operatorPolizOut.addLast("УПЛ");
+
+                //put zero as second value for now
+                labelTable.put("m" + labelIndex, 0);
+                break;
+            case "}":
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null && !elem.equals("if")) {
+
+                    operatorPolizOut.addLast(elem);
+
+                    if (elem.startsWith("m")) {
+                        operatorPolizOut.addLast(":");
+                    }
+
+                    elem = operatorPolizStack.peekLast().equals("if")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+                return true;
+            case ">":
+            case "<":
+            case "==":
+            case "!=":
+            case ">=":
+            case "=<":
+            case "=":
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+                operatorPolizStack.addLast(right);
+                break;
+            case "if":
+
+                if (operatorPolizStack.contains("if")) break;
+
+                operatorPolizStack.addLast(right);
+                break;
+            case "⁋":
+            case "(":
+            case ")":
+                break;
+            default:
+                operatorPolizOut.addLast(right);
+        }
+
+        return false;
+    }
+
+    public boolean obtainForOperator(String right,
+                                    LinkedList<String> operatorPolizStack,
+                                    LinkedList<String> operatorPolizOut,
+                                    HashMap<String, Integer> labelTable,
+                                     HashMap<String, Integer> rTable,
+                                     int semicolonIndex,
+                                     boolean closedFor) {
+        String elem;
+        switch(right) {
+
+            case ";":
+
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null) {
+
+                    operatorPolizOut.addLast(elem);
+
+                    String peekLast = operatorPolizStack.peekLast();
+                    elem = peekLast.equals("for") || peekLast.startsWith("m")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+
+
+                int labelIndex = 0;
+
+                if (labelTable.size() > 0) {
+                    labelIndex = labelTable.size();
+                }
+
+                if (semicolonIndex % 2 == 0) {
+                    operatorPolizOut.addLast("r" + (rTable.size() - 1));
+                    operatorPolizOut.addLast("1");
+                    operatorPolizOut.addLast("=");
+
+                    operatorPolizOut.addLast("m" + labelIndex);
+                    operatorPolizStack.addLast("m" + labelIndex);
+
+                    operatorPolizOut.addLast(":");
+
+                    labelTable.put("m" + labelIndex, 0);
+                    return false;
+                }
+
+                operatorPolizOut.addLast("m" + labelIndex);
+                operatorPolizStack.addLast("m" + labelIndex);
+                operatorPolizOut.addLast("УПЛ");
+
+                //put zero as second value for now
+                labelTable.put("m" + labelIndex, 0);
+
+                operatorPolizOut.addLast("r" + (rTable.size() - 1));
+                operatorPolizOut.addLast("0");
+                operatorPolizOut.addLast("==");
+
+                labelIndex++;
+
+                operatorPolizOut.addLast("m" + labelIndex);
+                operatorPolizStack.addLast("m" + labelIndex);
+                operatorPolizOut.addLast("УПЛ");
+
+                //put zero as second value for now
+                labelTable.put("m" + labelIndex, 0);
+                break;
+            case ")":
+                if (!closedFor) {
+                    return false;
+                }
+
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null && !elem.startsWith("m")) {
+
+                    operatorPolizOut.addLast(elem);
+
+                    String peekLast = operatorPolizStack.peekLast();
+                    elem = peekLast == null || peekLast.startsWith("m")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+
+                //if elem not null -> then we have label in stack
+                if (operatorPolizStack.peekLast() != null) {
+                    elem = operatorPolizStack.pollLast();
+
+                    operatorPolizOut.addLast(elem);
+                    operatorPolizOut.addLast(":");
+
+                    operatorPolizOut.addLast("r" + (rTable.size() - 1));
+                    operatorPolizOut.addLast("0");
+                    operatorPolizOut.addLast("=");
+                }
+
+                break;
+            case "⁋":
+                elem = operatorPolizStack.pollLast();
+
+                LinkedList<String> labels = new LinkedList<>();
+                while (elem != null && !elem.equals("for")) {
+
+                    if (elem.startsWith("m")) {
+                        labels.addLast(elem);
+                    } else {
+                        operatorPolizOut.addLast(elem);
+                    }
+
+                    String peekLast = operatorPolizStack.peekLast();
+                    elem = peekLast == null || elem.equals("for")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+
+                String second = labels.pollFirst();
+                String first = labels.pollFirst();
+
+                while (second != null && first != null) {
+
+                    operatorPolizOut.addLast(first);
+                    operatorPolizOut.addLast("БП");
+                    operatorPolizOut.addLast(second);
+                    operatorPolizOut.addLast(":");
+
+                    second = labels.pollFirst();
+                    first = labels.pollFirst();
+                }
+                return true;
+            case ">":
+            case "<":
+            case "==":
+            case "!=":
+            case ">=":
+            case "=<":
+            case "=":
+            case "+":
+            case "-":
+            case "/":
+            case "*":
+            case "<<":
+            case ">>":
+                operatorPolizStack.addLast(right);
+                break;
+            case "for":
+                rTable.put("r" + rTable.size(), 0);
+
+                if (operatorPolizStack.contains("for")) break;
+
+                operatorPolizStack.addLast(right);
+                break;
+            case "(":
+                break;
+            default:
+                operatorPolizOut.addLast(right);
+        }
+
+        return false;
     }
 }

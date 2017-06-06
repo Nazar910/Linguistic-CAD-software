@@ -1,5 +1,7 @@
 prog Program
-var int i
-{i=1+2*3
-i=1+2*(3+4)*(5+6)
+var int i,a
+{i=0
+if(i!=10){i=10
+}
+for(a=0;a<i;a=a*2)cout<<a
 }
