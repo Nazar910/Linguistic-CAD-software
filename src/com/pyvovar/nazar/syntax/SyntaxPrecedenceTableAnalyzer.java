@@ -21,6 +21,7 @@ public class SyntaxPrecedenceTableAnalyzer {
     private Set<String> arithmeticOperations = new HashSet<>(
             Arrays.asList("*", "/", "+", "-", "="));
     private LinkedList<String> expressionSigns = new LinkedList<>(Arrays.asList(">", "<", "==", "<=", ">="));
+    private LinkedList<String> ioSigns = new LinkedList<>(Arrays.asList(">>", "<<"));
 
     private HashMap<LinkedList<String>, String> globalPolizies = new HashMap<>();
 
@@ -31,6 +32,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     private HashMap<String, Integer> labelTable = new HashMap<>();
     private HashMap<String, Integer> rTable = new HashMap<>();
+
 
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
@@ -259,19 +261,21 @@ public class SyntaxPrecedenceTableAnalyzer {
                                  PrintStream out) {
         LinkedList<String> stack = new LinkedList<>();
 
+        HashMap<String, String> innerVars = new HashMap<>();
+
         String idnName = "";
         for (int i = 0; i < poliz.size(); i++) {
             String p = poliz.get(i);
 
-            if (!this.arithmeticOperations.contains(p) && !this.expressionSigns.contains(p)) {
+            if (!this.arithmeticOperations.contains(p) && !this.expressionSigns.contains(p) && !this.ioSigns.contains(p)) {
 
                 if (p.contains(":")) {
-                    i++;
                     continue;
                 }
 
                 if (poliz.contains(p + ":")) {
                     int index = poliz.indexOf(p + ":");
+                    idnName = "";
 
                     if (poliz.get(i + 1).equals("БП")) {
                         i = index;
@@ -296,21 +300,48 @@ public class SyntaxPrecedenceTableAnalyzer {
                 Pair<String, String> value = idns.get(p);
                 if (value != null && !value.getValue().equals("")) {
                     item = value.getValue();
-                    idnName = p;
-                } else {
+                    idnName += " " + p;
+                } else if (innerVars.get(p) != null) {
+                    item = innerVars.get(p);
+                    idnName = " " + p;
+                } else if (p.equals("cout") || p.equals("cin")) {
                     item = p;
+                } else {
+                    try {
+                        Double.parseDouble(p);
+                    } catch (NumberFormatException ex) {
+                        innerVars.putIfAbsent(p, "");
+                        idnName = " " + p;
+                    } finally {
+                        item = p;
+                    }
+
                 }
 
                 stack.push(item);
                 continue;
             }
-            if (this.arithmeticOperations.contains(p) || this.expressionSigns.contains(p)) {
+            if (this.arithmeticOperations.contains(p) || this.expressionSigns.contains(p) || this.ioSigns.contains(p)) {
                 String strOp2 = stack.pop();
                 String strOp1 = stack.pop();
 
+                if (strOp1.equals("cout")) {
+                    out.println(strOp2);
+                    continue;
+                }
+
                 if (p.equals("=")) {
-                    Pair<String, String> idn = idns.get(idnName);
-                    idns.put(idnName, new Pair<>(idn.getKey(), strOp2));
+                    String name = idnName.split(" ")[1].trim();
+                    Pair<String, String> idn = idns.get(name);
+
+                    idnName = "";
+                    if (idn != null) {
+                        idns.put(name, new Pair<>(idn.getKey(), strOp2));
+                        continue;
+                    }
+
+                    innerVars.put(name, strOp2);
+                    continue;
                 }
 
                 double op2 = Double.parseDouble(strOp2);

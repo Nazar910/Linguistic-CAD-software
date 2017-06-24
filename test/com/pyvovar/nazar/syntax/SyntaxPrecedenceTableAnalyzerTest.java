@@ -15,6 +15,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by nazar on 5/2/17.
@@ -317,6 +319,29 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
         assertEquals("1", idns.get("a").getValue());
         assertEquals("0", idns.get("b").getValue());
+    }
+
+    @Test
+    public void whenGetForPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "0"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a 1 = r0 1 = m0: a 2 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2: r0 0 = cout a << m0 БП m1:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        PrintStream mockStream = mock(PrintStream.class);
+
+        analyzer.calculatePoliz(poliz, idns, mockStream);
+
+        assertEquals("2.0", idns.get("a").getValue());
+        assertEquals("0", idns.get("b").getValue());
+
+        verify(mockStream, times(1)).println("1");
+        verify(mockStream, times(1)).println("2.0");
     }
 
 }
