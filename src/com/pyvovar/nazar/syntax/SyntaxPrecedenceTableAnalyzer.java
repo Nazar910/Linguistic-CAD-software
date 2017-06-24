@@ -254,7 +254,7 @@ public class SyntaxPrecedenceTableAnalyzer {
         return this.lexDB.get(index);
     }
 
-    public String calculatePoliz(LinkedList<String> poliz,
+    public void calculatePoliz(LinkedList<String> poliz,
                                  HashMap<String, Pair<String, String>> idns,
                                  PrintStream out) {
         LinkedList<String> stack = new LinkedList<>();
@@ -378,8 +378,6 @@ public class SyntaxPrecedenceTableAnalyzer {
 
             stack.push(boolResult + "");
         }
-
-        return stack.getLast();
     }
 
     public boolean obtainIfOperator(String right,
@@ -421,10 +419,10 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 while (elem != null && !elem.equals("if")) {
 
-                    operatorPolizOut.addLast(elem);
-
                     if (elem.startsWith("m")) {
-                        operatorPolizOut.addLast(":");
+                        operatorPolizOut.addLast(elem + ":");
+                    } else {
+                        operatorPolizOut.addLast(elem);
                     }
 
                     elem = operatorPolizStack.peekLast().equals("if")
@@ -500,10 +498,8 @@ public class SyntaxPrecedenceTableAnalyzer {
                     operatorPolizOut.addLast("1");
                     operatorPolizOut.addLast("=");
 
-                    operatorPolizOut.addLast("m" + labelIndex);
+                    operatorPolizOut.addLast("m" + labelIndex + ":");
                     operatorPolizStack.addLast("m" + labelIndex);
-
-                    operatorPolizOut.addLast(":");
 
                     labelTable.put("m" + labelIndex, 0);
                     return false;
@@ -551,8 +547,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                 if (operatorPolizStack.peekLast() != null) {
                     elem = operatorPolizStack.pollLast();
 
-                    operatorPolizOut.addLast(elem);
-                    operatorPolizOut.addLast(":");
+                    operatorPolizOut.addLast(elem + ":");
 
                     operatorPolizOut.addLast("r" + (rTable.size() - 1));
                     operatorPolizOut.addLast("0");
@@ -586,8 +581,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                     operatorPolizOut.addLast(first);
                     operatorPolizOut.addLast("БП");
-                    operatorPolizOut.addLast(second);
-                    operatorPolizOut.addLast(":");
+                    operatorPolizOut.addLast(second + ":");
 
                     second = labels.pollFirst();
                     first = labels.pollFirst();

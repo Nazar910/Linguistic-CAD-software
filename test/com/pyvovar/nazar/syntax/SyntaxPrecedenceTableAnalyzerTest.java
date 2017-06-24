@@ -153,22 +153,17 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         expressions.put(new LinkedList<>(Arrays.asList("1", "+", "2", "*", "(", "3", "+", "4", ")", "*", "(", "5", "+", "6", ")")),
                 new LinkedList<>(Arrays.asList("1", "2", "3", "4", "+", "*", "5", "6", "+", "*", "+")));
 
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "+")), "7.0");
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")), "11.0");
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), "1.0");
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "<")), "true");
-
-        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m0 УПЛ a 0 = m0 :");
-        ifPolizies.put("if ( a > b ) { a = a + b ⁋ }", "a b > m0 УПЛ a a b + = m0 :");
-        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m0 УПЛ a 0 < m1 УПЛ a 0 = m1 : m0 :");
+        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m0 УПЛ a 0 = m0:");
+        ifPolizies.put("if ( a > b ) { a = a + b ⁋ }", "a b > m0 УПЛ a a b + = m0:");
+        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m0 УПЛ a 0 < m1 УПЛ a 0 = m1: m0:");
         ifPolizies.put("if ( a == b ) { if ( a < b ) { if ( a == -1 ) { a = 1 ⁋ } } }",
-                        "a b == m0 УПЛ a b < m1 УПЛ a -1 == m2 УПЛ a 1 = m2 : m1 : m0 :");
+                        "a b == m0 УПЛ a b < m1 УПЛ a -1 == m2 УПЛ a 1 = m2: m1: m0:");
 
         forPolizies.put("for ( a = 1 ; a < 10 ; a = a * 2 ) cout << a ⁋",
-                        "a 1 = r0 1 = m0 : a 10 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = cout a << m0 БП m1 :");
+                        "a 1 = r0 1 = m0: a 10 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2: r0 0 = cout a << m0 БП m1:");
         forPolizies.put("for ( a = 1 ; a < b ; a = a * 2 ) for ( b = 0 ; b < 10 ; b = b + 1 ) a = a + b ⁋",
-                "a 1 = r0 1 = m0 : a b < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = b 0 = r1 1 = m3 : b 10 < m4 УПЛ" +
-                        " r1 0 == m5 УПЛ b b 1 + = m5 : r1 0 = a a b + = m3 БП m4 : m0 БП m1 :");
+                "a 1 = r0 1 = m0: a b < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2: r0 0 = b 0 = r1 1 = m3: b 10 < m4 УПЛ" +
+                        " r1 0 == m5 УПЛ b b 1 + = m5: r1 0 = a a b + = m3 БП m4: m0 БП m1:");
     }
 
     @Test
@@ -289,23 +284,6 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     }
 
     @Test
-    public void whenGetPolizShouldCalculateItWright() {
-        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
-
-        for (Map.Entry<LinkedList<String>, String> entry: polizes.entrySet()) {
-
-            String actual = analyzer.calculatePoliz(entry.getKey(),
-                                                    new HashMap<String, Pair<String,String>>(),
-                                                    System.out);
-            String expected = entry.getValue();
-
-            assertEquals(expected, actual);
-
-        }
-    }
-
-    @Test
     public void whenGetIfPolizShouldCalculateItWright() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
         SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
@@ -317,9 +295,27 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         String str = "a b > m0 УПЛ a 0 = m0:";
         LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
 
-        String result = analyzer.calculatePoliz(poliz, idns, System.out);
+        analyzer.calculatePoliz(poliz, idns, System.out);
 
         assertEquals("0", idns.get("a").getValue());
+        assertEquals("0", idns.get("b").getValue());
+    }
+
+    @Test
+    public void whenGetWrappedIfPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "0"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a b == m0 УПЛ a 1 < m1 УПЛ a -1 > m2 УПЛ a 1 = m2: m1: m0:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        analyzer.calculatePoliz(poliz, idns, System.out);
+
+        assertEquals("1", idns.get("a").getValue());
         assertEquals("0", idns.get("b").getValue());
     }
 
