@@ -3,7 +3,9 @@ package com.pyvovar.nazar.syntax;
 import com.pyvovar.nazar.helpers.Precedence;
 import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
+import javafx.util.Pair;
 
+import java.io.PrintStream;
 import java.util.*;
 
 public class SyntaxPrecedenceTableAnalyzer {
@@ -252,25 +254,54 @@ public class SyntaxPrecedenceTableAnalyzer {
         return this.lexDB.get(index);
     }
 
-    public String calculatePoliz(LinkedList<String> poliz) {
+    public String calculatePoliz(LinkedList<String> poliz,
+                                 HashMap<String, Pair<String, String>> idns,
+                                 PrintStream out) {
         LinkedList<String> stack = new LinkedList<>();
 
-        boolean first = true;
-        for (String p : poliz) {
+        String idnName = "";
+        for (int i = 0; i < poliz.size(); i++) {
+            String p = poliz.get(i);
 
             if (!this.arithmeticOperations.contains(p) && !this.expressionSigns.contains(p)) {
 
+                if (p.contains(":")) {
+                    i++;
+                    continue;
+                }
+
+                if (poliz.contains(p + ":")) {
+                    int index = poliz.indexOf(p + ":");
+
+                    if (poliz.get(i + 1).equals("БП")) {
+                        i = index;
+                        continue;
+                    }
+
+                    //УПЛ
+                    Boolean cond = new Boolean(stack.pop());
+
+                    //if condition is false
+                    if (!cond) {
+                        i = index;
+                        continue;
+                    }
+
+                    i++;
+                    continue;
+                }
+
                 String item;
 
-                String value = this.idns.get(p);
-                if (value != null && !value.equals("") && !first) {
-                    item = value;
+                Pair<String, String> value = idns.get(p);
+                if (value != null && !value.getValue().equals("")) {
+                    item = value.getValue();
+                    idnName = p;
                 } else {
                     item = p;
                 }
 
                 stack.push(item);
-                first = false;
                 continue;
             }
             if (this.arithmeticOperations.contains(p) || this.expressionSigns.contains(p)) {
@@ -278,7 +309,8 @@ public class SyntaxPrecedenceTableAnalyzer {
                 String strOp1 = stack.pop();
 
                 if (p.equals("=")) {
-                    return strOp1 + "=" + strOp2;
+                    Pair<String, String> idn = idns.get(idnName);
+                    idns.put(idnName, new Pair<>(idn.getKey(), strOp2));
                 }
 
                 double op2 = Double.parseDouble(strOp2);

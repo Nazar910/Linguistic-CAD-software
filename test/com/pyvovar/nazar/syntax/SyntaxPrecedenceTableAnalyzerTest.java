@@ -8,11 +8,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.PrintStream;
 import java.util.*;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by nazar on 5/2/17.
@@ -204,20 +206,6 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
     }
 
-    @Test
-    public void whenGetPolizShouldCalculateItWright() {
-        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
-
-        for (Map.Entry<LinkedList<String>, String> entry: polizes.entrySet()) {
-
-            String actual = analyzer.calculatePoliz(entry.getKey());
-            String expected = entry.getValue();
-
-            assertEquals(expected, actual);
-
-        }
-    }
 
     @Test
     public void whenGetIfOperatorShouldCreatePoliz() {
@@ -298,6 +286,41 @@ public class SyntaxPrecedenceTableAnalyzerTest {
             rTable.clear();
 
         }
+    }
+
+    @Test
+    public void whenGetPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        for (Map.Entry<LinkedList<String>, String> entry: polizes.entrySet()) {
+
+            String actual = analyzer.calculatePoliz(entry.getKey(),
+                                                    new HashMap<String, Pair<String,String>>(),
+                                                    System.out);
+            String expected = entry.getValue();
+
+            assertEquals(expected, actual);
+
+        }
+    }
+
+    @Test
+    public void whenGetIfPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "2"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a b > m0 УПЛ a 0 = m0:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        String result = analyzer.calculatePoliz(poliz, idns, System.out);
+
+        assertEquals("0", idns.get("a").getValue());
+        assertEquals("0", idns.get("b").getValue());
     }
 
 }
