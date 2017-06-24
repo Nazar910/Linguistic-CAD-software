@@ -344,4 +344,23 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         verify(mockStream, times(1)).println("2.0");
     }
 
+    @Test
+    public void whenGetWrappedForPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "0"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a 1 = r0 1 = m0: a 2 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2: r0 0 = b 0 = r1 1 = m3: b 3 < m4 УПЛ" +
+                " r1 0 == m5 УПЛ b b 1 + = m5: r1 0 = a a b + = m3 БП m4: m0 БП m1:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        analyzer.calculatePoliz(poliz, idns, System.out);
+
+        assertEquals("7.0", idns.get("a").getValue());
+        assertEquals("3.0", idns.get("b").getValue());
+    }
+
 }
