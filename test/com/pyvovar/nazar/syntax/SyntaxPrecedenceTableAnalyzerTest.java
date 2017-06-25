@@ -157,6 +157,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                 new LinkedList<>(Arrays.asList("1", "2", "3", "4", "+", "*", "5", "6", "+", "*", "+")));
 
         ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m0 УПЛ a 0 = m0:");
+        ifPolizies.put("if ( a > b ) { a = 0 ⁋ cout << a ⁋ }", "a b > m0 УПЛ a 0 = cout a << m0:");
         ifPolizies.put("if ( a > b ) { a = a + b ⁋ }", "a b > m0 УПЛ a a b + = m0:");
         ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m0 УПЛ a 0 < m1 УПЛ a 0 = m1: m0:");
         ifPolizies.put("if ( a == b ) { if ( a < b ) { if ( a == -1 ) { a = 1 ⁋ } } }",

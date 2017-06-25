@@ -1,7 +1,7 @@
 prog Program
-var int i,a
+var int i
 {i=0
-if(i!=10){i=10
+if(i!=1){i=1
+cout<<i
 }
-for(a=0;a<i;a=a*2)cout<<a
 }

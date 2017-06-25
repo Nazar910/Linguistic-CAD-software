@@ -17,7 +17,7 @@ public class SyntaxPrecedenceTableAnalyzer {
     private List<String> lexDB;
     private LinkedList<String> stack = new LinkedList<>();
 
-    private HashMap<String, String> idns = new HashMap<>();
+    private HashMap<String, Pair<String, String>> idns = new HashMap<>();
 
     private Set<String> arithmeticOperations = new HashSet<>(
             Arrays.asList("*", "/", "+", "-", "="));
@@ -38,9 +38,9 @@ public class SyntaxPrecedenceTableAnalyzer {
     public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
         this.lexList = lexList;
 
-        lexList.stream()
-                .filter(elem -> elem.getKod() == 28)
-                .forEach(elem -> idns.put(elem.getLex().trim(), ""));
+//        lexList.stream()
+//                .filter(elem -> elem.getKod() == 28)
+//                .forEach(elem -> idns.put(elem.getLex().trim(), new Pair<>()));
 
         System.out.println(idns);
         this.lexDB = lexDB;
@@ -97,6 +97,8 @@ public class SyntaxPrecedenceTableAnalyzer {
                         System.out.println();
                         this.operatorPolizOut.forEach(elem -> System.out.print(elem + " "));
                         System.out.println();
+
+                        this.calculatePoliz(this.operatorPolizOut, this.idns, System.out, System.in);
 
                         this.operatorPolizOut.clear();
                         this.labelTable.clear();
@@ -156,8 +158,8 @@ public class SyntaxPrecedenceTableAnalyzer {
 
 
                 stack.add(right);
-                stack.forEach(el -> System.out.print(el + " "));
-                System.out.println();
+//                stack.forEach(el -> System.out.print(el + " "));
+//                System.out.println();
             } else {
                 LinkedList<String> str = new LinkedList<>();
                 String backspace = " ";
@@ -211,8 +213,8 @@ public class SyntaxPrecedenceTableAnalyzer {
 //                    System.out.println(this.poliz);
 
                     stack.add(reduced);
-                    stack.forEach(el -> System.out.print(el + " "));
-                    System.out.println();
+//                    stack.forEach(el -> System.out.print(el + " "));
+//                    System.out.println();
                 } else {
                     throw new SyntaxError("Error in " + lexList.get(i).getLine());
                 }
@@ -467,6 +469,20 @@ public class SyntaxPrecedenceTableAnalyzer {
                 //put zero as second value for now
                 labelTable.put("m" + labelIndex, 0);
                 break;
+            case "⁋":
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null && !elem.equals("if")) {
+
+                    operatorPolizOut.addLast(elem);
+
+                    String peek = operatorPolizStack.peekLast();
+                    elem = peek.equals("if") || peek.contains("m")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+                break;
             case "}":
                 elem = operatorPolizStack.pollLast();
 
@@ -474,8 +490,6 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                     if (elem.startsWith("m")) {
                         operatorPolizOut.addLast(elem + ":");
-                    } else {
-                        operatorPolizOut.addLast(elem);
                     }
 
                     elem = operatorPolizStack.peekLast().equals("if")
@@ -494,6 +508,8 @@ public class SyntaxPrecedenceTableAnalyzer {
             case "+":
             case "-":
             case "*":
+            case "<<":
+            case ">>":
             case "/":
                 operatorPolizStack.addLast(right);
                 break;
@@ -503,7 +519,6 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 operatorPolizStack.addLast(right);
                 break;
-            case "⁋":
             case "(":
             case ")":
                 break;
