@@ -5,6 +5,7 @@ import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
 import javafx.util.Pair;
 
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.*;
 
@@ -257,8 +258,9 @@ public class SyntaxPrecedenceTableAnalyzer {
     }
 
     public void calculatePoliz(LinkedList<String> poliz,
-                                 HashMap<String, Pair<String, String>> idns,
-                                 PrintStream out) {
+                               HashMap<String, Pair<String, String>> idns,
+                               PrintStream out,
+                               InputStream in) {
         LinkedList<String> stack = new LinkedList<>();
 
         HashMap<String, String> innerVars = new HashMap<>();
@@ -327,6 +329,26 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 if (strOp1.equals("cout")) {
                     out.println(strOp2);
+                    continue;
+                }
+
+                if (strOp1.equals("cin")) {
+                    String name = idnName.split(" ")[1].trim();
+                    Pair<String, String> idn = idns.get(name);
+
+                    Scanner scanner = new Scanner(in);
+
+                    switch (idn.getKey()) {
+                        case "int":
+                            int intValue = scanner.nextInt();
+                            idns.put(name, new Pair<>(idn.getKey(), intValue + ""));
+                            break;
+                        case "real":
+                            float realValue = scanner.nextFloat();
+                            idns.put(name, new Pair<>(idn.getKey(), realValue + ""));
+                            break;
+                    }
+
                     continue;
                 }
 

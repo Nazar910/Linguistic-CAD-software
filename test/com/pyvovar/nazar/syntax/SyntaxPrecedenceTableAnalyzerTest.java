@@ -8,15 +8,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.*;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by nazar on 5/2/17.
@@ -297,7 +298,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         String str = "a b > m0 УПЛ a 0 = m0:";
         LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
 
-        analyzer.calculatePoliz(poliz, idns, System.out);
+        analyzer.calculatePoliz(poliz, idns, System.out, System.in);
 
         assertEquals("0", idns.get("a").getValue());
         assertEquals("0", idns.get("b").getValue());
@@ -315,9 +316,29 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         String str = "a b == m0 УПЛ a 1 < m1 УПЛ a -1 > m2 УПЛ a 1 = m2: m1: m0:";
         LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
 
-        analyzer.calculatePoliz(poliz, idns, System.out);
+        analyzer.calculatePoliz(poliz, idns, System.out, System.in);
 
         assertEquals("1", idns.get("a").getValue());
+        assertEquals("0", idns.get("b").getValue());
+    }
+
+    @Test
+    public void whenGetIfWithCinPolizShouldCalculateItWright() throws IOException{
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "2"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a b > m0 УПЛ cin a >> m0:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        InputStream in = new ByteArrayInputStream("10".getBytes());
+
+        analyzer.calculatePoliz(poliz, idns, System.out, in);
+
+        assertEquals("10", idns.get("a").getValue());
         assertEquals("0", idns.get("b").getValue());
     }
 
@@ -335,7 +356,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
         PrintStream mockStream = mock(PrintStream.class);
 
-        analyzer.calculatePoliz(poliz, idns, mockStream);
+        analyzer.calculatePoliz(poliz, idns, mockStream, System.in);
 
         assertEquals("2.0", idns.get("a").getValue());
         assertEquals("0", idns.get("b").getValue());
@@ -357,7 +378,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                 " r1 0 == m5 УПЛ b b 1 + = m5: r1 0 = a a b + = m3 БП m4: m0 БП m1:";
         LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
 
-        analyzer.calculatePoliz(poliz, idns, System.out);
+        analyzer.calculatePoliz(poliz, idns, System.out, System.in);
 
         assertEquals("7.0", idns.get("a").getValue());
         assertEquals("3.0", idns.get("b").getValue());
