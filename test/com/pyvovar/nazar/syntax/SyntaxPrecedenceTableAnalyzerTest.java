@@ -1,5 +1,6 @@
 package com.pyvovar.nazar.syntax;
 
+import com.pyvovar.nazar.helpers.Callback;
 import com.pyvovar.nazar.records.IdRecord;
 import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
@@ -171,6 +172,12 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                         " r1 0 == m5 УПЛ b b 1 + = m5: r1 0 = a a b + = m3 БП m4: m0 БП m1:");
     }
 
+    Callback cb = new Callback() {
+        @Override
+        public void cin(String var, HashMap<String, Pair<String,String>> idns) {
+        }
+    };
+
     @Test
     public void whenWrightLexSequencesReturnSuccess() {
         System.out.println("=========Wright Lexes Test=========");
@@ -182,8 +189,10 @@ public class SyntaxPrecedenceTableAnalyzerTest {
                 ids.add(new IdRecord("Program", "prog", ""));
                 ids.add(new IdRecord("i", "int", "0"));
 
+
+
                 SyntaxPrecedenceTableAnalyzer analyzer
-                        = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
+                        = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
                 analyzer.start();
 
             }
@@ -205,7 +214,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
                 Pair<ArrayList<LexRecord>, ArrayList<String>> pair = entry.getKey();
                 SyntaxPrecedenceTableAnalyzer analyzer
-                        = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
+                        = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
                 analyzer.start();
                 fail("Expect an exception to be thrown before this message...");
             } catch (SyntaxError syntaxError) {
@@ -226,7 +235,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         ids.add(new IdRecord("a", "int", "0"));
         ids.add(new IdRecord("b", "int", "0"));
 
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
 
         LinkedList<String> operatorPolizStack = new LinkedList<String>();
         LinkedList<String> operatorPolizOut = new LinkedList<String>();
@@ -261,7 +270,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         ids.add(new IdRecord("a", "int", "0"));
         ids.add(new IdRecord("b", "int", "0"));
 
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
 
         LinkedList<String> operatorPolizStack = new LinkedList<String>();
         LinkedList<String> operatorPolizOut = new LinkedList<String>();
@@ -319,7 +328,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         ids.add(new IdRecord("a", "int", "0"));
         ids.add(new IdRecord("b", "int", "0"));
 
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "2"));
@@ -343,7 +352,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         ids.add(new IdRecord("a", "int", "0"));
         ids.add(new IdRecord("b", "int", "0"));
 
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "0"));
@@ -367,7 +376,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         ids.add(new IdRecord("a", "int", "0"));
         ids.add(new IdRecord("b", "int", "0"));
 
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "2"));
@@ -393,7 +402,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         ids.add(new IdRecord("a", "int", "0"));
         ids.add(new IdRecord("b", "int", "0"));
 
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "0"));
@@ -422,7 +431,7 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         ids.add(new IdRecord("a", "int", "0"));
         ids.add(new IdRecord("b", "int", "0"));
 
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "0"));

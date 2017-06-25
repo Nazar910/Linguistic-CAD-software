@@ -1,5 +1,6 @@
 package com.pyvovar.nazar.syntax;
 
+import com.pyvovar.nazar.helpers.Callback;
 import com.pyvovar.nazar.helpers.Precedence;
 import com.pyvovar.nazar.records.IdRecord;
 import com.pyvovar.nazar.records.LexRecord;
@@ -28,6 +29,7 @@ public class SyntaxPrecedenceTableAnalyzer {
     private HashMap<LinkedList<String>, String> globalPolizies = new HashMap<>();
 
     private LinkedList<String> poliz = new LinkedList<>();
+    private LinkedList<String> exprPolizStack = new LinkedList<>();
 
     private LinkedList<String> operatorPolizStack = new LinkedList<>();
     private LinkedList<String> operatorPolizOut = new LinkedList<>();
@@ -35,9 +37,13 @@ public class SyntaxPrecedenceTableAnalyzer {
     private HashMap<String, Integer> labelTable = new HashMap<>();
     private HashMap<String, Integer> rTable = new HashMap<>();
 
+    private Callback cb;
 
-    public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB, List<IdRecord> ids) {
+
+    public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB, List<IdRecord> ids, Callback cb) {
         this.lexList = lexList;
+
+        this.cb = cb;
 
         lexList.stream()
                 .filter(elem -> elem.getKod() == 28)
@@ -75,9 +81,12 @@ public class SyntaxPrecedenceTableAnalyzer {
             if (lt || equals) {
 
                 if (right.equals("⁋") || right.equals(";")) {
+                    if (!ifFlag && !forFlag && poliz.size() != 1) {
 
-                    this.calculatePoliz(poliz, this.idns, System.out, System.in);
+                        this.poliz.addAll(this.exprPolizStack);
+                        this.calculatePoliz(poliz, this.idns, System.out, System.in);
 
+                    }
                     this.poliz = new LinkedList<>();
                 }
 
@@ -132,6 +141,8 @@ public class SyntaxPrecedenceTableAnalyzer {
                         this.operatorPolizOut.forEach(elem -> System.out.print(elem + " "));
                         System.out.println();
 
+                        this.calculatePoliz(this.operatorPolizOut, this.idns, System.out, System.in);
+
                         operatorPolizOut.clear();
 
                         labelTable.clear();
@@ -146,6 +157,18 @@ public class SyntaxPrecedenceTableAnalyzer {
                 if (right.equals("if")) {
                     this.operatorPolizStack.addLast("if");
                     ifFlag = true;
+                }
+
+                if (right.equals("cout") || right.equals("cin")) {
+                    this.poliz.addLast(right);
+                }
+
+                if (right.equals("<<") || right.equals(">>")) {
+                    this.exprPolizStack.addLast(right);
+                }
+
+                if (right.equals("IDN") || right.equals("CON")) {
+                    this.poliz.addLast(this.lexList.get(i).getLex().trim());
                 }
 
 
@@ -199,7 +222,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                             this.poliz.addLast(arithmeticSign);
                         }
 
-                        if (toReduce.equals("IDN") || toReduce.equals("CON")) {
+                        if (toReduce.equals("IDN") || toReduce.equals("CON") || toReduce.equals("cout")) {
                             this.poliz.addLast(this.lexList.get(i - 1).getLex().trim());
                         }
                     }
@@ -332,18 +355,19 @@ public class SyntaxPrecedenceTableAnalyzer {
                     String name = idnName.split(" ")[1].trim();
                     Pair<String, String> idn = idns.get(name);
 
-                    Scanner scanner = new Scanner(in);
-
-                    switch (idn.getKey()) {
-                        case "int":
-                            int intValue = scanner.nextInt();
-                            idns.put(name, new Pair<>(idn.getKey(), intValue + ""));
-                            break;
-                        case "real":
-                            float realValue = scanner.nextFloat();
-                            idns.put(name, new Pair<>(idn.getKey(), realValue + ""));
-                            break;
-                    }
+                    this.cb.cin(name, this.idns);
+//                    Scanner scanner = new Scanner(in);
+//
+//                    switch (idn.getKey()) {
+//                        case "int":
+//                            int intValue = scanner.nextInt();
+//                            idns.put(name, new Pair<>(idn.getKey(), intValue + ""));
+//                            break;
+//                        case "real":
+//                            float realValue = scanner.nextFloat();
+//                            idns.put(name, new Pair<>(idn.getKey(), realValue + ""));
+//                            break;
+//                    }
 
                     continue;
                 }
@@ -385,7 +409,17 @@ public class SyntaxPrecedenceTableAnalyzer {
                 }
 
                 if (wasArithmetic) {
-                    stack.push(result + "");
+                    double rounded = Math.round(result);
+
+                    String str;
+
+                    str = result + "";
+
+                    if (rounded == result) {
+                        str = (int)rounded + "";
+                    }
+
+                    stack.push(str + "");
                     continue;
                 }
 
