@@ -1,5 +1,9 @@
 prog Program
-var int i
-{cin>>i
-cout<<i
+var int a,i
+{cin>>a
+if(a<10){cout<<a
+a=10
+}
+for(i=0;i<10;i=i+1)a=a+i
+cout<<a
 }

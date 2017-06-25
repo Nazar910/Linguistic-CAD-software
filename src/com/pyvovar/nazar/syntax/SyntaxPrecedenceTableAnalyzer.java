@@ -160,12 +160,18 @@ public class SyntaxPrecedenceTableAnalyzer {
                     ifFlag = true;
                 }
 
-                if (right.equals("cout") || right.equals("cin")) {
-                    this.poliz.addLast(right);
+//                if (right.equals("cout") || right.equals("cin")) {
+//                    this.poliz.addLast(right);
+//                }
+
+                if (right.equals("<<")) {
+                    this.exprPolizStack.addLast(right);
+                    this.poliz.addLast("cout");
                 }
 
-                if (right.equals("<<") || right.equals(">>")) {
+                if (right.equals(">>")) {
                     this.exprPolizStack.addLast(right);
+                    this.poliz.addLast("cin");
                 }
 
                 if (right.equals("IDN") || right.equals("CON")) {
@@ -347,7 +353,11 @@ public class SyntaxPrecedenceTableAnalyzer {
                 String strOp2 = stack.pop();
                 String strOp1 = stack.pop();
 
-                if (strOp1.equals("cout")) {
+//                if (strOp1.equals("cout")) {
+//                    out.println(strOp2);
+//                    continue;
+//                }
+                if (p.equals("<<") && strOp1.equals("cout")) {
                     out.println(strOp2);
                     continue;
                 }
