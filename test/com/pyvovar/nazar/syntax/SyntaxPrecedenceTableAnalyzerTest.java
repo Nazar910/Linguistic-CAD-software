@@ -1,5 +1,7 @@
 package com.pyvovar.nazar.syntax;
 
+import com.pyvovar.nazar.helpers.Callback;
+import com.pyvovar.nazar.records.IdRecord;
 import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
 import com.pyvovar.nazar.syntax.SyntaxPrecedenceTableAnalyzer;
@@ -8,11 +10,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by nazar on 5/2/17.
@@ -151,23 +158,25 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         expressions.put(new LinkedList<>(Arrays.asList("1", "+", "2", "*", "(", "3", "+", "4", ")", "*", "(", "5", "+", "6", ")")),
                 new LinkedList<>(Arrays.asList("1", "2", "3", "4", "+", "*", "5", "6", "+", "*", "+")));
 
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "+")), "7.0");
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "+")), "11.0");
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "2", "*", "1", "5", "-", "/", "+")), "1.0");
-        polizes.put(new LinkedList<>(Arrays.asList("3", "4", "<")), "true");
-
-        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m0 УПЛ a 0 = m0 :");
-        ifPolizies.put("if ( a > b ) { a = a + b ⁋ }", "a b > m0 УПЛ a a b + = m0 :");
-        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m0 УПЛ a 0 < m1 УПЛ a 0 = m1 : m0 :");
+        ifPolizies.put("if ( a > b ) { a = 0 ⁋ }", "a b > m0 УПЛ a 0 = m0:");
+        ifPolizies.put("if ( a > b ) { a = 0 ⁋ cout << a ⁋ }", "a b > m0 УПЛ a 0 = cout a << m0:");
+        ifPolizies.put("if ( a > b ) { a = a + b ⁋ }", "a b > m0 УПЛ a a b + = m0:");
+        ifPolizies.put("if ( a > b ) { if ( a < 0 ) { a = 0 ⁋ } }", "a b > m0 УПЛ a 0 < m1 УПЛ a 0 = m1: m0:");
         ifPolizies.put("if ( a == b ) { if ( a < b ) { if ( a == -1 ) { a = 1 ⁋ } } }",
-                        "a b == m0 УПЛ a b < m1 УПЛ a -1 == m2 УПЛ a 1 = m2 : m1 : m0 :");
+                        "a b == m0 УПЛ a b < m1 УПЛ a -1 == m2 УПЛ a 1 = m2: m1: m0:");
 
         forPolizies.put("for ( a = 1 ; a < 10 ; a = a * 2 ) cout << a ⁋",
-                        "a 1 = r0 1 = m0 : a 10 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = cout a << m0 БП m1 :");
+                        "a 1 = r0 1 = m0: a 10 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2: r0 0 = cout a << m0 БП m1:");
         forPolizies.put("for ( a = 1 ; a < b ; a = a * 2 ) for ( b = 0 ; b < 10 ; b = b + 1 ) a = a + b ⁋",
-                "a 1 = r0 1 = m0 : a b < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2 : r0 0 = b 0 = r1 1 = m3 : b 10 < m4 УПЛ" +
-                        " r1 0 == m5 УПЛ b b 1 + = m5 : r1 0 = a a b + = m3 БП m4 : m0 БП m1 :");
+                "a 1 = r0 1 = m0: a b < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2: r0 0 = b 0 = r1 1 = m3: b 10 < m4 УПЛ" +
+                        " r1 0 == m5 УПЛ b b 1 + = m5: r1 0 = a a b + = m3 БП m4: m0 БП m1:");
     }
+
+    Callback cb = new Callback() {
+        @Override
+        public void cin(String var, HashMap<String, Pair<String,String>> idns) {
+        }
+    };
 
     @Test
     public void whenWrightLexSequencesReturnSuccess() {
@@ -176,7 +185,14 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         try {
             for (Pair<ArrayList<LexRecord>, ArrayList<String>> pair : wrightLexSequences) {
 
-                SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+                List<IdRecord> ids = new LinkedList<>();
+                ids.add(new IdRecord("Program", "prog", ""));
+                ids.add(new IdRecord("i", "int", "0"));
+
+
+
+                SyntaxPrecedenceTableAnalyzer analyzer
+                        = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
                 analyzer.start();
 
             }
@@ -192,8 +208,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         for (Map.Entry<Pair<ArrayList<LexRecord>, ArrayList<String>>, String> entry: wrongLexSequences.entrySet()) {
 
             try {
+                List<IdRecord> ids = new LinkedList<>();
+                ids.add(new IdRecord("Program", "prog", ""));
+                ids.add(new IdRecord("i", "int", "0"));
+
                 Pair<ArrayList<LexRecord>, ArrayList<String>> pair = entry.getKey();
-                SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+                SyntaxPrecedenceTableAnalyzer analyzer
+                        = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
                 analyzer.start();
                 fail("Expect an exception to be thrown before this message...");
             } catch (SyntaxError syntaxError) {
@@ -204,25 +225,17 @@ public class SyntaxPrecedenceTableAnalyzerTest {
 
     }
 
-    @Test
-    public void whenGetPolizShouldCalculateItWright() {
-        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
-
-        for (Map.Entry<LinkedList<String>, String> entry: polizes.entrySet()) {
-
-            String actual = analyzer.calculatePoliz(entry.getKey());
-            String expected = entry.getValue();
-
-            assertEquals(expected, actual);
-
-        }
-    }
 
     @Test
     public void whenGetIfOperatorShouldCreatePoliz() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
 
         LinkedList<String> operatorPolizStack = new LinkedList<String>();
         LinkedList<String> operatorPolizOut = new LinkedList<String>();
@@ -251,7 +264,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     @Test
     public void whenGetForOperatorShouldCreatePoliz() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
 
         LinkedList<String> operatorPolizStack = new LinkedList<String>();
         LinkedList<String> operatorPolizOut = new LinkedList<String>();
@@ -298,6 +317,134 @@ public class SyntaxPrecedenceTableAnalyzerTest {
             rTable.clear();
 
         }
+    }
+
+    @Test
+    public void whenGetIfPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "2"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a b > m0 УПЛ a 0 = m0:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        analyzer.calculatePoliz(poliz, idns, System.out, System.in);
+
+        assertEquals("0", idns.get("a").getValue());
+        assertEquals("0", idns.get("b").getValue());
+    }
+
+    @Test
+    public void whenGetWrappedIfPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "0"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a b == m0 УПЛ a 1 < m1 УПЛ a -1 > m2 УПЛ a 1 = m2: m1: m0:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        analyzer.calculatePoliz(poliz, idns, System.out, System.in);
+
+        assertEquals("1", idns.get("a").getValue());
+        assertEquals("0", idns.get("b").getValue());
+    }
+
+    @Test
+    public void whenGetIfWithCinPolizShouldCalculateItWright() throws IOException{
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "2"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a b > m0 УПЛ cin a >> m0:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        InputStream in = new ByteArrayInputStream("10".getBytes());
+
+        analyzer.calculatePoliz(poliz, idns, System.out, in);
+
+        assertEquals("10", idns.get("a").getValue());
+        assertEquals("0", idns.get("b").getValue());
+    }
+
+    @Test
+    public void whenGetForPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "0"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a 1 = r0 1 = m0: a 2 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2: r0 0 = cout a << m0 БП m1:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        PrintStream mockStream = mock(PrintStream.class);
+
+        analyzer.calculatePoliz(poliz, idns, mockStream, System.in);
+
+        assertEquals("2.0", idns.get("a").getValue());
+        assertEquals("0", idns.get("b").getValue());
+
+        verify(mockStream, times(1)).println("1");
+        verify(mockStream, times(1)).println("2.0");
+    }
+
+    @Test
+    public void whenGetWrappedForPolizShouldCalculateItWright() {
+        Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids, cb);
+
+        HashMap<String, Pair<String, String>> idns = new HashMap<>();
+        idns.put("a", new Pair<>("int", "0"));
+        idns.put("b", new Pair<>("int", "0"));
+
+        String str = "a 1 = r0 1 = m0: a 2 < m1 УПЛ r0 0 == m2 УПЛ a a 2 * = m2: r0 0 = b 0 = r1 1 = m3: b 3 < m4 УПЛ" +
+                " r1 0 == m5 УПЛ b b 1 + = m5: r1 0 = a a b + = m3 БП m4: m0 БП m1:";
+        LinkedList<String> poliz = new LinkedList<>(Arrays.asList(str.split(" ")));
+
+        analyzer.calculatePoliz(poliz, idns, System.out, System.in);
+
+        assertEquals("7.0", idns.get("a").getValue());
+        assertEquals("3.0", idns.get("b").getValue());
     }
 
 }

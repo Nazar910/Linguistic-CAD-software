@@ -1,5 +1,6 @@
 package com.pyvovar.nazar;
 
+import com.pyvovar.nazar.helpers.Callback;
 import com.pyvovar.nazar.helpers.FileManager;
 import com.pyvovar.nazar.lexical.LexicalAnalyzer;
 import com.pyvovar.nazar.records.ConRecord;
@@ -24,7 +25,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -106,6 +109,13 @@ public class App extends Application {
         return conRecords;
     }
 
+    class CallbackImpl implements Callback {
+        @Override
+        public void cin(String var, HashMap<String, Pair<String, String>> idns) {
+            cinWindow(var, idns);
+        }
+    }
+
     private void initLexicalAnalyzer() {
         errors.setText("");
         file.write(textArea.getText());
@@ -113,12 +123,16 @@ public class App extends Application {
             lexicalError = null;
             LexicalAnalyzer lexical = new LexicalAnalyzer(file);
             lexical.start();
+
             errors();
 //            setTableLex();
 //            setTableId();
 //            setTableCon();
             SyntaxPrecedenceTableAnalyzer syntax
-                    = new SyntaxPrecedenceTableAnalyzer(lexical.getTableManager().getLexRecords(), lexical.getLexDB());
+                    = new SyntaxPrecedenceTableAnalyzer(lexical.getTableManager().getLexRecords(),
+                                                        lexical.getLexDB(),
+                                                        lexical.getTableManager().getIdRecords(),
+                                                        new CallbackImpl());
             syntax.start();
             errors.setText("Successfully!");
             System.out.println("Successfully!");
@@ -130,6 +144,32 @@ public class App extends Application {
             errors.setText(syntaxError.getMessage());
         }
 
+    }
+
+    TextField textField;
+    Stage varInput;
+
+    public void cinWindow(String var, HashMap<String, Pair<String, String>> idns) {
+        HBox hBox = new HBox();
+        Label label = new Label("Enter " + var + " :");
+        textField = new TextField();
+        Button button = new Button("Button");
+        button.setOnAction(e -> cin(var, idns));
+        hBox.getChildren().addAll(label, textField, button);
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(hBox);
+        Scene scene = new Scene(stackPane);
+
+        varInput = new Stage();
+        varInput.setTitle("window");
+        varInput.setScene(scene);
+        varInput.showAndWait();
+    }
+
+    private void cin(String var, HashMap<String, Pair<String, String>> idns) {
+        String value = textField.getText();
+        idns.put(var, new Pair<>("int", value));
+        varInput.close();
     }
 
     private void setTableLex(LexicalAnalyzer lexical) {

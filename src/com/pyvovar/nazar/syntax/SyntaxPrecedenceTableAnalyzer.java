@@ -1,9 +1,14 @@
 package com.pyvovar.nazar.syntax;
 
+import com.pyvovar.nazar.helpers.Callback;
 import com.pyvovar.nazar.helpers.Precedence;
+import com.pyvovar.nazar.records.IdRecord;
 import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
+import javafx.util.Pair;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 public class SyntaxPrecedenceTableAnalyzer {
@@ -14,15 +19,17 @@ public class SyntaxPrecedenceTableAnalyzer {
     private List<String> lexDB;
     private LinkedList<String> stack = new LinkedList<>();
 
-    private HashMap<String, String> idns = new HashMap<>();
+    private HashMap<String, Pair<String, String>> idns = new HashMap<>();
 
     private Set<String> arithmeticOperations = new HashSet<>(
             Arrays.asList("*", "/", "+", "-", "="));
-    private LinkedList<String> expressionSigns = new LinkedList<>(Arrays.asList(">", "<", "==", "<=", ">="));
+    private LinkedList<String> expressionSigns = new LinkedList<>(Arrays.asList(">", "<", "==", "<=", ">=", "!="));
+    private LinkedList<String> ioSigns = new LinkedList<>(Arrays.asList(">>", "<<"));
 
     private HashMap<LinkedList<String>, String> globalPolizies = new HashMap<>();
 
     private LinkedList<String> poliz = new LinkedList<>();
+    private LinkedList<String> exprPolizStack = new LinkedList<>();
 
     private LinkedList<String> operatorPolizStack = new LinkedList<>();
     private LinkedList<String> operatorPolizOut = new LinkedList<>();
@@ -30,14 +37,17 @@ public class SyntaxPrecedenceTableAnalyzer {
     private HashMap<String, Integer> labelTable = new HashMap<>();
     private HashMap<String, Integer> rTable = new HashMap<>();
 
-    public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
+    private Callback cb;
+
+
+    public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB, List<IdRecord> ids, Callback cb) {
         this.lexList = lexList;
+
+        this.cb = cb;
 
         lexList.stream()
                 .filter(elem -> elem.getKod() == 28)
-                .forEach(elem -> idns.put(elem.getLex().trim(), ""));
-
-        System.out.println(idns);
+                .forEach(elem -> idns.put(elem.getLex().trim(), new Pair<>(ids.get(elem.getKodIdCon() - 1).getType(), "0")));
         this.lexDB = lexDB;
         this.lexDB.set(27, "IDN");
         this.lexDB.set(28, "CON");
@@ -70,19 +80,16 @@ public class SyntaxPrecedenceTableAnalyzer {
             boolean gt = getSign(left, right).equals(">");
             if (lt || equals) {
 
-                /*if (right.equals("⁋") || right.equals(";")) {
+                if (right.equals("⁋") || right.equals(";")) {
+                    if (!ifFlag && !forFlag && poliz.size() != 1) {
 
-                    String calculated = this.calculatePoliz(poliz);
+                        this.poliz.addAll(this.exprPolizStack);
+                        this.calculatePoliz(poliz, this.idns, System.out, System.in);
 
-                    if (calculated.indexOf('=') != -1) {
-                        String[] operands = calculated.split("=");
-                        this.idns.put(operands[0], operands[1]);
                     }
-
-                    this.globalPolizies.put(poliz, calculated);
-
                     this.poliz = new LinkedList<>();
-                }*/
+                    this.exprPolizStack = new LinkedList<>();
+                }
 
                 if (ifFlag) {
 
@@ -92,6 +99,8 @@ public class SyntaxPrecedenceTableAnalyzer {
                         System.out.println();
                         this.operatorPolizOut.forEach(elem -> System.out.print(elem + " "));
                         System.out.println();
+
+                        this.calculatePoliz(this.operatorPolizOut, this.idns, System.out, System.in);
 
                         this.operatorPolizOut.clear();
                         this.labelTable.clear();
@@ -133,6 +142,8 @@ public class SyntaxPrecedenceTableAnalyzer {
                         this.operatorPolizOut.forEach(elem -> System.out.print(elem + " "));
                         System.out.println();
 
+                        this.calculatePoliz(this.operatorPolizOut, this.idns, System.out, System.in);
+
                         operatorPolizOut.clear();
 
                         labelTable.clear();
@@ -149,10 +160,28 @@ public class SyntaxPrecedenceTableAnalyzer {
                     ifFlag = true;
                 }
 
+//                if (right.equals("cout") || right.equals("cin")) {
+//                    this.poliz.addLast(right);
+//                }
+
+                if (right.equals("<<")) {
+                    this.exprPolizStack.addLast(right);
+                    this.poliz.addLast("cout");
+                }
+
+                if (right.equals(">>")) {
+                    this.exprPolizStack.addLast(right);
+                    this.poliz.addLast("cin");
+                }
+
+                if (right.equals("IDN") || right.equals("CON")) {
+                    this.poliz.addLast(this.lexList.get(i).getLex().trim());
+                }
+
 
                 stack.add(right);
-                stack.forEach(el -> System.out.print(el + " "));
-                System.out.println();
+//                stack.forEach(el -> System.out.print(el + " "));
+//                System.out.println();
             } else {
                 LinkedList<String> str = new LinkedList<>();
                 String backspace = " ";
@@ -186,28 +215,30 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 String reduced = reduce(toReduce, left, nextElem);
                 if (!reduced.equals("404")) {
-                    /*String arithmeticSign = "";
+                    if (!ifFlag && !forFlag) {
+                        String arithmeticSign = "";
 
-                    for (String sign : arithmeticOperations) {
-                        if (toReduce.contains(sign)) {
-                            arithmeticSign = sign;
-                            break;
+                        for (String sign : arithmeticOperations) {
+                            if (toReduce.contains(sign)) {
+                                arithmeticSign = sign;
+                                break;
+                            }
+                        }
+
+                        if (!arithmeticSign.equals("")) {
+                            this.poliz.addLast(arithmeticSign);
+                        }
+
+                        if (toReduce.equals("IDN") || toReduce.equals("CON") || toReduce.equals("cout")) {
+                            this.poliz.addLast(this.lexList.get(i - 1).getLex().trim());
                         }
                     }
-
-                    if (!arithmeticSign.equals("")) {
-                        this.poliz.addLast(arithmeticSign);
-                    }
-
-                    if (toReduce.equals("IDN") || toReduce.equals("CON")) {
-                        this.poliz.addLast(this.lexList.get(i - 1).getLex());
-                    }*/
 
 //                    System.out.println(this.poliz);
 
                     stack.add(reduced);
-                    stack.forEach(el -> System.out.print(el + " "));
-                    System.out.println();
+//                    stack.forEach(el -> System.out.print(el + " "));
+//                    System.out.println();
                 } else {
                     throw new SyntaxError("Error in " + lexList.get(i).getLine());
                 }
@@ -252,33 +283,118 @@ public class SyntaxPrecedenceTableAnalyzer {
         return this.lexDB.get(index);
     }
 
-    public String calculatePoliz(LinkedList<String> poliz) {
+    public void calculatePoliz(LinkedList<String> poliz,
+                               HashMap<String, Pair<String, String>> idns,
+                               PrintStream out,
+                               InputStream in) {
         LinkedList<String> stack = new LinkedList<>();
 
-        boolean first = true;
-        for (String p : poliz) {
+        HashMap<String, String> innerVars = new HashMap<>();
 
-            if (!this.arithmeticOperations.contains(p) && !this.expressionSigns.contains(p)) {
+        String idnName = "";
+        for (int i = 0; i < poliz.size(); i++) {
+            String p = poliz.get(i);
+
+            if (!this.arithmeticOperations.contains(p) && !this.expressionSigns.contains(p) && !this.ioSigns.contains(p)) {
+
+                if (p.contains(":")) {
+                    continue;
+                }
+
+                if (poliz.contains(p + ":")) {
+                    int index = poliz.indexOf(p + ":");
+                    idnName = "";
+
+                    if (poliz.get(i + 1).equals("БП")) {
+                        i = index;
+                        continue;
+                    }
+
+                    //УПЛ
+                    Boolean cond = new Boolean(stack.pop());
+
+                    //if condition is false
+                    if (!cond) {
+                        i = index;
+                        continue;
+                    }
+
+                    i++;
+                    continue;
+                }
 
                 String item;
 
-                String value = this.idns.get(p);
-                if (value != null && !value.equals("") && !first) {
-                    item = value;
-                } else {
+                Pair<String, String> value = idns.get(p);
+                if (value != null && !value.getValue().equals("")) {
+                    item = value.getValue();
+                    idnName += " " + p;
+                } else if (innerVars.get(p) != null) {
+                    item = innerVars.get(p);
+                    idnName = " " + p;
+                } else if (p.equals("cout") || p.equals("cin")) {
                     item = p;
+                } else {
+                    try {
+                        Double.parseDouble(p);
+                    } catch (NumberFormatException ex) {
+                        innerVars.putIfAbsent(p, "");
+                        idnName = " " + p;
+                    } finally {
+                        item = p;
+                    }
+
                 }
 
                 stack.push(item);
-                first = false;
                 continue;
             }
-            if (this.arithmeticOperations.contains(p) || this.expressionSigns.contains(p)) {
+            if (this.arithmeticOperations.contains(p) || this.expressionSigns.contains(p) || this.ioSigns.contains(p)) {
                 String strOp2 = stack.pop();
                 String strOp1 = stack.pop();
 
+//                if (strOp1.equals("cout")) {
+//                    out.println(strOp2);
+//                    continue;
+//                }
+                if (p.equals("<<") && strOp1.equals("cout")) {
+                    out.println(strOp2);
+                    continue;
+                }
+
+                if (strOp1.equals("cin")) {
+                    String name = idnName.split(" ")[1].trim();
+                    Pair<String, String> idn = idns.get(name);
+
+                    this.cb.cin(name, idns);
+//                    Scanner scanner = new Scanner(in);
+//
+//                    switch (idn.getKey()) {
+//                        case "int":
+//                            int intValue = scanner.nextInt();
+//                            idns.put(name, new Pair<>(idn.getKey(), intValue + ""));
+//                            break;
+//                        case "real":
+//                            float realValue = scanner.nextFloat();
+//                            idns.put(name, new Pair<>(idn.getKey(), realValue + ""));
+//                            break;
+//                    }
+
+                    continue;
+                }
+
                 if (p.equals("=")) {
-                    return strOp1 + "=" + strOp2;
+                    String name = idnName.split(" ")[1].trim();
+                    Pair<String, String> idn = idns.get(name);
+
+                    idnName = "";
+                    if (idn != null) {
+                        idns.put(name, new Pair<>(idn.getKey(), strOp2));
+                        continue;
+                    }
+
+                    innerVars.put(name, strOp2);
+                    continue;
                 }
 
                 double op2 = Double.parseDouble(strOp2);
@@ -304,7 +420,17 @@ public class SyntaxPrecedenceTableAnalyzer {
                 }
 
                 if (wasArithmetic) {
-                    stack.push(result + "");
+                    double rounded = Math.round(result);
+
+                    String str;
+
+                    str = result + "";
+
+                    if (rounded == result) {
+                        str = (int)rounded + "";
+                    }
+
+                    stack.push(str + "");
                     continue;
                 }
 
@@ -321,6 +447,9 @@ public class SyntaxPrecedenceTableAnalyzer {
                         break;
                     case ">=":
                         boolResult = op1 >= op2;
+                        break;
+                    case "!=":
+                        boolResult = op1 != op2;
                         break;
                     case "==":
                         boolResult = op1 == op2;
@@ -346,8 +475,6 @@ public class SyntaxPrecedenceTableAnalyzer {
 
             stack.push(boolResult + "");
         }
-
-        return stack.getLast();
     }
 
     public boolean obtainIfOperator(String right,
@@ -384,15 +511,27 @@ public class SyntaxPrecedenceTableAnalyzer {
                 //put zero as second value for now
                 labelTable.put("m" + labelIndex, 0);
                 break;
-            case "}":
+            case "⁋":
                 elem = operatorPolizStack.pollLast();
 
                 while (elem != null && !elem.equals("if")) {
 
                     operatorPolizOut.addLast(elem);
 
+                    String peek = operatorPolizStack.peekLast();
+                    elem = peek.equals("if") || peek.contains("m")
+                            ? null
+                            : operatorPolizStack.pollLast();
+
+                }
+                break;
+            case "}":
+                elem = operatorPolizStack.pollLast();
+
+                while (elem != null && !elem.equals("if")) {
+
                     if (elem.startsWith("m")) {
-                        operatorPolizOut.addLast(":");
+                        operatorPolizOut.addLast(elem + ":");
                     }
 
                     elem = operatorPolizStack.peekLast().equals("if")
@@ -411,6 +550,8 @@ public class SyntaxPrecedenceTableAnalyzer {
             case "+":
             case "-":
             case "*":
+            case "<<":
+            case ">>":
             case "/":
                 operatorPolizStack.addLast(right);
                 break;
@@ -420,7 +561,6 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 operatorPolizStack.addLast(right);
                 break;
-            case "⁋":
             case "(":
             case ")":
                 break;
@@ -468,10 +608,8 @@ public class SyntaxPrecedenceTableAnalyzer {
                     operatorPolizOut.addLast("1");
                     operatorPolizOut.addLast("=");
 
-                    operatorPolizOut.addLast("m" + labelIndex);
+                    operatorPolizOut.addLast("m" + labelIndex + ":");
                     operatorPolizStack.addLast("m" + labelIndex);
-
-                    operatorPolizOut.addLast(":");
 
                     labelTable.put("m" + labelIndex, 0);
                     return false;
@@ -519,8 +657,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                 if (operatorPolizStack.peekLast() != null) {
                     elem = operatorPolizStack.pollLast();
 
-                    operatorPolizOut.addLast(elem);
-                    operatorPolizOut.addLast(":");
+                    operatorPolizOut.addLast(elem + ":");
 
                     operatorPolizOut.addLast("r" + (rTable.size() - 1));
                     operatorPolizOut.addLast("0");
@@ -554,8 +691,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                     operatorPolizOut.addLast(first);
                     operatorPolizOut.addLast("БП");
-                    operatorPolizOut.addLast(second);
-                    operatorPolizOut.addLast(":");
+                    operatorPolizOut.addLast(second + ":");
 
                     second = labels.pollFirst();
                     first = labels.pollFirst();
