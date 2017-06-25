@@ -1,5 +1,5 @@
 prog Program
 var int i
-{i=12+5123
+{cin>>i
 cout<<i
 }

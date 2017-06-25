@@ -146,10 +146,13 @@ public class App extends Application {
 
     }
 
+    TextField textField;
+    Stage varInput;
+
     public void cinWindow(String var, HashMap<String, Pair<String, String>> idns) {
         HBox hBox = new HBox();
-        Label label = new Label("Enter " + var);
-        TextField textField = new TextField();
+        Label label = new Label("Enter " + var + " :");
+        textField = new TextField();
         Button button = new Button("Button");
         button.setOnAction(e -> cin(var, idns));
         hBox.getChildren().addAll(label, textField, button);
@@ -157,14 +160,16 @@ public class App extends Application {
         stackPane.getChildren().addAll(hBox);
         Scene scene = new Scene(stackPane);
 
-        Stage stage = new Stage();
-        stage.setTitle("window");
-        stage.setScene(scene);
-        stage.show();
+        varInput = new Stage();
+        varInput.setTitle("window");
+        varInput.setScene(scene);
+        varInput.showAndWait();
     }
 
     private void cin(String var, HashMap<String, Pair<String, String>> idns) {
-        idns.put("abc", new Pair<>("int", "234"));
+        String value = textField.getText();
+        idns.put(var, new Pair<>("int", value));
+        varInput.close();
     }
 
     private void setTableLex(LexicalAnalyzer lexical) {

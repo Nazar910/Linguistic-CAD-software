@@ -88,6 +88,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                     }
                     this.poliz = new LinkedList<>();
+                    this.exprPolizStack = new LinkedList<>();
                 }
 
                 if (ifFlag) {
@@ -355,7 +356,7 @@ public class SyntaxPrecedenceTableAnalyzer {
                     String name = idnName.split(" ")[1].trim();
                     Pair<String, String> idn = idns.get(name);
 
-                    this.cb.cin(name, this.idns);
+                    this.cb.cin(name, idns);
 //                    Scanner scanner = new Scanner(in);
 //
 //                    switch (idn.getKey()) {
