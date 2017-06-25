@@ -1,5 +1,6 @@
 package com.pyvovar.nazar.syntax;
 
+import com.pyvovar.nazar.records.IdRecord;
 import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
 import com.pyvovar.nazar.syntax.SyntaxPrecedenceTableAnalyzer;
@@ -177,7 +178,12 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         try {
             for (Pair<ArrayList<LexRecord>, ArrayList<String>> pair : wrightLexSequences) {
 
-                SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+                List<IdRecord> ids = new LinkedList<>();
+                ids.add(new IdRecord("Program", "prog", ""));
+                ids.add(new IdRecord("i", "int", "0"));
+
+                SyntaxPrecedenceTableAnalyzer analyzer
+                        = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
                 analyzer.start();
 
             }
@@ -193,8 +199,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
         for (Map.Entry<Pair<ArrayList<LexRecord>, ArrayList<String>>, String> entry: wrongLexSequences.entrySet()) {
 
             try {
+                List<IdRecord> ids = new LinkedList<>();
+                ids.add(new IdRecord("Program", "prog", ""));
+                ids.add(new IdRecord("i", "int", "0"));
+
                 Pair<ArrayList<LexRecord>, ArrayList<String>> pair = entry.getKey();
-                SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+                SyntaxPrecedenceTableAnalyzer analyzer
+                        = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
                 analyzer.start();
                 fail("Expect an exception to be thrown before this message...");
             } catch (SyntaxError syntaxError) {
@@ -209,7 +220,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     @Test
     public void whenGetIfOperatorShouldCreatePoliz() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
 
         LinkedList<String> operatorPolizStack = new LinkedList<String>();
         LinkedList<String> operatorPolizOut = new LinkedList<String>();
@@ -238,7 +255,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     @Test
     public void whenGetForOperatorShouldCreatePoliz() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
 
         LinkedList<String> operatorPolizStack = new LinkedList<String>();
         LinkedList<String> operatorPolizOut = new LinkedList<String>();
@@ -290,7 +313,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     @Test
     public void whenGetIfPolizShouldCalculateItWright() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "2"));
@@ -308,7 +337,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     @Test
     public void whenGetWrappedIfPolizShouldCalculateItWright() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "0"));
@@ -326,7 +361,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     @Test
     public void whenGetIfWithCinPolizShouldCalculateItWright() throws IOException{
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "2"));
@@ -346,7 +387,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     @Test
     public void whenGetForPolizShouldCalculateItWright() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "0"));
@@ -369,7 +416,13 @@ public class SyntaxPrecedenceTableAnalyzerTest {
     @Test
     public void whenGetWrappedForPolizShouldCalculateItWright() {
         Pair<ArrayList<LexRecord>, ArrayList<String>> pair = wrightLexSequences.get(0);
-        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue());
+
+        List<IdRecord> ids = new LinkedList<>();
+        ids.add(new IdRecord("Program", "prog", ""));
+        ids.add(new IdRecord("a", "int", "0"));
+        ids.add(new IdRecord("b", "int", "0"));
+
+        SyntaxPrecedenceTableAnalyzer analyzer = new SyntaxPrecedenceTableAnalyzer(pair.getKey(), pair.getValue(), ids);
 
         HashMap<String, Pair<String, String>> idns = new HashMap<>();
         idns.put("a", new Pair<>("int", "0"));

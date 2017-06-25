@@ -118,7 +118,9 @@ public class App extends Application {
 //            setTableId();
 //            setTableCon();
             SyntaxPrecedenceTableAnalyzer syntax
-                    = new SyntaxPrecedenceTableAnalyzer(lexical.getTableManager().getLexRecords(), lexical.getLexDB());
+                    = new SyntaxPrecedenceTableAnalyzer(lexical.getTableManager().getLexRecords(),
+                                                        lexical.getLexDB(),
+                                                        lexical.getTableManager().getIdRecords());
             syntax.start();
             errors.setText("Successfully!");
             System.out.println("Successfully!");

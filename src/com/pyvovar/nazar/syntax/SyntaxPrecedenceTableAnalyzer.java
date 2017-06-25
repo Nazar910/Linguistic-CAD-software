@@ -1,6 +1,7 @@
 package com.pyvovar.nazar.syntax;
 
 import com.pyvovar.nazar.helpers.Precedence;
+import com.pyvovar.nazar.records.IdRecord;
 import com.pyvovar.nazar.records.LexRecord;
 import com.pyvovar.nazar.errors.SyntaxError;
 import javafx.util.Pair;
@@ -21,7 +22,7 @@ public class SyntaxPrecedenceTableAnalyzer {
 
     private Set<String> arithmeticOperations = new HashSet<>(
             Arrays.asList("*", "/", "+", "-", "="));
-    private LinkedList<String> expressionSigns = new LinkedList<>(Arrays.asList(">", "<", "==", "<=", ">="));
+    private LinkedList<String> expressionSigns = new LinkedList<>(Arrays.asList(">", "<", "==", "<=", ">=", "!="));
     private LinkedList<String> ioSigns = new LinkedList<>(Arrays.asList(">>", "<<"));
 
     private HashMap<LinkedList<String>, String> globalPolizies = new HashMap<>();
@@ -35,14 +36,12 @@ public class SyntaxPrecedenceTableAnalyzer {
     private HashMap<String, Integer> rTable = new HashMap<>();
 
 
-    public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB) {
+    public SyntaxPrecedenceTableAnalyzer(List<LexRecord> lexList, List<String> lexDB, List<IdRecord> ids) {
         this.lexList = lexList;
 
-//        lexList.stream()
-//                .filter(elem -> elem.getKod() == 28)
-//                .forEach(elem -> idns.put(elem.getLex().trim(), new Pair<>()));
-
-        System.out.println(idns);
+        lexList.stream()
+                .filter(elem -> elem.getKod() == 28)
+                .forEach(elem -> idns.put(elem.getLex().trim(), new Pair<>(ids.get(elem.getKodIdCon() - 1).getType(), "0")));
         this.lexDB = lexDB;
         this.lexDB.set(27, "IDN");
         this.lexDB.set(28, "CON");
@@ -75,19 +74,12 @@ public class SyntaxPrecedenceTableAnalyzer {
             boolean gt = getSign(left, right).equals(">");
             if (lt || equals) {
 
-                /*if (right.equals("⁋") || right.equals(";")) {
+                if (right.equals("⁋") || right.equals(";")) {
 
-                    String calculated = this.calculatePoliz(poliz);
-
-                    if (calculated.indexOf('=') != -1) {
-                        String[] operands = calculated.split("=");
-                        this.idns.put(operands[0], operands[1]);
-                    }
-
-                    this.globalPolizies.put(poliz, calculated);
+                    this.calculatePoliz(poliz, this.idns, System.out, System.in);
 
                     this.poliz = new LinkedList<>();
-                }*/
+                }
 
                 if (ifFlag) {
 
@@ -193,22 +185,24 @@ public class SyntaxPrecedenceTableAnalyzer {
 
                 String reduced = reduce(toReduce, left, nextElem);
                 if (!reduced.equals("404")) {
-                    /*String arithmeticSign = "";
+                    if (!ifFlag && !forFlag) {
+                        String arithmeticSign = "";
 
-                    for (String sign : arithmeticOperations) {
-                        if (toReduce.contains(sign)) {
-                            arithmeticSign = sign;
-                            break;
+                        for (String sign : arithmeticOperations) {
+                            if (toReduce.contains(sign)) {
+                                arithmeticSign = sign;
+                                break;
+                            }
+                        }
+
+                        if (!arithmeticSign.equals("")) {
+                            this.poliz.addLast(arithmeticSign);
+                        }
+
+                        if (toReduce.equals("IDN") || toReduce.equals("CON")) {
+                            this.poliz.addLast(this.lexList.get(i - 1).getLex().trim());
                         }
                     }
-
-                    if (!arithmeticSign.equals("")) {
-                        this.poliz.addLast(arithmeticSign);
-                    }
-
-                    if (toReduce.equals("IDN") || toReduce.equals("CON")) {
-                        this.poliz.addLast(this.lexList.get(i - 1).getLex());
-                    }*/
 
 //                    System.out.println(this.poliz);
 
@@ -408,6 +402,9 @@ public class SyntaxPrecedenceTableAnalyzer {
                         break;
                     case ">=":
                         boolResult = op1 >= op2;
+                        break;
+                    case "!=":
+                        boolResult = op1 != op2;
                         break;
                     case "==":
                         boolResult = op1 == op2;
